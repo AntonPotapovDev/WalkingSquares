@@ -8,11 +8,15 @@ class Player extends GObject.Unit {
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+		let square = new THREE.Mesh(geometry, material);
+		this.mesh = square;
 	}
 	
 	damage(dp) {
 		super.damage(dp);
-		square.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
+		this.mesh.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
+		if (this.hp == 0)
+			this.mesh.material.color.copy(new THREE.Color(1, 1, 1));
 	}
 }
 
@@ -22,37 +26,21 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-let geometry = new THREE.PlaneGeometry(50, 50);
-let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
-let square = new THREE.Mesh(geometry, material);
-let defaultDir = new THREE.Vector3(0, 1, 0);
-defaultDir.applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.random() * 2 * Math.PI);
-let hp = 100;
+let player = new Player();
+player.addToScene(scene);
 
 let mouse = new THREE.Vector3(0, 0, 0);
 
-scene.add(square);
 camera.position.z = 1;
 
 let score = 0;
-
-let speed = 10;
 let spawnRate = 1000;
 
-function move(speed, vector) {
-	square.position.x += speed * vector.x;
-	square.position.y += speed * vector.y;
-}
-
 function lookAtMouse() {
-	if (hp <= 0)
+	if (player.hp <= 0)
 		return;
 
-	let temp_mouse = new THREE.Vector3();
-	temp_mouse.copy(mouse);
-	let vec = temp_mouse.sub(square.position);
-	let factor = vec.x < 0 ? 1 : -1;
-	square.rotation.z = factor * vec.angleTo(new THREE.Vector3(0, 1, 0));
+	player.lookAt(mouse.x, mouse.y);
 }
 
 function handleKeys() {
@@ -72,15 +60,12 @@ function handleKeys() {
 		if (key == "KeyD")
 			moveVector.x = 1;
 	}
-	
-	//if (moveVector.x == 0 && moveVector.y == 0)
-		//return;
 
 	moveVector.normalize();
-	if (hp > 0)
-		move(speed, moveVector);
+	if (player.hp > 0)
+		player.move(moveVector.x, moveVector.y);
 	else 
-		move(3, defaultDir);
+		player.moveAlongLookDir();
 }
 
 function render() {
@@ -132,21 +117,18 @@ function updateBlasts() {
 function updateTargets() {
 	for (let i = 0; i < targets.length; i++) {
 		let target = targets[i];
-		let direction = square.position.clone().sub(target.position).normalize();
+		let direction = player.position().clone().sub(target.position).normalize();
 		
-		let factor = hp > 0 ? 1 : -1;
+		let factor = player.hp > 0 ? 1 : -1;
 		
 		target.position.add(direction.multiplyScalar(factor * 3));
 		
-		let distance = square.position.clone().sub(target.position).length();
-		if (distance < 30 && hp > 0) {
-			square.material.color.add(new THREE.Color(0.01, -0.01, 0));
-			hp--;
+		let distance = player.position().clone().sub(target.position).length();
+		if (distance < 30) {
 			
-			if (hp == 0) {
-				square.material.color.copy(new THREE.Color(1,1,1));
-				targets.push(square);
-			}
+			player.damage(1);
+			if (player.hp == 0)
+				player.speed = 3;
 		}
 		
 		if (target.position.length > 1000) {
@@ -157,7 +139,7 @@ function updateTargets() {
 }
 
 function initTargets() {
-	if (hp == 0)
+	if (player.hp == 0)
 		return;
 
 	setTimeout(() => {
@@ -194,26 +176,26 @@ function onMouseMove(event) {
 }
 
 function onMouseClick(event) {
-	if (hp == 0)
+	if (player.hp == 0)
 		return;
 
-	let angle = -0.1;
+	//let angle = -0.1;
 	//for (let i = 0; i < 3; i++) {
 		let geometry = new THREE.PlaneGeometry(5, 10);
 		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });
 		let blast = new THREE.Mesh(geometry, material);
-		blast.position.copy(square.position);
+		blast.position.copy(player.position());
 		blast.position.z = -0.1;
-		blast.rotation.copy(square.rotation);
+		blast.rotation.copy(player.mesh.rotation);
 		scene.add(blast);
 		
 		let dir_vector = new THREE.Vector3();
 		dir_vector.copy(mouse);
-		dir_vector.sub(square.position);
+		dir_vector.sub(player.position());
 		dir_vector.normalize();
 		dir_vector.multiplyScalar(20);
 		//dir_vector.applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
-		angle += 0.1;
+		//angle += 0.1;
 		
 		let blast_obj = {
 			mesh: blast,

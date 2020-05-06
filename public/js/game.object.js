@@ -31,7 +31,11 @@ export class MovableObject extends GameObject {
 	
 	rotate(angle) {
 		this.mesh.rotation.z += angle;
-		this._look_dir.applyAxisAngle(angle);
+		this._look_dir.applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
+	}
+	
+	lookDirection() {
+		return this._look_dir;
 	}
 	
 	lookAt(x, y) {
@@ -39,7 +43,7 @@ export class MovableObject extends GameObject {
 		let dir = target.clone().sub(this.position().clone()).normalize();
 		let angle = dir.angleTo(this._look_dir);
 		let left = new THREE.Vector3(-this._look_dir.y, this._look_dir.x, 0);
-		let factor = target.sub(left).angleTo(this._look_dir) <= Math.PI / 2 ? 1 : -1;
+		let factor = left.angleTo(dir) < Math.PI / 2 ? 1 : -1;
 		this.rotate(factor * angle);
 	}
 }
