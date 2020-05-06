@@ -18,6 +18,27 @@ class Player extends GObject.Unit {
 		if (this.hp == 0)
 			this.mesh.material.color.copy(new THREE.Color(1, 1, 1));
 	}
+	
+	fire() {
+		let bullet = new Bullet(this.position().x, this.position().y, this.lookDirection().x, this.lookDirection().y);
+		return bullet;
+	}
+}
+
+class Bullet extends GObject.MovableObject {
+	constructor(x, y, dirX, dirY) {
+		super();
+		this.speed = 20;
+
+		let geometry = new THREE.PlaneGeometry(5, 10);
+		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });
+		let blast = new THREE.Mesh(geometry, material);
+		blast.position.x = x;
+		blast.position.y = y; 
+		this.mesh = blast;
+		
+		this.setLookDirection(dirX, dirY);
+	}
 }
 
 let scene = new THREE.Scene();
@@ -82,9 +103,10 @@ function render() {
 function updateBlasts() {
 	for (let i = 0; i < blasts.length; i++) {
 		let obj = blasts[i];
-		obj.mesh.position.add(obj.vec);
+		obj.moveAlongLookDir();
 		
-		if (obj.mesh.position.length > 1000) {
+		if (obj.position().length > 1000) {
+			scene.remove(obj.mesh);
 			blasts.splice(i, 1);
 			i--;
 			continue;
@@ -93,7 +115,7 @@ function updateBlasts() {
 		let blast_deleted = false;
 		for (let j = 0; j < targets.length; j++) {
 			let target = targets[j];
-			let dist = (target.position.clone().sub(obj.mesh.position.clone())).length();
+			let dist = (target.position.clone().sub(obj.position().clone())).length();
 
 			if (dist > 30)
 				continue;
@@ -179,31 +201,10 @@ function onMouseClick(event) {
 	if (player.hp == 0)
 		return;
 
-	//let angle = -0.1;
-	//for (let i = 0; i < 3; i++) {
-		let geometry = new THREE.PlaneGeometry(5, 10);
-		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });
-		let blast = new THREE.Mesh(geometry, material);
-		blast.position.copy(player.position());
-		blast.position.z = -0.1;
-		blast.rotation.copy(player.mesh.rotation);
-		scene.add(blast);
-		
-		let dir_vector = new THREE.Vector3();
-		dir_vector.copy(mouse);
-		dir_vector.sub(player.position());
-		dir_vector.normalize();
-		dir_vector.multiplyScalar(20);
-		//dir_vector.applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
-		//angle += 0.1;
-		
-		let blast_obj = {
-			mesh: blast,
-			vec: dir_vector
-		};
-		
-		blasts.push(blast_obj);
-	//}
+	let bullet = player.fire();
+	bullet.addToScene(scene);
+	
+	blasts.push(bullet);
 }
 
 let keyMap = {};

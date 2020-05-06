@@ -34,6 +34,15 @@ export class MovableObject extends GameObject {
 		this._look_dir.applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
 	}
 	
+	setLookDirection(x, y) {
+		let newLookDir = new THREE.Vector3(x, y, 0).normalize();
+		let angle = newLookDir.angleTo(this._look_dir);
+		let left = new THREE.Vector3(-this._look_dir.y, this._look_dir.x, 0);
+		let factor = left.angleTo(newLookDir) < Math.PI / 2 ? 1 : -1;
+
+		this.rotate(factor * angle);
+	}
+	
 	lookDirection() {
 		return this._look_dir;
 	}
