@@ -1,3 +1,21 @@
+import * as GObject from '/js/game.object.js'
+
+class Player extends GObject.Unit {
+	constructor() {
+		super();
+		this.speed = 10;
+		this.hp = 100;
+		
+		let geometry = new THREE.PlaneGeometry(50, 50);
+		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+	}
+	
+	damage(dp) {
+		super.damage(dp);
+		square.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
+	}
+}
+
 let scene = new THREE.Scene();
 let camera = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000);
 let renderer = new THREE.WebGLRenderer();

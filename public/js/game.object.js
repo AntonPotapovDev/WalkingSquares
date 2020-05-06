@@ -49,4 +49,8 @@ export class Unit extends MovableObject {
 		super();
 		this.hp = 0;
 	}
+	
+	damage(dp) {
+		this.hp = Math.max(this.hp - dp, 0);
+	}
 }
