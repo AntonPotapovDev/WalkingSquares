@@ -84,24 +84,35 @@ class WeaponBox extends Item {
 class Weapon {
 	constructor(ammo) {
 		this._ammo = ammo;
+		this._could_down = 0;
+		this._ready = true;
 	}
 	
 	use() {
+		if (!this._ready)
+			return;
 		// infinite ammo
 		//this._ammo = Math.max(0, this._ammo - 1);
+		this._couldDown();
+	}
+	
+	_couldDown() {
+		setTimeout(() => { this._ready = true; }, this._could_down);
 	}
 }
 
 class Pistol extends Weapon {
 	constructor() {
 		super(100);
+		this._could_down = 300;
 	}
 	
 	use(position, direction) {
 		super.use();
-		if (this._ammo == 0)
+		if (!this._ready || this._ammo == 0)
 			return null;
 		
+		this._ready = false;
 		let bullet = [];
 		bullet.push(new Bullet(position.x, position.y, direction.x, direction.y));
 		return bullet;
@@ -111,13 +122,15 @@ class Pistol extends Weapon {
 class Shotgun extends Weapon {
 	constructor() {
 		super(100);
+		this._could_down = 600;
 	}
 	
 	use(position, direction) {
 		super.use();
-		if (this._ammo == 0)
+		if (!this._ready || this._ammo == 0)
 			return null;
 		
+		this._ready = false;
 		let bullets = [];
 		let angle = -0.2;
 		for (let i = 0; i < 4; i++) {
