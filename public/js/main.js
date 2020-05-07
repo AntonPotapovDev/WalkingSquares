@@ -201,7 +201,7 @@ function handleKeys() {
 	for (let i = 0; i < items.length; i++) {
 		let distance = items[i].position().clone().sub(player.position()).length();
 		console.log(distance);
-		if (distance > 15)
+		if (distance > 40)
 			continue;
 
 		let item = items[i].pick();
