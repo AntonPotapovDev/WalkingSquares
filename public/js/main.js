@@ -5,6 +5,7 @@ class Player extends GObject.Unit {
 		super();
 		this.speed = 10;
 		this.hp = 100;
+		this.weapon = new Shotgun();
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
@@ -20,8 +21,8 @@ class Player extends GObject.Unit {
 	}
 	
 	fire() {
-		let bullet = new Bullet(this.position().x, this.position().y, this.lookDirection().x, this.lookDirection().y);
-		return bullet;
+		let bullets = this.weapon.use(this.position(), this.lookDirection());
+		return bullets;
 	}
 }
 
@@ -51,6 +52,81 @@ class Enemy extends GObject.Unit {
 		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 		let target = new THREE.Mesh(geometry, material);
 		this.mesh = target;
+	}
+}
+
+class Item extends GObject.GameObject {
+	constructor(scene, object) {
+		super();
+		this._scene = scene;
+		this._object = object;
+	}
+	
+	pick() {
+		if (this.mesh == null)
+			return;
+		
+		this._scene.remove(this.mesh);
+		return this._object;
+	}
+}
+
+class WeaponBox extends Item {
+	constructor(scene, weapon) {
+		super(scene, weapon);
+		let geometry = new THREE.PlaneGeometry(10, 10);
+		let material = new THREE.MeshBasicMaterial({ color: 0x00f01f, side: THREE.DoubleSide });
+		let box = new THREE.Mesh(geometry, material);
+		this.mesh = box;
+	}
+}
+
+class Weapon {
+	constructor(ammo) {
+		this._ammo = ammo;
+	}
+	
+	use() {
+		this._ammo = Math.max(0, this._ammo - 1);
+	}
+}
+
+class Pistol extends Weapon {
+	constructor() {
+		super(100);
+	}
+	
+	use(position, direction) {
+		super.use();
+		if (this._ammo == 0)
+			return null;
+		
+		let bullet = [];
+		bullet.push(new Bullet(position.x, position.y, direction.x, direction.y));
+		return bullet;
+	}
+}
+
+class Shotgun extends Weapon {
+	constructor() {
+		super(100);
+	}
+	
+	use(position, direction) {
+		super.use();
+		if (this._ammo == 0)
+			return null;
+		
+		let bullets = [];
+		let angle = -0.2;
+		for (let i = 0; i < 4; i++) {
+			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
+			let bullet = new Bullet(position.x, position.y, dir.x, dir.y);
+			bullets.push(bullet);
+			angle += 0.133;
+		}
+		
+		return bullets;
 	}
 }
 
@@ -210,10 +286,15 @@ function onMouseClick(event) {
 	if (player.hp == 0)
 		return;
 
-	let bullet = player.fire();
-	bullet.addToScene(scene);
+	let bullets = player.fire();
 	
-	blasts.push(bullet);
+	if (bullets == null)
+		return;
+	
+	for (let i = 0; i < bullets.length; i++) {
+		bullets[i].addToScene(scene);
+		blasts.push(bullets[i]);
+	}
 }
 
 let keyMap = {};
