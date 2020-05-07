@@ -5,7 +5,7 @@ class Player extends GObject.Unit {
 		super();
 		this.speed = 10;
 		this.hp = 100;
-		this.weapon = new Shotgun();
+		this.weapon = new Pistol();
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
@@ -46,7 +46,7 @@ class Enemy extends GObject.Unit {
 	constructor() {
 		super();
 		this.hp = 1;
-		this.speed = 2 + Math.random();
+		this.speed = 2 + 3 * Math.random();
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -74,8 +74,8 @@ class Item extends GObject.GameObject {
 class WeaponBox extends Item {
 	constructor(scene, weapon) {
 		super(scene, weapon);
-		let geometry = new THREE.PlaneGeometry(10, 10);
-		let material = new THREE.MeshBasicMaterial({ color: 0x00f01f, side: THREE.DoubleSide });
+		let geometry = new THREE.PlaneGeometry(20, 20);
+		let material = new THREE.MeshBasicMaterial({ color: 0x3b572f, side: THREE.DoubleSide });
 		let box = new THREE.Mesh(geometry, material);
 		this.mesh = box;
 	}
@@ -87,7 +87,8 @@ class Weapon {
 	}
 	
 	use() {
-		this._ammo = Math.max(0, this._ammo - 1);
+		// infinite ammo
+		//this._ammo = Math.max(0, this._ammo - 1);
 	}
 }
 
@@ -136,6 +137,11 @@ let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+let keyMap = {};
+let blasts = [];
+let targets = [];
+let items = [];
+
 let player = new Player();
 player.addToScene(scene);
 
@@ -145,6 +151,8 @@ camera.position.z = 1;
 
 let score = 0;
 let spawnRate = 1000;
+let weaponSpawnRate = 2.5 * 60 * 1000;
+let weaponSpawnCount = 0;
 
 function lookAtMouse() {
 	if (player.hp <= 0)
@@ -176,6 +184,18 @@ function handleKeys() {
 		player.move(moveVector.x, moveVector.y);
 	else 
 		player.moveAlongLookDir();
+	
+	for (let i = 0; i < items.length; i++) {
+		let distance = items[i].position().clone().sub(player.position()).length();
+		console.log(distance);
+		if (distance > 15)
+			continue;
+
+		let item = items[i].pick();
+		player.weapon = item;
+		items.splice(i, 1);
+		i--;
+	}
 }
 
 function render() {
@@ -213,7 +233,7 @@ function updateBlasts() {
 			targets.splice(j, 1);
 			j--;
 			score++;
-			
+			//spawnRate = Math.max(1, spawnRate - 3);
 			if (blast_deleted)
 				continue;
 			
@@ -266,11 +286,25 @@ function initTargets() {
 		enemy.addToScene(scene);
 		targets.push(enemy);
 		
-		if (spawnRate > 100)
-			spawnRate -= 5;
+		spawnRate = Math.max(100, spawnRate - 2);
 		
 		initTargets();
 	}, spawnRate);
+}
+
+function initWeapons() {
+	setTimeout(() => {
+		let factor1 = Math.random() > 0.5 ? -1 : 1;
+		let factor2 = Math.random() > 0.5 ? -1 : 1;
+		let position = new THREE.Vector3(factor1 * Math.random() * 300, factor2 * Math.random() * 300, 0);
+		
+		let box = new WeaponBox(scene, new Shotgun());
+		box.moveTo(position);
+		box.addToScene(scene);
+		items.push(box);
+		
+		weaponSpawnCount++;
+	}, weaponSpawnRate);
 }
 
 function onDocumentKeyDown(event) {
@@ -297,14 +331,11 @@ function onMouseClick(event) {
 	}
 }
 
-let keyMap = {};
-let blasts = [];
-let targets = [];
-
 document.addEventListener("keydown", onDocumentKeyDown, false);
 document.addEventListener("keyup", onDocumentKeyDown, false);
 document.addEventListener("mousemove", onMouseMove, false );
 document.addEventListener("click", onMouseClick, false );
 
 initTargets();
+initWeapons();
 render();
