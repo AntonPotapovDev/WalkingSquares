@@ -41,6 +41,19 @@ class Bullet extends GObject.MovableObject {
 	}
 }
 
+class Enemy extends GObject.Unit {
+	constructor() {
+		super();
+		this.hp = 1;
+		this.speed = 2 + Math.random();
+		
+		let geometry = new THREE.PlaneGeometry(50, 50);
+		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+		let target = new THREE.Mesh(geometry, material);
+		this.mesh = target;
+	}
+}
+
 let scene = new THREE.Scene();
 let camera = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000);
 let renderer = new THREE.WebGLRenderer();
@@ -115,12 +128,12 @@ function updateBlasts() {
 		let blast_deleted = false;
 		for (let j = 0; j < targets.length; j++) {
 			let target = targets[j];
-			let dist = (target.position.clone().sub(obj.position().clone())).length();
+			let dist = (target.position().clone().sub(obj.position().clone())).length();
 
 			if (dist > 30)
 				continue;
 
-			scene.remove(target);
+			scene.remove(target.mesh);
 			targets.splice(j, 1);
 			j--;
 			score++;
@@ -139,21 +152,19 @@ function updateBlasts() {
 function updateTargets() {
 	for (let i = 0; i < targets.length; i++) {
 		let target = targets[i];
-		let direction = player.position().clone().sub(target.position).normalize();
+		target.lookAt(player.position().x, player.position().y);
+		target.moveAlongLookDir();
 		
-		let factor = player.hp > 0 ? 1 : -1;
-		
-		target.position.add(direction.multiplyScalar(factor * 3));
-		
-		let distance = player.position().clone().sub(target.position).length();
-		if (distance < 30) {
+		let distance = player.position().clone().sub(target.position()).length();
+		if (distance < 30 && player.hp != 0) {
 			
 			player.damage(1);
 			if (player.hp == 0)
 				player.speed = 3;
 		}
 		
-		if (target.position.length > 1000) {
+		if (target.position().length > 1000) {
+			scene.remove(target.mesh);
 			targets.splice(i, 1);
 			i--;
 		}
@@ -174,12 +185,10 @@ function initTargets() {
 		else
 			position = new THREE.Vector3(factor1 * Math.random() * 800, factor2 * 800, 0);
 		
-		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-		let target = new THREE.Mesh(geometry, material);
-		scene.add(target);
-		targets.push(target);
-		target.position.copy(position);
+		let enemy = new Enemy();
+		enemy.moveTo(position);
+		enemy.addToScene(scene);
+		targets.push(enemy);
 		
 		if (spawnRate > 100)
 			spawnRate -= 5;

@@ -11,6 +11,13 @@ export class GameObject {
 	position() {
 		return this.mesh == null ? null : this.mesh.position;
 	}
+	
+	moveTo(vec) {
+		if (this.mesh == null)
+			return;
+		this.mesh.position.x = vec.x;
+		this.mesh.position.y = vec.y;
+	}
 }
 
 export class MovableObject extends GameObject {
