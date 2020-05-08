@@ -132,12 +132,15 @@ class Shotgun extends Weapon {
 		
 		this._ready = false;
 		let bullets = [];
-		let angle = -0.2;
-		for (let i = 0; i < 4; i++) {
+		let bulletCount = 4;
+		let spreadAngle = 0.2;
+		let delta = spreadAngle / (bulletCount - 1);
+		let angle = -spreadAngle / 2;
+		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
 			let bullet = new Bullet(position.x, position.y, dir.x, dir.y);
 			bullets.push(bullet);
-			angle += 0.133;
+			angle += delta;
 		}
 		
 		return bullets;
@@ -164,7 +167,7 @@ camera.position.z = 1;
 
 let score = 0;
 let spawnRate = 1000;
-let weaponSpawnRate = 2.5 * 60 * 1000;
+let weaponSpawnRate = 2 * 60 * 1000;
 let weaponSpawnCount = 0;
 
 function lookAtMouse() {
