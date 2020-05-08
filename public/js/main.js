@@ -147,6 +147,58 @@ class Shotgun extends Weapon {
 	}
 }
 
+class Game {
+	constructor() {
+		this._fpsFactor = 1;
+	}
+	
+	start() {
+		
+	}
+	
+	_update() {
+		
+	}
+}
+
+class GameScene {
+	constructor(width, height) {
+		this._scene = new THREE.Scene();
+		this._camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 1000);
+		this._camera.position.z = 1;
+		this._renderer = new THREE.WebGLRenderer();
+		this._renderer.setSize(width, height);
+		this._objects = [];
+	}
+	
+	domElement() {
+		return this._renderer.domElement;
+	}
+	
+	add(graphicsPresenter) {
+		this._objects.push(graphicsPresenter);
+		this._scene.add(graphicsPresenter.mesh);
+	}
+	
+	renderer() {
+		let rendererObj = { render: () => {
+			this._renderer.render(this._scene, this._camera);
+		}};
+		return rendererObj;
+	}
+	
+	update() {
+		for (let i = 0; i < this._objects.lengh; i++) {
+			let object = this._objects[i];
+			if (object.needToRemove()) {
+				this._scene.remove(object.mesh);
+				this._objects.splice(i, 1);
+				i--;
+			}
+		}
+	}
+}
+
 let scene = new THREE.Scene();
 let camera = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000);
 let renderer = new THREE.WebGLRenderer();
