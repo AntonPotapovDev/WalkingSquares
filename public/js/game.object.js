@@ -18,6 +18,8 @@ export class GameObject {
 		this.mesh.position.x = vec.x;
 		this.mesh.position.y = vec.y;
 	}
+	
+	update() {}
 }
 
 export class MovableObject extends GameObject {

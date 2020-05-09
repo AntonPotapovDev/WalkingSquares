@@ -1,11 +1,13 @@
 import * as GObject from '/js/game.object.js'
 
 class Player extends GObject.Unit {
-	constructor() {
+	constructor(control, weapon) {
 		super();
 		this.speed = 10;
 		this.hp = 100;
-		this.weapon = new Pistol();
+		this.weapon = weapon;
+		this._bullets = [];
+		this._control = control;
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
@@ -21,8 +23,27 @@ class Player extends GObject.Unit {
 	}
 	
 	fire() {
-		let bullets = this.weapon.use(this.position(), this.lookDirection());
+		return this.weapon.use(this.position(), this.lookDirection());
+	}
+	
+	bullets() {
+		let bullets = this._bullets.splice();
+		this._bullets.length = 0;
 		return bullets;
+	}
+	
+	update() {
+		let moveVector = this._control.moveVector();
+		if (this.hp > 0) 
+			player.move(moveVector.x, moveVector.y);
+		else 
+			player.moveAlongLookDir();
+		
+		for (let i = 0; i < this._control.mouseClicks(); i++) {
+			let bullets = this.fire();
+			this._bullets = this._bullets.concat(bullets);
+		}
+		control.mouseClicksHandled();
 	}
 }
 
@@ -40,6 +61,10 @@ class Bullet extends GObject.MovableObject {
 		
 		this.setLookDirection(dirX, dirY);
 	}
+	
+	update() {
+		this.moveAlongLookDir();
+	}
 }
 
 class Enemy extends GObject.Unit {
@@ -52,6 +77,11 @@ class Enemy extends GObject.Unit {
 		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 		let target = new THREE.Mesh(geometry, material);
 		this.mesh = target;
+	}
+	
+	update() {
+		// Rewrite when AI come
+		this.move(0, 0);
 	}
 }
 
@@ -68,6 +98,10 @@ class Item extends GObject.GameObject {
 		
 		this._scene.remove(this.mesh);
 		return this._object;
+	}
+	
+	update() {
+		
 	}
 }
 
@@ -275,7 +309,7 @@ let blasts = [];
 let targets = [];
 let items = [];
 
-let player = new Player();
+let player = new Player(null, new Pistol());
 player.addToScene(scene);
 
 let mouse = new THREE.Vector3(0, 0, 0);
