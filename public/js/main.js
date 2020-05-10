@@ -27,7 +27,7 @@ class Player extends GObject.Unit {
 	}
 	
 	bullets() {
-		let bullets = this._bullets.splice();
+		let bullets = this._bullets.slice();
 		this._bullets.length = 0;
 		return bullets;
 	}
@@ -48,7 +48,7 @@ class Player extends GObject.Unit {
 		else {
 			this.moveAlongLookDir();
 		}
-		control.mouseClicksHandled();
+		this._control.mouseClicksHandled();
 	}
 }
 
@@ -76,7 +76,7 @@ class Enemy extends GObject.Unit {
 	constructor() {
 		super();
 		this.hp = 1;
-		this.speed = 2 + 3 * Math.random();
+		this.speed = 0.1;//2 + 3 * Math.random();
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -86,7 +86,7 @@ class Enemy extends GObject.Unit {
 	
 	update() {
 		// Rewrite when AI come
-		this.move(0, 0);
+		this.move(-1, -1);
 	}
 }
 
@@ -149,7 +149,7 @@ class Pistol extends Weapon {
 	use(position, direction) {
 		super.use();
 		if (!this._ready || this._ammo == 0)
-			return null;
+			return [];
 		
 		this._ready = false;
 		let bullet = [];
@@ -167,7 +167,7 @@ class Shotgun extends Weapon {
 	use(position, direction) {
 		super.use();
 		if (!this._ready || this._ammo == 0)
-			return null;
+			return [];
 		
 		this._ready = false;
 		let bullets = [];
@@ -191,7 +191,8 @@ class Game {
 		this._fpsFactor = 1;
 		this._gameScene = gameScene;
 		this._control = control;
-		this._player = new Player();
+		this._player = new Player(control, new Pistol());
+		this._gameScene.add(this._player);
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
@@ -203,21 +204,22 @@ class Game {
 	
 	_gameLoop() {
 		this._control.update();
-		this._player.update();
+		this._updatePlayer();
+		this._updateBullets();
+		this._updateEnemies();
 		
-		for (let i = 0; i < this._enemies.length; i++) {
-			this._enemies[i].update();
-		}
-		
-		this._gameScene.update();
-		
-		requestAnimationFrame(this._gameLoop);
-		let renderer = this._scene.render();
-		render.render();
+		requestAnimationFrame(this._gameLoop.bind(this));
+		let renderer = this._gameScene.renderer();
+		renderer.render();
 	}
 	
-	_updateLogic() {
-		
+	_updatePlayer() {
+		this._player.update();
+		let bullets = this._player.bullets();
+		for (let i = 0; i < bullets.length; i++) {
+			this._gameScene.add(bullets[i]);
+			this._bullets.push(bullets[i]);
+		}
 	}
 	
 	_updateItems() {
@@ -235,7 +237,7 @@ class Game {
 	
 	_updateBullets() {
 		for (let i = 0; i < this._bullets.length; i++) {
-			let obj = this.__bullets[i];
+			let obj = this._bullets[i];
 			obj.update();
 			
 			if (obj.position().length > 1000) {
@@ -253,14 +255,14 @@ class Game {
 				if (dist > 30)
 					continue;
 
-				this._scene.remove(target.mesh);
+				this._gameScene.remove(target);
 				this._enemies.splice(j, 1);
 				j--;
 				if (blast_deleted)
 					continue;
 				
-				scene.remove(obj.mesh);
-				blasts.splice(i, 1);
+				this._gameScene.remove(obj);
+				this._bullets.splice(i, 1);
 				i--;
 				blast_deleted = true;
 			}
@@ -272,13 +274,13 @@ class Game {
 			let target = this._enemies[i];
 			target.update();
 			
-			let distance = player.position().clone().sub(target.position()).length();
+			let distance = this._player.position().clone().sub(target.position()).length();
 			if (distance < 30 && this._player.hp != 0) {
-				player.damage(1);
+				this._player.damage(1);
 			}
 			
-			if (this._enemies.position().length > 1000) {
-				scene.remove(target.mesh);
+			if (target.position().length > 1000) {
+				this._gameScene.remove(target);
 				this._enemies.splice(i, 1);
 				i--;
 			}
@@ -293,34 +295,25 @@ class GameScene {
 		this._camera.position.z = 1;
 		this._renderer = new THREE.WebGLRenderer();
 		this._renderer.setSize(width, height);
-		this._objects = [];
 	}
 	
 	domElement() {
 		return this._renderer.domElement;
 	}
 	
-	add(graphicsPresenter) {
-		this._objects.push(graphicsPresenter);
-		this._scene.add(graphicsPresenter.mesh);
+	add(obj) {
+		this._scene.add(obj.mesh);
+	}
+	
+	remove(obj) {
+		this._scene.remove(obj.mesh);
 	}
 	
 	renderer() {
-		let rendererObj = { render: () => {
+		let rendererObj = { render: (() => {
 			this._renderer.render(this._scene, this._camera);
-		}};
+		}).bind(this)};
 		return rendererObj;
-	}
-	
-	update() {
-		for (let i = 0; i < this._objects.lengh; i++) {
-			let object = this._objects[i];
-			if (object.needToRemove()) {
-				this._scene.remove(object.mesh);
-				this._objects.splice(i, 1);
-				i--;
-			}
-		}
 	}
 }
 
@@ -384,142 +377,6 @@ class Control {
 	}
 }
 
-let scene = new THREE.Scene();
-let camera = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000);
-let renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-let keyMap = {};
-let blasts = [];
-let targets = [];
-let items = [];
-
-let player = new Player(null, new Pistol());
-player.addToScene(scene);
-
-let mouse = new THREE.Vector3(0, 0, 0);
-
-camera.position.z = 1;
-
-let score = 0;
-let spawnRate = 1000;
-let weaponSpawnRate = 2 * 60 * 1000;
-let weaponSpawnCount = 0;
-
-function lookAtMouse() {
-	if (player.hp <= 0)
-		return;
-
-	player.lookAt(mouse.x, mouse.y);
-}
-
-function handleKeys() {
-	let moveVector = new THREE.Vector2(0, 0);
-	for (let key in keyMap) {
-		let val = keyMap[key];
-		
-		if (!val)
-			continue;
-
-		if (key == "KeyW")
-			moveVector.y = 1;
-		if (key == "KeyS")
-			moveVector.y = -1;
-		if (key == "KeyA")
-			moveVector.x = -1;
-		if (key == "KeyD")
-			moveVector.x = 1;
-	}
-
-	moveVector.normalize();
-	if (player.hp > 0)
-		player.move(moveVector.x, moveVector.y);
-	else 
-		player.moveAlongLookDir();
-	
-	for (let i = 0; i < items.length; i++) {
-		let distance = items[i].position().clone().sub(player.position()).length();
-		console.log(distance);
-		if (distance > 40)
-			continue;
-
-		let item = items[i].pick();
-		player.weapon = item;
-		items.splice(i, 1);
-		i--;
-	}
-}
-
-function render() {
-	handleKeys();
-	
-	lookAtMouse();
-	updateBlasts();
-	updateTargets();
-	
-	requestAnimationFrame(render);     
-	renderer.render(scene, camera);
-}
-
-function updateBlasts() {
-	for (let i = 0; i < blasts.length; i++) {
-		let obj = blasts[i];
-		obj.moveAlongLookDir();
-		
-		if (obj.position().length > 1000) {
-			scene.remove(obj.mesh);
-			blasts.splice(i, 1);
-			i--;
-			continue;
-		}
-		
-		let blast_deleted = false;
-		for (let j = 0; j < targets.length; j++) {
-			let target = targets[j];
-			let dist = (target.position().clone().sub(obj.position().clone())).length();
-
-			if (dist > 30)
-				continue;
-
-			scene.remove(target.mesh);
-			targets.splice(j, 1);
-			j--;
-			score++;
-			//spawnRate = Math.max(1, spawnRate - 3);
-			if (blast_deleted)
-				continue;
-			
-			scene.remove(obj.mesh);
-			blasts.splice(i, 1);
-			i--;
-			blast_deleted = true;
-		}
-	}
-}
-
-function updateTargets() {
-	for (let i = 0; i < targets.length; i++) {
-		let target = targets[i];
-		target.lookAt(player.position().x, player.position().y);
-		target.moveAlongLookDir();
-		
-		let distance = player.position().clone().sub(target.position()).length();
-		if (distance < 30 && player.hp != 0) {
-			
-			player.damage(1);
-			if (player.hp == 0)
-				player.speed = 3;
-		}
-		
-		if (target.position().length > 1000) {
-			scene.remove(target.mesh);
-			targets.splice(i, 1);
-			i--;
-		}
-	}
-}
-
 function initTargets() {
 	if (player.hp == 0)
 		return;
@@ -560,35 +417,18 @@ function initWeapons() {
 	}, weaponSpawnRate);
 }
 
-function onDocumentKeyDown(event) {
-	keyMap[event.code] = event.type == "keydown";
-}
-
-function onMouseMove(event) {
-	mouse.x = event.clientX - window.innerWidth / 2;
-	mouse.y = -event.clientY + window.innerHeight / 2;
-}
-
-function onMouseClick(event) {
-	if (player.hp == 0)
-		return;
-
-	let bullets = player.fire();
+function main() {
+	let control = new Control(innerWidth, innerHeight);
+	document.addEventListener("keydown", control.onKeyDown.bind(control), false);
+	document.addEventListener("keyup", control.onKeyDown.bind(control), false);
+	document.addEventListener("mousemove", control.onMouseMove.bind(control), false );
+	document.addEventListener("click", control.onMouseClick.bind(control), false );
 	
-	if (bullets == null)
-		return;
+	let gameScene = new GameScene(innerWidth, innerHeight);
+	document.body.appendChild(gameScene.domElement());
 	
-	for (let i = 0; i < bullets.length; i++) {
-		bullets[i].addToScene(scene);
-		blasts.push(bullets[i]);
-	}
+	let game = new Game(gameScene, control);
+	game.start();
 }
 
-document.addEventListener("keydown", onDocumentKeyDown, false);
-document.addEventListener("keyup", onDocumentKeyDown, false);
-document.addEventListener("mousemove", onMouseMove, false );
-document.addEventListener("click", onMouseClick, false );
-
-initTargets();
-initWeapons();
-render();
+main();
