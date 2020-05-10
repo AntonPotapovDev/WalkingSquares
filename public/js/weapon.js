@@ -65,3 +65,24 @@ export class Shotgun extends Weapon {
 		return bullets;
 	}
 }
+
+export class SubmachineGun extends Weapon {
+	constructor() {
+		super(100);
+		this._could_down = 100;
+	}
+	
+	use(position, direction) {
+		super.use();
+		if (!this._ready || this._ammo == 0)
+			return [];
+		
+		this._ready = false;
+		let spreadAngle = 0.1;
+		let factor = Math.random() > 0.5 ? 1 : -1;
+		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
+		let bullet = new Bullet(position, dir);
+		
+		return [ bullet ];
+	}
+}
