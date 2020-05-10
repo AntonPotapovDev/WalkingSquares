@@ -144,7 +144,7 @@ export class Game {
 			
 			let box = new WeaponBox(new Weapon.Shotgun());
 			this._gameScene.add(box);
-			box.moveTo({x: 100, y:100});
+			box.moveTo(position);
 			this._items.push(box);
 			
 		}, this._weaponSpawnTimeout);
