@@ -76,7 +76,7 @@ class Enemy extends GObject.Unit {
 	constructor() {
 		super();
 		this.hp = 1;
-		this.speed = 0.1;//2 + 3 * Math.random();
+		this.speed = 2 + 3 * Math.random();
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
@@ -196,9 +196,12 @@ class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
+		this._spawnRate = 1000;
 	}
 	
 	start() {
+		this._initEnemies();
+		//this.
 		this._gameLoop();
 	}
 	
@@ -286,6 +289,31 @@ class Game {
 			}
 		}
 	}
+	
+	_initEnemies() {
+		if (this._player.hp == 0)
+			return;
+
+		setTimeout(() => {
+			let factor1 = Math.random() > 0.5 ? -1 : 1;
+			let factor2 = Math.random() > 0.5 ? -1 : 1;
+			let position = null;
+			
+			if (Math.random() > 0.5)
+				position = new THREE.Vector3(factor1 * 800, factor2 * Math.random() * 800, 0);
+			else
+				position = new THREE.Vector3(factor1 * Math.random() * 800, factor2 * 800, 0);
+			
+			let enemy = new Enemy();
+			enemy.moveTo(position);
+			this._gameScene.add(enemy);
+			this._enemies.push(enemy);
+			
+			this._spawnRate = Math.max(100, this._spawnRate - 2);
+			
+			this._initEnemies();
+	}, this._spawnRate);
+}
 }
 
 class GameScene {
@@ -375,31 +403,6 @@ class Control {
 	mouseClicksHandled() {
 		this._mouseClickCount = 0;
 	}
-}
-
-function initTargets() {
-	if (player.hp == 0)
-		return;
-
-	setTimeout(() => {
-		let factor1 = Math.random() > 0.5 ? -1 : 1;
-		let factor2 = Math.random() > 0.5 ? -1 : 1;
-		let position = null;
-		
-		if (Math.random() > 0.5)
-			position = new THREE.Vector3(factor1 * 800, factor2 * Math.random() * 800, 0);
-		else
-			position = new THREE.Vector3(factor1 * Math.random() * 800, factor2 * 800, 0);
-		
-		let enemy = new Enemy();
-		enemy.moveTo(position);
-		enemy.addToScene(scene);
-		targets.push(enemy);
-		
-		spawnRate = Math.max(100, spawnRate - 2);
-		
-		initTargets();
-	}, spawnRate);
 }
 
 function initWeapons() {
