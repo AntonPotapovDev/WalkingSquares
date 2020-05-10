@@ -30,6 +30,11 @@ export class MovableObject extends GameObject {
 	}
 	
 	move(x, y) {
+		if (x != 0 || y != 0) {
+			let length = Math.sqrt(x*x + y*y);
+			x = x / length;
+			y = y / length;
+		}
 		this.mesh.position.x += this.fpsFactor * this.speed * x;
 		this.mesh.position.y += this.fpsFactor * this.speed * y;
 	}
