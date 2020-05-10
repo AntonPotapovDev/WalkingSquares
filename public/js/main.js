@@ -18,8 +18,10 @@ class Player extends GObject.Unit {
 	damage(dp) {
 		super.damage(dp);
 		this.mesh.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
-		if (this.hp == 0)
+		if (this.hp == 0) {
 			this.mesh.material.color.copy(new THREE.Color(1, 1, 1));
+			this.speed = 3;
+		}
 	}
 	
 	fire() {
@@ -86,7 +88,7 @@ class Enemy extends GObject.Unit {
 	
 	update() {
 		// Rewrite when AI come
-		this.move(-1, -1);
+		this.moveAlongLookDir();
 	}
 }
 
@@ -274,6 +276,7 @@ class Game {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update();
+			target.lookAt(this._player.position().x, this._player.position().y);
 			
 			let distance = this._player.position().clone().sub(target.position()).length();
 			if (distance < 30 && this._player.hp != 0) {
