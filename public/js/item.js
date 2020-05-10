@@ -4,6 +4,7 @@ export class Item extends GObject.GameObject {
 	constructor(object) {
 		super();
 		this._object = object;
+		this._radius = Constants.PhisicalValues.itemRadius;
 	}
 	
 	pick() {

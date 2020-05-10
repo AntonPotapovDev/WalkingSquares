@@ -6,6 +6,7 @@ export class Enemy extends GObject.Unit {
 		super();
 		this.hp = Constants.HpValues;
 		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
+		this._radius = Constants.PhisicalValues.enemyRadius;
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
 		let material = new THREE.MeshBasicMaterial({ color: 0x5cd689, side: THREE.DoubleSide });

@@ -2,6 +2,7 @@ export class GameObject {
 	constructor() {
 		this.mesh = null;
 		this.fpsFactor = 1;
+		this._radius = 0;
 	}
 	
 	addToScene(scene) {
@@ -10,6 +11,18 @@ export class GameObject {
 	
 	position() {
 		return this.mesh == null ? null : this.mesh.position;
+	}
+	
+	radius() {
+		return this._radius;
+	}
+	
+	isIntersectWith(obj) {
+		return this.distanceTo(obj) < this.radius() + obj.radius();
+	}
+	
+	distanceTo(obj) {
+		return this.position().distanceTo(obj.position());
 	}
 	
 	moveTo(vec) {

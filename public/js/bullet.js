@@ -5,6 +5,7 @@ export class Bullet extends GObject.MovableObject {
 	constructor(position, direction) {
 		super();
 		this.speed = Constants.PhisicalValues.bulletSpeed;
+		this._radius = Constants.PhisicalValues.bulletRadius;
 
 		let geometry = new THREE.PlaneGeometry(5, 10);
 		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });

@@ -49,8 +49,7 @@ export class Game {
 	
 	_updateItems() {
 		for (let i = 0; i < this._items.length; i++) {
-			let distance = this._items[i].position().clone().sub(this._player.position()).length();
-			if (distance > 40)
+			if (!this._player.isIntersectWith(this._items[i]))
 				continue;
 
 			let item = this._items[i].pick();
@@ -63,12 +62,12 @@ export class Game {
 	
 	_updateBullets() {
 		for (let i = 0; i < this._bullets.length; i++) {
-			let obj = this._bullets[i];
-			obj.update();
+			let bullet = this._bullets[i];
+			bullet.update();
 			
-			if (obj.position().length > this._gameZoneRadius) {
-				this._scene.remove(obj.mesh);
-				this._bullets(i, 1);
+			if (bullet.position().length > this._gameZoneRadius) {
+				this._gameScene.remove(bullet);
+				this._bullets.splice(i, 1);
 				i--;
 				continue;
 			}
@@ -76,9 +75,8 @@ export class Game {
 			let blast_deleted = false;
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
-				let dist = (target.position().clone().sub(obj.position().clone())).length();
 
-				if (dist > 30)
+				if (!bullet.isIntersectWith(target))
 					continue;
 
 				this._gameScene.remove(target);
@@ -87,7 +85,7 @@ export class Game {
 				if (blast_deleted)
 					continue;
 				
-				this._gameScene.remove(obj);
+				this._gameScene.remove(bullet);
 				this._bullets.splice(i, 1);
 				i--;
 				blast_deleted = true;
@@ -101,8 +99,7 @@ export class Game {
 			target.update();
 			target.lookAt(this._player.position());
 			
-			let distance = this._player.position().clone().sub(target.position()).length();
-			if (distance < 30 && this._player.hp != 0) {
+			if (this._player.isIntersectWith(target) && this._player.hp != 0) {
 				this._player.damage(Constants.DamageValues.enemyDamage);
 			}
 			
