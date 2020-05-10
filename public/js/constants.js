@@ -28,6 +28,7 @@ export class TimeValues {
 	static minEnemySpawnRate  = 100;
 	
 	static nextWeaponSpawnTimeout = 2 * 60 * 1000;
+	static weaponSpawnTimeoutDecrease = 30 * 1000;
 }
 
 export class SystemValues {

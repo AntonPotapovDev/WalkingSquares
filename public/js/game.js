@@ -18,6 +18,7 @@ export class Game {
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 		this._gameZoneRadius = Math.max(gameScene.sizes().width, gameScene.sizes().height)
 			+ Constants.SystemValues.gameZoneRadiusOffset;
+		this._weaponsToSpawn = [ new Weapon.Shotgun(), new Weapon.SubmachineGun() ];
 	}
 	
 	start() {
@@ -140,18 +141,20 @@ export class Game {
 	}
 	
 	_initWeaponSpawn() {
-		setTimeout(() => {
 			let factor1 = Math.random() > 0.5 ? -1 : 1;
 			let factor2 = Math.random() > 0.5 ? -1 : 1;
 			let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;
 			let spawnY = this._gameScene.sizes().height / 2 * Constants.SystemValues.gameZoneRadiusFactor;
 			let position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
 			
-			let box = new WeaponBox(new Weapon.Shotgun());
+			let box = new WeaponBox(this._weaponsToSpawn.shift());
 			this._gameScene.add(box);
 			box.moveTo(position);
 			this._items.push(box);
 			
+			this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
+			if (this._weaponsToSpawn.length > 0)
+				this._initWeaponSpawn();
 		}, this._weaponSpawnTimeout);
 	}
 }

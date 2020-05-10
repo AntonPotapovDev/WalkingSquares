@@ -1,4 +1,5 @@
 import * as GObject from '/js/game.object.js';
+import * as Constants from '/js/constants.js';
 
 export class Item extends GObject.GameObject {
 	constructor(object) {
