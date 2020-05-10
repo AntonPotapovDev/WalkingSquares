@@ -1,10 +1,11 @@
 import * as GObject from '/js/game.object.js';
+import * as Constants from '/js/constants.js';
 
 export class Player extends GObject.Unit {
 	constructor(control, weapon) {
 		super();
-		this.speed = 10;
-		this.hp = 100;
+		this.speed = Constants.PhisicalValues.playerSpeed;
+		this.hp = Constants.HpValues.playerHp;
 		this.weapon = weapon;
 		this._bullets = [];
 		this._control = control;
@@ -20,7 +21,7 @@ export class Player extends GObject.Unit {
 		this.mesh.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
 		if (this.hp == 0) {
 			this.mesh.material.color.copy(new THREE.Color(1, 1, 1));
-			this.speed = 3;
+			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
 		}
 	}
 	

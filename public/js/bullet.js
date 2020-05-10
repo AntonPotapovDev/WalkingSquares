@@ -1,9 +1,10 @@
 import * as GObject from '/js/game.object.js';
+import * as Constants from '/js/constants.js';
 
 export class Bullet extends GObject.MovableObject {
 	constructor(position, direction) {
 		super();
-		this.speed = 20;
+		this.speed = Constants.PhisicalValues.bulletSpeed;
 
 		let geometry = new THREE.PlaneGeometry(5, 10);
 		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });

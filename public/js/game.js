@@ -2,6 +2,7 @@ import { Player } from '/js/player.js';
 import { Enemy } from '/js/enemy.js';
 import * as Weapon from '/js/weapon.js';
 import { WeaponBox } from '/js/item.js';
+import * as Constants from '/js/constants.js';
 
 export class Game {
 	constructor(gameScene, control) {
@@ -13,8 +14,8 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
-		this._spawnRate = 1000;
-		this._weaponSpawnTimeout = 2 * 60 * 1000;
+		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
+		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 	}
 	
 	start() {
@@ -100,7 +101,7 @@ export class Game {
 			
 			let distance = this._player.position().clone().sub(target.position()).length();
 			if (distance < 30 && this._player.hp != 0) {
-				this._player.damage(1);
+				this._player.damage(Constants.DamageValues.enemyDamage);
 			}
 			
 			if (target.position().length > 1000) {
@@ -130,7 +131,7 @@ export class Game {
 			this._gameScene.add(enemy);
 			this._enemies.push(enemy);
 			
-			this._spawnRate = Math.max(100, this._spawnRate - 2);
+			this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
 			
 			this._initEnemies();
 		}, this._spawnRate);
