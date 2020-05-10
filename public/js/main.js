@@ -33,15 +33,20 @@ class Player extends GObject.Unit {
 	}
 	
 	update() {
-		let moveVector = this._control.moveVector();
-		if (this.hp > 0) 
-			player.move(moveVector.x, moveVector.y);
-		else 
-			player.moveAlongLookDir();
-		
-		for (let i = 0; i < this._control.mouseClicks(); i++) {
-			let bullets = this.fire();
-			this._bullets = this._bullets.concat(bullets);
+		if (this.hp > 0) {
+			let moveVector = this._control.moveVector();
+			this.move(moveVector.x, moveVector.y);
+			
+			let mouse = this._control.mouse();
+			this.lookAt(mouse.x, mouse.y);
+			
+			for (let i = 0; i < this._control.mouseClicks(); i++) {
+				let bullets = this.fire();
+				this._bullets = this._bullets.concat(bullets);
+			}
+		}
+		else {
+			this.moveAlongLookDir();
 		}
 		control.mouseClicksHandled();
 	}
@@ -189,14 +194,95 @@ class Game {
 		this._player = new Player();
 		this._enemies = [];
 		this._items = [];
+		this._bullets = [];
 	}
 	
 	start() {
+		this._gameLoop();
+	}
+	
+	_gameLoop() {
+		this._control.update();
+		this._player.update();
+		
+		for (let i = 0; i < this._enemies.length; i++) {
+			this._enemies[i].update();
+		}
+		
+		this._gameScene.update();
+		
+		requestAnimationFrame(this._gameLoop);
+		let renderer = this._scene.render();
+		render.render();
+	}
+	
+	_updateLogic() {
 		
 	}
 	
-	_update() {
-		
+	_updateItems() {
+		for (let i = 0; i < this._items.length; i++) {
+			let distance = this._items[i].position().clone().sub(this._player.position()).length();
+			if (distance > 40)
+				continue;
+
+			let item = this._items[i].pick();
+			this._player.weapon = item;
+			this._items.splice(i, 1);
+			i--;
+		}
+	}
+	
+	_updateBullets() {
+		for (let i = 0; i < this._bullets.length; i++) {
+			let obj = this.__bullets[i];
+			obj.update();
+			
+			if (obj.position().length > 1000) {
+				this._scene.remove(obj.mesh);
+				this._bullets(i, 1);
+				i--;
+				continue;
+			}
+			
+			let blast_deleted = false;
+			for (let j = 0; j < this._enemies.length; j++) {
+				let target = this._enemies[j];
+				let dist = (target.position().clone().sub(obj.position().clone())).length();
+
+				if (dist > 30)
+					continue;
+
+				this._scene.remove(target.mesh);
+				this._enemies.splice(j, 1);
+				j--;
+				if (blast_deleted)
+					continue;
+				
+				scene.remove(obj.mesh);
+				blasts.splice(i, 1);
+				i--;
+				blast_deleted = true;
+			}
+		}
+	}
+	
+	_updateEnemies() {
+		for (let i = 0; i < this._enemies.length; i++) {
+			let target = this._enemies[i];
+			target.update();
+			
+			let distance = player.position().clone().sub(target.position()).length();
+			if (distance < 30 && this._player.hp != 0) {
+				player.damage(1);
+			}
+			
+			if (this._enemies.position().length > 1000) {
+				scene.remove(target.mesh);
+				this._enemies.splice(i, 1);
+				i--;
+			}
+		}
 	}
 }
 
