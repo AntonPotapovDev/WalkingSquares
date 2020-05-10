@@ -37,10 +37,10 @@ export class Player extends GObject.Unit {
 	update() {
 		if (this.hp > 0) {
 			let moveVector = this._control.moveVector();
-			this.move(moveVector.x, moveVector.y);
+			this.move(moveVector);
 			
 			let mouse = this._control.mouse();
-			this.lookAt(mouse.x, mouse.y);
+			this.lookAt(mouse);
 			
 			for (let i = 0; i < this._control.mouseClicks(); i++) {
 				let bullets = this.fire();

@@ -33,7 +33,7 @@ export class Pistol extends Weapon {
 		
 		this._ready = false;
 		let bullet = [];
-		bullet.push(new Bullet(position.x, position.y, direction.x, direction.y));
+		bullet.push(new Bullet(position, direction));
 		return bullet;
 	}
 }
@@ -57,7 +57,7 @@ export class Shotgun extends Weapon {
 		let angle = -spreadAngle / 2;
 		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
-			let bullet = new Bullet(position.x, position.y, dir.x, dir.y);
+			let bullet = new Bullet(position, dir);
 			bullets.push(bullet);
 			angle += delta;
 		}

@@ -96,7 +96,7 @@ export class Game {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update();
-			target.lookAt(this._player.position().x, this._player.position().y);
+			target.lookAt(this._player.position());
 			
 			let distance = this._player.position().clone().sub(target.position()).length();
 			if (distance < 30 && this._player.hp != 0) {

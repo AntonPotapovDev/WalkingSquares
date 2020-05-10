@@ -29,7 +29,9 @@ export class MovableObject extends GameObject {
 		this._look_dir = new THREE.Vector3(0, 1, 0);
 	}
 	
-	move(x, y) {
+	move(vec) {
+		let x = vec.x;
+		let y = vec.y;
 		if (x != 0 || y != 0) {
 			let length = Math.sqrt(x*x + y*y);
 			x = x / length;
@@ -40,7 +42,7 @@ export class MovableObject extends GameObject {
 	}
 	
 	moveAlongLookDir() {
-		this.move(this._look_dir.x, this._look_dir.y);
+		this.move(this._look_dir);
 	}
 	
 	rotate(angle) {
@@ -48,8 +50,8 @@ export class MovableObject extends GameObject {
 		this._look_dir.applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
 	}
 	
-	setLookDirection(x, y) {
-		let newLookDir = new THREE.Vector3(x, y, 0).normalize();
+	setLookDirection(vec) {
+		let newLookDir = new THREE.Vector3(vec.x, vec.y, 0).normalize();
 		let angle = newLookDir.angleTo(this._look_dir);
 		let left = new THREE.Vector3(-this._look_dir.y, this._look_dir.x, 0);
 		let factor = left.angleTo(newLookDir) < Math.PI / 2 ? 1 : -1;
@@ -61,8 +63,8 @@ export class MovableObject extends GameObject {
 		return this._look_dir;
 	}
 	
-	lookAt(x, y) {
-		let target = new THREE.Vector3(x, y, 0);
+	lookAt(vec) {
+		let target = new THREE.Vector3(vec.x, vec.y, 0);
 		let dir = target.clone().sub(this.position().clone()).normalize();
 		let angle = dir.angleTo(this._look_dir);
 		let left = new THREE.Vector3(-this._look_dir.y, this._look_dir.x, 0);
