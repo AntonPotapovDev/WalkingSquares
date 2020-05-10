@@ -91,17 +91,12 @@ class Enemy extends GObject.Unit {
 }
 
 class Item extends GObject.GameObject {
-	constructor(scene, object) {
+	constructor(object) {
 		super();
-		this._scene = scene;
 		this._object = object;
 	}
 	
 	pick() {
-		if (this.mesh == null)
-			return;
-		
-		this._scene.remove(this.mesh);
 		return this._object;
 	}
 	
@@ -111,8 +106,8 @@ class Item extends GObject.GameObject {
 }
 
 class WeaponBox extends Item {
-	constructor(scene, weapon) {
-		super(scene, weapon);
+	constructor(weapon) {
+		super(weapon);
 		let geometry = new THREE.PlaneGeometry(20, 20);
 		let material = new THREE.MeshBasicMaterial({ color: 0x3b572f, side: THREE.DoubleSide });
 		let box = new THREE.Mesh(geometry, material);
@@ -197,11 +192,12 @@ class Game {
 		this._items = [];
 		this._bullets = [];
 		this._spawnRate = 1000;
+		this._weaponSpawnTimeout = 2 * 60 * 1000;
 	}
 	
 	start() {
 		this._initEnemies();
-		//this.
+		this._initWeaponSpawn();
 		this._gameLoop();
 	}
 	
@@ -210,6 +206,7 @@ class Game {
 		this._updatePlayer();
 		this._updateBullets();
 		this._updateEnemies();
+		this._updateItems();
 		
 		requestAnimationFrame(this._gameLoop.bind(this));
 		let renderer = this._gameScene.renderer();
@@ -233,6 +230,7 @@ class Game {
 
 			let item = this._items[i].pick();
 			this._player.weapon = item;
+			this._gameScene.remove(this._items[i]);
 			this._items.splice(i, 1);
 			i--;
 		}
@@ -312,8 +310,22 @@ class Game {
 			this._spawnRate = Math.max(100, this._spawnRate - 2);
 			
 			this._initEnemies();
-	}, this._spawnRate);
-}
+		}, this._spawnRate);
+	}
+	
+	_initWeaponSpawn() {
+		setTimeout(() => {
+			let factor1 = Math.random() > 0.5 ? -1 : 1;
+			let factor2 = Math.random() > 0.5 ? -1 : 1;
+			let position = new THREE.Vector3(factor1 * Math.random() * 300, factor2 * Math.random() * 300, 0);
+			
+			let box = new WeaponBox(new Shotgun());
+			this._gameScene.add(box);
+			box.moveTo({x: 100, y:100});
+			this._items.push(box);
+			
+		}, this._weaponSpawnTimeout);
+	}
 }
 
 class GameScene {
@@ -403,21 +415,6 @@ class Control {
 	mouseClicksHandled() {
 		this._mouseClickCount = 0;
 	}
-}
-
-function initWeapons() {
-	setTimeout(() => {
-		let factor1 = Math.random() > 0.5 ? -1 : 1;
-		let factor2 = Math.random() > 0.5 ? -1 : 1;
-		let position = new THREE.Vector3(factor1 * Math.random() * 300, factor2 * Math.random() * 300, 0);
-		
-		let box = new WeaponBox(scene, new Shotgun());
-		box.moveTo(position);
-		box.addToScene(scene);
-		items.push(box);
-		
-		weaponSpawnCount++;
-	}, weaponSpawnRate);
 }
 
 function main() {
