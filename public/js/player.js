@@ -11,16 +11,24 @@ export class Player extends GObject.Unit {
 		this._control = control;
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+		let material = new THREE.MeshBasicMaterial({ color: 0x6d9cbd, side: THREE.DoubleSide });
 		let square = new THREE.Mesh(geometry, material);
 		this.mesh = square;
+		
+		this._deltaColor = { r: 0, g: 0, b: 0 };
+		let deadColor = new THREE.Color(0xf54542);
+		this._deltaColor.r = (deadColor.r - material.color.r) / Constants.HpValues.playerHp;
+		this._deltaColor.g = (deadColor.g - material.color.g) / Constants.HpValues.playerHp;
+		this._deltaColor.b = (deadColor.b - material.color.b) / Constants.HpValues.playerHp;
 	}
 	
 	damage(dp) {
 		super.damage(dp);
-		this.mesh.material.color.add(new THREE.Color(0.01 * dp, -0.01 * dp, 0));
+		this.mesh.material.color.r += this._deltaColor.r;
+		this.mesh.material.color.g += this._deltaColor.g;
+		this.mesh.material.color.b += this._deltaColor.b;
 		if (this.hp == 0) {
-			this.mesh.material.color.copy(new THREE.Color(1, 1, 1));
+			this.mesh.material.color.copy(new THREE.Color(0x5cd689));
 			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
 		}
 	}

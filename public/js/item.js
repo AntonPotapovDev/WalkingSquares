@@ -19,7 +19,7 @@ export class WeaponBox extends Item {
 	constructor(weapon) {
 		super(weapon);
 		let geometry = new THREE.PlaneGeometry(20, 20);
-		let material = new THREE.MeshBasicMaterial({ color: 0x3b572f, side: THREE.DoubleSide });
+		let material = new THREE.MeshBasicMaterial({ color: 0x40160b, side: THREE.DoubleSide });
 		let box = new THREE.Mesh(geometry, material);
 		this.mesh = box;
 	}
