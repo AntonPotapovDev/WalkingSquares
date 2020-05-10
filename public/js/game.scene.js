@@ -5,6 +5,7 @@ export class GameScene {
 		this._camera.position.z = 1;
 		this._renderer = new THREE.WebGLRenderer();
 		this._renderer.setSize(width, height);
+		this._sizes = { width: width, height: height };
 	}
 	
 	domElement() {
@@ -17,6 +18,10 @@ export class GameScene {
 	
 	remove(obj) {
 		this._scene.remove(obj.mesh);
+	}
+	
+	sizes() {
+		return this._sizes;
 	}
 	
 	renderer() {

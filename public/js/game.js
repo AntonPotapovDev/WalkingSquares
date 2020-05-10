@@ -16,6 +16,8 @@ export class Game {
 		this._bullets = [];
 		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
+		this._gameZoneRadius = Math.max(gameScene.sizes().width, gameScene.sizes().height)
+			+ Constants.SystemValues.gameZoneRadiusOffset;
 	}
 	
 	start() {
@@ -64,7 +66,7 @@ export class Game {
 			let obj = this._bullets[i];
 			obj.update();
 			
-			if (obj.position().length > 1000) {
+			if (obj.position().length > this._gameZoneRadius) {
 				this._scene.remove(obj.mesh);
 				this._bullets(i, 1);
 				i--;
@@ -104,7 +106,7 @@ export class Game {
 				this._player.damage(Constants.DamageValues.enemyDamage);
 			}
 			
-			if (target.position().length > 1000) {
+			if (target.position().length > this._gameZoneRadius) {
 				this._gameScene.remove(target);
 				this._enemies.splice(i, 1);
 				i--;
@@ -121,27 +123,32 @@ export class Game {
 			let factor2 = Math.random() > 0.5 ? -1 : 1;
 			let position = null;
 			
+			let spawnX = this._gameScene.sizes().width / 2 + Constants.SystemValues.gameZoneRadiusOffset;
+			let spawnY = this._gameScene.sizes().height / 2 + Constants.SystemValues.gameZoneRadiusOffset;
 			if (Math.random() > 0.5)
-				position = new THREE.Vector3(factor1 * 800, factor2 * Math.random() * 800, 0);
+				position = new THREE.Vector3(factor1 * spawnX, factor2 * Math.random() * spawnY, 0);
 			else
-				position = new THREE.Vector3(factor1 * Math.random() * 800, factor2 * 800, 0);
+				position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
 			
 			let enemy = new Enemy();
 			enemy.moveTo(position);
 			this._gameScene.add(enemy);
 			this._enemies.push(enemy);
 			
-			this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
+			this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, 
+				this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
 			
 			this._initEnemies();
 		}, this._spawnRate);
 	}
 	
 	_initWeaponSpawn() {
-		setTimeout(() => {
+		setInterval(() => {
 			let factor1 = Math.random() > 0.5 ? -1 : 1;
 			let factor2 = Math.random() > 0.5 ? -1 : 1;
-			let position = new THREE.Vector3(factor1 * Math.random() * 300, factor2 * Math.random() * 300, 0);
+			let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;
+			let spawnY = this._gameScene.sizes().height / 2 * Constants.SystemValues.gameZoneRadiusFactor;
+			let position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
 			
 			let box = new WeaponBox(new Weapon.Shotgun());
 			this._gameScene.add(box);

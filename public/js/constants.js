@@ -24,3 +24,8 @@ export class TimeValues {
 	
 	static nextWeaponSpawnTimeout = 2 * 60 * 1000;
 }
+
+export class SystemValues {
+	static gameZoneRadiusOffset = 200;
+	static gameZoneRadiusFactor = 0.8;
+}
