@@ -21,9 +21,9 @@ export class Spawner {
 }
 
 export class WeaponSpawner extends Spawner {
-	constructor(gameScene, weaponsToSpawn) {
+	constructor(gameScene) {
 		super(gameScene);
-		this._weaponsToSpawn = weaponsToSpawn;
+		this._weaponsToSpawn = [];
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 		this._spawned = []
 	}
@@ -41,6 +41,10 @@ export class WeaponSpawner extends Spawner {
 		let spawned = this._spawned.slice();
 		this._spawned.length = 0;
 		return spawned;
+	}
+	
+	setWeaponsToSpawn(weapons) {
+		this._weaponsToSpawn = weapons;
 	}
 	
 	_spawn() {

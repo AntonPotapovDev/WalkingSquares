@@ -1,6 +1,7 @@
 import { Game } from '/js/game.js';
 import { Control } from '/js/control.js';
 import { GameScene } from '/js/game.scene.js';
+import * as Spawners from '/js/spawners.js';
 
 function main() {
 	let control = new Control(innerWidth, innerHeight);
@@ -12,7 +13,10 @@ function main() {
 	let gameScene = new GameScene(innerWidth, innerHeight);
 	document.body.appendChild(gameScene.domElement());
 	
-	let game = new Game(gameScene, control);
+	let enemySpawner = new Spawners.EnemySpawner(gameScene);
+	let weaponSpawner = new Spawners.WeaponSpawner(gameScene);
+	
+	let game = new Game(gameScene, control, enemySpawner, weaponSpawner);
 	game.start();
 }
 

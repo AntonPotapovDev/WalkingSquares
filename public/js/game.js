@@ -1,9 +1,8 @@
 import { Player } from '/js/player.js';
 import * as Weapon from '/js/weapon.js';
-import * as Spawners from '/js/spawners.js';
 
 export class Game {
-	constructor(gameScene, control) {
+	constructor(gameScene, control, enemySpawner, weaponSpawner) {
 		this._fpsFactor = 1;
 		this._gameScene = gameScene;
 		this._control = control;
@@ -12,9 +11,9 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
-		this._weaponsToSpawn = [ new Weapon.Shotgun(), new Weapon.SubmachineGun() ];
-		this._weaponSpawner = new Spawners.WeaponSpawner(this._gameScene, this._weaponsToSpawn);
-		this._enemySpawner = new Spawners.EnemySpawner(this._gameScene);
+		this._weaponSpawner = weaponSpawner;
+		this._weaponSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
+		this._enemySpawner = enemySpawner;
 	}
 	
 	start() {
