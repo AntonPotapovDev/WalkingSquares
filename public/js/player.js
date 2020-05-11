@@ -12,19 +12,10 @@ export class Player extends GObject.Unit {
 		this._bullets = [];
 		this._control = control;
 		this.mesh = Visual.Meshes.playerMesh();
-		
-		this._deltaColor = { r: 0, g: 0, b: 0 };
-		let deadColor = new THREE.Color(Visual.Colors.deadPlayerColor);
-		this._deltaColor.r = (deadColor.r - this.mesh.material.color.r) / Constants.HpValues.playerHp;
-		this._deltaColor.g = (deadColor.g - this.mesh.material.color.g) / Constants.HpValues.playerHp;
-		this._deltaColor.b = (deadColor.b - this.mesh.material.color.b) / Constants.HpValues.playerHp;
 	}
 	
 	damage(dp) {
 		super.damage(dp);
-		this.mesh.material.color.r += this._deltaColor.r;
-		this.mesh.material.color.g += this._deltaColor.g;
-		this.mesh.material.color.b += this._deltaColor.b;
 		if (this.hp == 0) {
 			this.mesh.material.color.copy(new THREE.Color(Visual.Colors.enemyColor));
 			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
@@ -41,8 +32,27 @@ export class Player extends GObject.Unit {
 		return bullets;
 	}
 	
+	_updateColor() {
+		let normalColor = new THREE.Color(Visual.Colors.playerColor);
+		let deadColor = new THREE.Color(Visual.Colors.deadPlayerColor);
+		let diff = { r: 0, g: 0, b: 0};
+		
+		diff.r = deadColor.r - normalColor.r;
+		diff.g = deadColor.g - normalColor.g;
+		diff.b = deadColor.b - normalColor.b;
+		
+		let percent = (Constants.HpValues.playerHp - this.hp) / Constants.HpValues.playerHp;
+		
+		this.mesh.material.color.r = normalColor.r + diff.r * percent;
+		this.mesh.material.color.g = normalColor.g + diff.g * percent
+		this.mesh.material.color.b = normalColor.b + diff.b * percent;
+	}
+	
 	update() {
 		if (this.hp > 0) {
+			
+			this._updateColor();
+			
 			let moveVector = this._control.moveVector();
 			this.move(moveVector);
 			
