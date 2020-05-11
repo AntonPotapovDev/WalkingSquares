@@ -23,7 +23,7 @@ export class Item extends GObject.GameObject {
 
 export class WeaponBox extends Item {
 	constructor(weapon) {
-		super(weapon);
+		super();
 		this.mesh = Visual.Meshes.weaponBoxMesh();
 		this._weapon = weapon;
 	}
@@ -36,5 +36,19 @@ export class WeaponBox extends Item {
 	
 	isValid() {
 		return this._weapon != null;
+	}
+}
+
+export class Medkit extends Item {
+	constructor() {
+		super();
+		this.mesh = Visua.Meshes.medkitMesh;
+		this._health = Constants.HpValues.medkitHP;
+	}
+	
+	pick(picker) {
+		picker.hp += this._health;
+		this._health = 0;
+		this.remove();
 	}
 }
