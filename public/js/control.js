@@ -7,6 +7,8 @@ export class Control {
 		this._keyMap = {};
 		this._isMouseDown = false;
 		this._mouseClickCount = 0;
+		this._dropCount = 0;
+		this._singlePress = [ "Space" ];
 	}
 	
 	mouse() {
@@ -21,6 +23,10 @@ export class Control {
 		return this._mouseClickCount;
 	}
 	
+	drops() {
+		return this._dropCount;
+	}
+	
 	update() {
 		this._moveVector = new THREE.Vector3(0, 0, 0);
 		for (let key in this._keyMap) {
@@ -33,11 +39,13 @@ export class Control {
 			if (key == "KeyS") this._moveVector.y = -1;
 			if (key == "KeyA") this._moveVector.x = -1;
 			if (key == "KeyD") this._moveVector.x = 1;
+			if (key == "Space") this._dropCount++;
 		}
 	}
 	
 	onKeyDown(event) {
-		this._keyMap[event.code] = event.type == "keydown";
+		this._keyMap[event.code] = (event.type == "keydown") || 
+			(this._singlePress.includes(event.code) && event.type == "keypress");
 	}
 	
 	onMouseMove(event) {
@@ -55,5 +63,9 @@ export class Control {
 	
 	mouseClicksHandled() {
 		this._mouseClickCount = 0;
+	}
+	
+	dropsHandled() {
+		this._dropCount = 0;
 	}
 }

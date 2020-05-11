@@ -10,6 +10,8 @@ export class Player extends GObject.Unit {
 		this._radius = Constants.PhisicalValues.playerRadius;
 		this.weapon = weapon;
 		this._bullets = [];
+		this._drops = [];
+		this._dropped = [];
 		this._control = control;
 		this.mesh = Visual.Meshes.playerMesh();
 	}
@@ -30,6 +32,16 @@ export class Player extends GObject.Unit {
 		let bullets = this._bullets.slice();
 		this._bullets.length = 0;
 		return bullets;
+	}
+	
+	dropped() {
+		let dropped = this._dropped.slice();
+		this._dropped.length = 0;
+		return dropped;
+	}
+	
+	addDrop(drop) {
+		this._drops.push(drop);
 	}
 	
 	_updateColor() {
