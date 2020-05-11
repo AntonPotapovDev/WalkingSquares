@@ -13,8 +13,8 @@ function makeMesh(width, height, color) {
 }
 
 export class Meshes {
-	static playerMesh = makeMesh(50, 50, Colors.playerColor);
-	static enemyMesh  = makeMesh(50, 50, Colors.enemyColor);
-	static bulletMesh = makeMesh(5, 10, Colors.bulletColor);
-	static weaponBoxMesh = makeMesh(20, 20, Colors.weaponBoxColor);
+	static playerMesh() { return makeMesh(50, 50, Colors.playerColor); }
+	static enemyMesh()  { return makeMesh(50, 50, Colors.enemyColor); }
+	static bulletMesh() { return makeMesh(5, 10, Colors.bulletColor); }
+	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor); }
 }

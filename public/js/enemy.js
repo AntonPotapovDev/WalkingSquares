@@ -1,5 +1,6 @@
 import * as GObject from '/js/game.object.js';
 import * as Constants from '/js/constants.js';
+import * as Visual from '/js/visual.js';
 
 export class Enemy extends GObject.Unit {
 	constructor(ai) {
@@ -10,10 +11,7 @@ export class Enemy extends GObject.Unit {
 		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
 		this._radius = Constants.PhisicalValues.enemyRadius;
 		
-		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0x7db08b, side: THREE.DoubleSide });
-		let target = new THREE.Mesh(geometry, material);
-		this.mesh = target;
+		this.mesh = Visual.Meshes.enemyMesh();
 	}
 	
 	interactWithPlayer(player) {

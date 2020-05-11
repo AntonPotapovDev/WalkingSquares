@@ -1,5 +1,6 @@
 import * as GObject from '/js/game.object.js';
 import * as Constants from '/js/constants.js';
+import * as Visual from '/js/visual.js';
 
 export class Bullet extends GObject.MovableObject {
 	constructor(position, direction) {
@@ -8,11 +9,9 @@ export class Bullet extends GObject.MovableObject {
 		this._radius = Constants.PhisicalValues.bulletRadius;
 		this._damage = Constants.DamageValues.bulletDamage;
 
-		let geometry = new THREE.PlaneGeometry(5, 10);
-		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });
-		let blast = new THREE.Mesh(geometry, material);
-		blast.position.copy(new THREE.Vector3(position.x, position.y, 0)); 
-		this.mesh = blast;
+		this.mesh = Visual.Meshes.bulletMesh();
+		this.mesh.position.x = position.x;
+		this.mesh.position.y = position.y;
 		
 		this.setLookDirection(direction);
 	}

@@ -1,5 +1,6 @@
 import * as GObject from '/js/game.object.js';
 import * as Constants from '/js/constants.js';
+import * as Visual from '/js/visual.js';
 
 export class Player extends GObject.Unit {
 	constructor(control, weapon) {
@@ -10,17 +11,13 @@ export class Player extends GObject.Unit {
 		this.weapon = weapon;
 		this._bullets = [];
 		this._control = control;
-		
-		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0x4ea3f2, side: THREE.DoubleSide });
-		let square = new THREE.Mesh(geometry, material);
-		this.mesh = square;
+		this.mesh = Visual.Meshes.playerMesh();
 		
 		this._deltaColor = { r: 0, g: 0, b: 0 };
-		let deadColor = new THREE.Color(0xf54542);
-		this._deltaColor.r = (deadColor.r - material.color.r) / Constants.HpValues.playerHp;
-		this._deltaColor.g = (deadColor.g - material.color.g) / Constants.HpValues.playerHp;
-		this._deltaColor.b = (deadColor.b - material.color.b) / Constants.HpValues.playerHp;
+		let deadColor = new THREE.Color(Visual.Colors.deadPlayerColor);
+		this._deltaColor.r = (deadColor.r - this.mesh.material.color.r) / Constants.HpValues.playerHp;
+		this._deltaColor.g = (deadColor.g - this.mesh.material.color.g) / Constants.HpValues.playerHp;
+		this._deltaColor.b = (deadColor.b - this.mesh.material.color.b) / Constants.HpValues.playerHp;
 	}
 	
 	damage(dp) {
@@ -29,7 +26,7 @@ export class Player extends GObject.Unit {
 		this.mesh.material.color.g += this._deltaColor.g;
 		this.mesh.material.color.b += this._deltaColor.b;
 		if (this.hp == 0) {
-			this.mesh.material.color.copy(new THREE.Color(0x5cd689));
+			this.mesh.material.color.copy(new THREE.Color(Visual.Colors.enemyColor));
 			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
 		}
 	}
