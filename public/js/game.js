@@ -3,6 +3,7 @@ import { Enemy } from '/js/enemy.js';
 import * as Weapon from '/js/weapon.js';
 import { WeaponBox } from '/js/item.js';
 import * as Constants from '/js/constants.js';
+import * as Spawners from '/js/spawners.js';
 
 export class Game {
 	constructor(gameScene, control) {
@@ -19,16 +20,20 @@ export class Game {
 		this._gameZoneRadius = Math.max(gameScene.sizes().width, gameScene.sizes().height)
 			+ Constants.SystemValues.gameZoneRadiusOffset;
 		this._weaponsToSpawn = [ new Weapon.Shotgun(), new Weapon.SubmachineGun() ];
+		this._weaponSpawner = new Spawners.WeaponSpawner(this._gameScene, this._weaponsToSpawn);
 	}
 	
 	start() {
 		this._initEnemies();
-		this._initWeaponSpawn();
+		this._weaponSpawner.start();
 		this._gameLoop();
 	}
 	
 	_gameLoop() {
 		this._control.update();
+		
+		this._updateSpawners();
+		
 		this._updatePlayer();
 		this._updateBullets();
 		this._updateEnemies();
@@ -100,6 +105,12 @@ export class Game {
 		}
 	}
 	
+	_updateSpawners() {
+		let spawnedWeapons = this._weaponSpawner.spawned();
+		for (let weapon of spawnedWeapons)
+			this._items.push(weapon);
+	}
+	
 	_initEnemies() {
 		if (this._player.hp == 0)
 			return;
@@ -126,24 +137,5 @@ export class Game {
 			
 			this._initEnemies();
 		}, this._spawnRate);
-	}
-	
-	_initWeaponSpawn() {
-		setTimeout(() => {
-			let factor1 = Math.random() > 0.5 ? -1 : 1;
-			let factor2 = Math.random() > 0.5 ? -1 : 1;
-			let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;
-			let spawnY = this._gameScene.sizes().height / 2 * Constants.SystemValues.gameZoneRadiusFactor;
-			let position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
-			
-			let box = new WeaponBox(this._weaponsToSpawn.shift());
-			this._gameScene.add(box);
-			box.moveTo(position);
-			this._items.push(box);
-			
-			this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
-			if (this._weaponsToSpawn.length > 0)
-				this._initWeaponSpawn();
-		}, this._weaponSpawnTimeout);
 	}
 }

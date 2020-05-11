@@ -17,6 +17,10 @@ export class GameScene {
 		return this._renderer.domElement;
 	}
 	
+	gameZoneRadius() {
+		return this._gameZoneRadius;
+	}
+	
 	add(obj) {
 		this._scene.add(obj.mesh);
 		this._objects.push(obj);
