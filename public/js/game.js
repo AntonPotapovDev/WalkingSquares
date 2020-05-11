@@ -11,6 +11,7 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
+		this._targets = [];
 		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
 		this._aiInfo = null;
@@ -25,7 +26,9 @@ export class Game {
 		this._player = new Player(this._control, new Weapon.Pistol());
 		this._gameScene.add(this._player);
 		
-		this._aiInfo = new AI.AiInfo([this._player]); 
+		this._targets.push(this._player);
+		
+		this._aiInfo = new AI.AiInfo(this._targets); 
 		
 		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
@@ -58,6 +61,12 @@ export class Game {
 			this._gameScene.add(bullets[i]);
 			this._bullets.push(bullets[i]);
 		}
+		
+		let dropped = this._player.dropped();
+		for (let i = 0; i < dropped.length; i++) {
+			this._gameScene.add(dropped[i]);
+			this._targets.push(dropped);
+		}
 	}
 	
 	_updateItems() {
@@ -86,6 +95,8 @@ export class Game {
 	}
 	
 	_updateGameObjects() {
+		//this._aiInfo.update(this._targets);
+		
 		for (let i = 0; i < this._bullets.length; i++) {
 			if (!this._bullets[i].isNeedToRemove())
 				continue;
@@ -105,6 +116,13 @@ export class Game {
 				continue;
 			
 			this._items.splice(i, 1);
+		}
+		
+		for (let i = 0; i < this._targets.length; i++) {
+			if (!this._targets[i].isNeedToRemove())
+				continue;
+			
+			this._targets.splice(i, 1);
 		}
 	}
 	

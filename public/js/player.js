@@ -65,7 +65,8 @@ export class Player extends GObject.Unit {
 			
 			this._updateColor();
 			
-			for (let i = 0 ; i < this._control.drops(); i++) {
+			let minCount = Math.min(this._control.drops(), this._drops.length);
+			for (let i = 0 ; i < minCount; i++) {
 				let drop = this._drops.shift();
 				this._dropped.push(drop);
 			}
