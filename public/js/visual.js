@@ -3,7 +3,7 @@ export class Colors {
 	static enemyColor  = 0x7db08b;
 	static playerColor = 0x4ea3f2;
 	static deadPlayerColor = 0xf54542;
-	static weaponBoxColor  = 0x40160b;
+	static weaponBoxColor  = 0xe07122;
 	static medkitColor = 0xf20000;
 }
 

@@ -31,6 +31,9 @@ export class TimeValues {
 	
 	static nextWeaponSpawnTimeout = 2 * 60 * 1000;
 	static weaponSpawnTimeoutDecrease = 30 * 1000;
+	
+	static medkitSpawnTimeout = 3 * 60 * 1000;
+	static medkitSpawnTimeoutDecrease = 30 * 1000;
 }
 
 export class SystemValues {

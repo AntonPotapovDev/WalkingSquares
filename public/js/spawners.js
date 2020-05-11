@@ -1,5 +1,5 @@
 import * as Constants from '/js/constants.js';
-import { WeaponBox } from '/js/item.js';
+import * as Items from '/js/item.js';
 import { Enemy } from '/js/enemy.js';
 import * as AI from '/js/ai.js';
 
@@ -21,11 +21,12 @@ export class Spawner {
 	}
 }
 
-export class WeaponSpawner extends Spawner {
+export class ItemSpawner extends Spawner {
 	constructor(gameScene) {
 		super(gameScene);
 		this._weaponsToSpawn = [];
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
+		this._medkitSpawnTimeout = Constants.TimeValues.medkitSpawnTimeout;
 		this._spawned = []
 	}
 	
@@ -48,26 +49,53 @@ export class WeaponSpawner extends Spawner {
 		this._weaponsToSpawn = weapons;
 	}
 	
+	_calcSpawnPosition() {
+		let factor1 = Math.random() > 0.5 ? -1 : 1;
+		let factor2 = Math.random() > 0.5 ? -1 : 1;
+		let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;
+		let spawnY = this._gameScene.sizes().height / 2 * Constants.SystemValues.gameZoneRadiusFactor;
+		return new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
+	}
+	
 	_spawn() {
+		this._spawnWeapon();
+		this._spawnMedkit();
+	}
+	
+	_spawnWeapon() {
 		if (this._needToStop)
 			return;
 		
 		setTimeout(() => {
-			let factor1 = Math.random() > 0.5 ? -1 : 1;
-			let factor2 = Math.random() > 0.5 ? -1 : 1;
-			let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;
-			let spawnY = this._gameScene.sizes().height / 2 * Constants.SystemValues.gameZoneRadiusFactor;
-			let position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
+			let position = this._calcSpawnPosition();
 			
-			let box = new WeaponBox(this._weaponsToSpawn.shift());
+			let box = new Items.WeaponBox(this._weaponsToSpawn.shift());
 			this._gameScene.add(box);
 			box.moveTo(position);
 			this._spawned.push(box);
 			
 			this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
 			if (this._weaponsToSpawn.length > 0)
-				this._spawn();
+				this._spawnWeapon();
 		}, this._weaponSpawnTimeout);
+	}
+	
+	_spawnMedkit() {
+		if (this._needToStop)
+			return;
+		
+		setTimeout(() => {
+			let position = this._calcSpawnPosition();
+			
+			let kit = new Items.Medkit();
+			this._gameScene.add(kit);
+			kit.moveTo(position);
+			this._spawned.push(kit);
+			
+			this._weaponSpawnTimeout -= Constants.TimeValues.medkitSpawnTimeoutDecrease;
+			
+			this._spawnMedkit();
+		}, this._medkitSpawnTimeout);
 	}
 }
 

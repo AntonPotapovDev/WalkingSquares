@@ -14,9 +14,9 @@ function main() {
 	document.body.appendChild(gameScene.domElement());
 	
 	let enemySpawner = new Spawners.EnemySpawner(gameScene);
-	let weaponSpawner = new Spawners.WeaponSpawner(gameScene);
+	let itemSpawner = new Spawners.ItemSpawner(gameScene);
 	
-	let game = new Game(gameScene, control, enemySpawner, weaponSpawner);
+	let game = new Game(gameScene, control, enemySpawner, itemSpawner);
 	game.start();
 }
 

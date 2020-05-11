@@ -3,7 +3,7 @@ import * as Weapon from '/js/weapon.js';
 import * as AI from '/js/ai.js'
 
 export class Game {
-	constructor(gameScene, control, enemySpawner, weaponSpawner) {
+	constructor(gameScene, control, enemySpawner, itemSpawner) {
 		this._fpsFactor = 1;
 		this._gameScene = gameScene;
 		this._control = control;
@@ -11,7 +11,7 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
-		this._weaponSpawner = weaponSpawner;
+		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
 		this._aiInfo = null;
 	}
@@ -28,10 +28,10 @@ export class Game {
 		this._aiInfo = new AI.AiInfo([this._player]); 
 		
 		this._enemySpawner.setAiInfo(this._aiInfo);
-		this._weaponSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
+		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
 		
 		this._enemySpawner.start();
-		this._weaponSpawner.start();
+		this._itemSpawner.start();
 	}
 	
 	_gameLoop() {
@@ -109,9 +109,9 @@ export class Game {
 	}
 	
 	_updateSpawners() {
-		let spawnedWeapons = this._weaponSpawner.spawned();
-		for (let weapon of spawnedWeapons)
-			this._items.push(weapon);
+		let spawnedItems = this._itemSpawner.spawned();
+		for (let item of spawnedItems)
+			this._items.push(item);
 		
 		let spawnedEnemies = this._enemySpawner.spawned();
 		for (let enemy of spawnedEnemies)
@@ -119,7 +119,7 @@ export class Game {
 		
 		if (this._player.hp == 0) {
 			this._enemySpawner.stop();
-			this._weaponSpawner.stop();
+			this._itemSpawner.stop();
 		}
 	}
 }

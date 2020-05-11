@@ -42,7 +42,7 @@ export class WeaponBox extends Item {
 export class Medkit extends Item {
 	constructor() {
 		super();
-		this.mesh = Visua.Meshes.medkitMesh;
+		this.mesh = Visual.Meshes.medkitMesh();
 		this._health = Constants.HpValues.medkitHP;
 	}
 	
