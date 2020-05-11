@@ -141,6 +141,7 @@ export class Game {
 	}
 	
 	_initWeaponSpawn() {
+		setTimeout(() => {
 			let factor1 = Math.random() > 0.5 ? -1 : 1;
 			let factor2 = Math.random() > 0.5 ? -1 : 1;
 			let spawnX = this._gameScene.sizes().width / 2 * Constants.SystemValues.gameZoneRadiusFactor;

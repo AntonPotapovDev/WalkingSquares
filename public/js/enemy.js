@@ -9,7 +9,7 @@ export class Enemy extends GObject.Unit {
 		this._radius = Constants.PhisicalValues.enemyRadius;
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0x5cd689, side: THREE.DoubleSide });
+		let material = new THREE.MeshBasicMaterial({ color: 0x7db08b, side: THREE.DoubleSide });
 		let target = new THREE.Mesh(geometry, material);
 		this.mesh = target;
 	}

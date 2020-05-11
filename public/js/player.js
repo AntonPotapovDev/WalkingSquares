@@ -12,7 +12,7 @@ export class Player extends GObject.Unit {
 		this._control = control;
 		
 		let geometry = new THREE.PlaneGeometry(50, 50);
-		let material = new THREE.MeshBasicMaterial({ color: 0x6d9cbd, side: THREE.DoubleSide });
+		let material = new THREE.MeshBasicMaterial({ color: 0x4ea3f2, side: THREE.DoubleSide });
 		let square = new THREE.Mesh(geometry, material);
 		this.mesh = square;
 		
