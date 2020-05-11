@@ -1,5 +1,5 @@
 export class Colors {
-	static bulletColor = 0xfff000;
+	static bulletColor = 0xffc800;
 	static enemyColor  = 0x7db08b;
 	static playerColor = 0x4ea3f2;
 	static deadPlayerColor = 0xf54542;
