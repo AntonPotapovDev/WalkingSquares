@@ -22,6 +22,7 @@ export class Bullet extends GObject.MovableObject {
 			return;
 		
 		enemy.damage(this._damage);
+		this.remove();
 	}
 	
 	update() {

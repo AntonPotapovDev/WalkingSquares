@@ -33,6 +33,8 @@ export class Game {
 		this._updateBullets();
 		this._updateEnemies();
 		this._updateItems();
+		this._updateGameObjects();
+		this._gameScene.update();
 		
 		requestAnimationFrame(this._gameLoop.bind(this));
 		let renderer = this._gameScene.renderer();
@@ -54,7 +56,6 @@ export class Game {
 			if (this._items[i].isValid())
 				continue;
 
-			this._gameScene.remove(this._items[i]);
 			this._items.splice(i, 1);
 			i--;
 		}
@@ -66,7 +67,6 @@ export class Game {
 			bullet.update();
 			
 			if (bullet.position().length > this._gameZoneRadius) {
-				this._gameScene.remove(bullet);
 				this._bullets.splice(i, 1);
 				i--;
 				continue;
@@ -81,13 +81,11 @@ export class Game {
 				if (target.hp != 0)
 					continue;
 
-				this._gameScene.remove(target);
 				this._enemies.splice(j, 1);
 				j--;
 				if (blast_deleted)
 					continue;
 				
-				this._gameScene.remove(bullet);
 				this._bullets.splice(i, 1);
 				i--;
 				blast_deleted = true;
@@ -104,11 +102,14 @@ export class Game {
 			target.interactWithPlayer(this._player);
 			
 			if (target.position().length > this._gameZoneRadius) {
-				this._gameScene.remove(target);
 				this._enemies.splice(i, 1);
 				i--;
 			}
 		}
+	}
+	
+	_updateGameObjects() {
+		
 	}
 	
 	_initEnemies() {

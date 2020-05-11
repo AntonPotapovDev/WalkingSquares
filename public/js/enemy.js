@@ -21,6 +21,12 @@ export class Enemy extends GObject.Unit {
 		player.damage(Constants.DamageValues.enemyDamage);
 	}
 	
+	damage(dp) {
+		super.damage(dp);
+		if (!this.isNeedToRemove() && this.hp == 0)
+			this.remove();
+	}
+	
 	update() {
 		// Rewrite when AI come
 		this.moveAlongLookDir();

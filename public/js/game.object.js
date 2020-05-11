@@ -3,10 +3,19 @@ export class GameObject {
 		this.mesh = null;
 		this.fpsFactor = 1;
 		this._radius = 0;
+		this._needToRemove = false;
 	}
 	
 	addToScene(scene) {
 		scene.add(this.mesh);
+	}
+	
+	remove() {
+		this._needToRemove = true;
+	}
+	
+	isNeedToRemove() {
+		return this._needToRemove;
 	}
 	
 	position() {

@@ -6,6 +6,7 @@ export class GameScene {
 		this._renderer = new THREE.WebGLRenderer();
 		this._renderer.setSize(width, height);
 		this._sizes = { width: width, height: height };
+		this._objects = [];
 	}
 	
 	domElement() {
@@ -14,6 +15,7 @@ export class GameScene {
 	
 	add(obj) {
 		this._scene.add(obj.mesh);
+		this._objects.push(obj);
 	}
 	
 	remove(obj) {
@@ -29,5 +31,17 @@ export class GameScene {
 			this._renderer.render(this._scene, this._camera);
 		}).bind(this)};
 		return rendererObj;
+	}
+	
+	update() {
+		for (let i = 0; i < this._objects.length; i++) {
+			let object = this._objects[i];
+			if (!object.isNeedToRemove())
+				continue;
+			
+			this.remove(object);
+			this._objects.splice(i, 1);
+			i--;
+		}
 	}
 }

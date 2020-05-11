@@ -33,6 +33,7 @@ export class WeaponBox extends Item {
 	pick(picker) {
 		picker.weapon = this._weapon;
 		this._weapon = null;
+		this.remove();
 	}
 	
 	isValid() {
