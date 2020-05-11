@@ -6,20 +6,26 @@ export class Game {
 		this._fpsFactor = 1;
 		this._gameScene = gameScene;
 		this._control = control;
-		this._player = new Player(control, new Weapon.Pistol());
-		this._gameScene.add(this._player);
+		this._player = null;
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
 		this._weaponSpawner = weaponSpawner;
-		this._weaponSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
 		this._enemySpawner = enemySpawner;
 	}
 	
 	start() {
+		this._init();
+		this._gameLoop();
+	}
+	
+	_init() {
+		this._player = new Player(this._control, new Weapon.Pistol());
+		this._gameScene.add(this._player);
+		this._weaponSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
+		
 		this._enemySpawner.start();
 		this._weaponSpawner.start();
-		this._gameLoop();
 	}
 	
 	_gameLoop() {
