@@ -51,27 +51,14 @@ export class Game {
 	}
 	
 	_updateItems() {
-		for (let i = 0; i < this._items.length; i++) {
+		for (let i = 0; i < this._items.length; i++)
 			this._player.interactWithItem(this._items[i]);
-			if (this._items[i].isValid())
-				continue;
-
-			this._items.splice(i, 1);
-			i--;
-		}
 	}
 	
 	_updateBullets() {
 		for (let i = 0; i < this._bullets.length; i++) {
 			let bullet = this._bullets[i];
 			bullet.update();
-			
-			if (bullet.position().length > this._gameZoneRadius) {
-				bullet.remove();
-				this._bullets.splice(i, 1);
-				i--;
-				continue;
-			}
 			
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
@@ -86,14 +73,7 @@ export class Game {
 			let target = this._enemies[i];
 			target.update();
 			target.lookAt(this._player.position());
-			
 			target.interactWithPlayer(this._player);
-			
-			if (target.position().length > this._gameZoneRadius) {
-				target.remove();
-				this._enemies.splice(i, 1);
-				i--;
-			}
 		}
 	}
 	

@@ -1,3 +1,5 @@
+import * as Constants from '/js/constants.js';
+
 export class GameScene {
 	constructor(width, height) {
 		this._scene = new THREE.Scene();
@@ -6,6 +8,8 @@ export class GameScene {
 		this._renderer = new THREE.WebGLRenderer();
 		this._renderer.setSize(width, height);
 		this._sizes = { width: width, height: height };
+		this._gameZoneRadius = Math.max(width, height)
+			+ Constants.SystemValues.gameZoneRadiusOffset;
 		this._objects = [];
 	}
 	
@@ -36,6 +40,10 @@ export class GameScene {
 	update() {
 		for (let i = 0; i < this._objects.length; i++) {
 			let object = this._objects[i];
+			
+			if (object.position().length() > this._gameZoneRadius)
+				object.remove();
+			
 			if (!object.isNeedToRemove())
 				continue;
 			
