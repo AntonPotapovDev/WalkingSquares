@@ -40,12 +40,16 @@ export class Control {
 			if (key == "KeyA") this._moveVector.x = -1;
 			if (key == "KeyD") this._moveVector.x = 1;
 			if (key == "Space") this._dropCount++;
+			
+			if (this._singlePress.includes(key))
+				this._keyMap[key] = false;
 		}
 	}
 	
 	onKeyDown(event) {
-		this._keyMap[event.code] = (event.type == "keydown") || 
-			(this._singlePress.includes(event.code) && event.type == "keypress");
+		let isSinglePress = this._singlePress.includes(event.code);
+		if (isSinglePress) this._keyMap[event.code] = event.type == "keyup";
+		else this._keyMap[event.code] = event.type == "keydown";
 	}
 	
 	onMouseMove(event) {

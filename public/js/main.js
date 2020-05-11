@@ -9,7 +9,6 @@ function main() {
 	document.addEventListener("keyup", control.onKeyDown.bind(control), false);
 	document.addEventListener("mousemove", control.onMouseMove.bind(control), false );
 	document.addEventListener("click", control.onMouseClick.bind(control), false );
-	document.addEventListener("keypress", control.onKeyDown.bind(control), false);
 	
 	let gameScene = new GameScene(innerWidth, innerHeight);
 	document.body.appendChild(gameScene.domElement());

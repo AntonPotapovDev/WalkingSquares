@@ -65,6 +65,13 @@ export class Player extends GObject.Unit {
 			
 			this._updateColor();
 			
+			for (let i = 0 ; i < this._control.drops(); i++) {
+				let drop = this._drops.shift();
+				this._dropped.push(drop);
+			}
+			
+			this._control.dropsHandled();
+			
 			let moveVector = this._control.moveVector();
 			this.move(moveVector);
 			
