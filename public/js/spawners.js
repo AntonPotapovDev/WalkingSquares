@@ -1,6 +1,7 @@
 import * as Constants from '/js/constants.js';
 import { WeaponBox } from '/js/item.js';
 import { Enemy } from '/js/enemy.js';
+import * as AI from '/js/ai.js';
 
 export class Spawner {
 	constructor(gameScene) {
@@ -74,7 +75,8 @@ export class EnemySpawner extends Spawner {
 	constructor(gameScene) {
 		super(gameScene);
 		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
-		this._spawned = []
+		this._spawned = [];
+		this._aiInfo = null;
 	}
 	
 	update() {
@@ -90,6 +92,10 @@ export class EnemySpawner extends Spawner {
 		let spawned = this._spawned.slice();
 		this._spawned.length = 0;
 		return spawned;
+	}
+	
+	setAiInfo(aiInfo) {
+		this._aiInfo = aiInfo;
 	}
 	
 	_spawn() {
@@ -108,7 +114,8 @@ export class EnemySpawner extends Spawner {
 			else
 				position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
 			
-			let enemy = new Enemy();
+			let ai = new AI.EnemyAI(this._aiInfo);
+			let enemy = new Enemy(ai);
 			enemy.moveTo(position);
 			this._gameScene.add(enemy);
 			this._spawned.push(enemy);

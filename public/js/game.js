@@ -1,5 +1,6 @@
 import { Player } from '/js/player.js';
 import * as Weapon from '/js/weapon.js';
+import * as AI from '/js/ai.js'
 
 export class Game {
 	constructor(gameScene, control, enemySpawner, weaponSpawner) {
@@ -12,6 +13,7 @@ export class Game {
 		this._bullets = [];
 		this._weaponSpawner = weaponSpawner;
 		this._enemySpawner = enemySpawner;
+		this._aiInfo = null;
 	}
 	
 	start() {
@@ -22,6 +24,10 @@ export class Game {
 	_init() {
 		this._player = new Player(this._control, new Weapon.Pistol());
 		this._gameScene.add(this._player);
+		
+		this._aiInfo = new AI.AiInfo([this._player]); 
+		
+		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._weaponSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
 		
 		this._enemySpawner.start();
@@ -76,8 +82,6 @@ export class Game {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update();
-			target.lookAt(this._player.position());
-			target.interactWithPlayer(this._player);
 		}
 	}
 	

@@ -2,8 +2,10 @@ import * as GObject from '/js/game.object.js';
 import * as Constants from '/js/constants.js';
 
 export class Enemy extends GObject.Unit {
-	constructor() {
+	constructor(ai) {
 		super();
+		this._ai = ai;
+		this._ai.setAgent(this);
 		this.hp = Constants.HpValues.enemyHP;
 		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
 		this._radius = Constants.PhisicalValues.enemyRadius;
@@ -28,7 +30,6 @@ export class Enemy extends GObject.Unit {
 	}
 	
 	update() {
-		// Rewrite when AI come
-		this.moveAlongLookDir();
+		this._ai.update();
 	}
 }
