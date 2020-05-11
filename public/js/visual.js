@@ -5,6 +5,7 @@ export class Colors {
 	static deadPlayerColor = 0xf54542;
 	static weaponBoxColor  = 0xe07122;
 	static medkitColor = 0xf20000;
+	static meatColor = 0xba5656;
 }
 
 function makeMesh(width, height, color) {
@@ -19,4 +20,5 @@ export class Meshes {
 	static bulletMesh() { return makeMesh(5, 10, Colors.bulletColor); }
 	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor); }
 	static medkitMesh() { return makeMesh(20, 20, Colors.medkitColor); }
+	static meatMesh() { return makeMesh(20, 20, Colors.meatColor); }
 }

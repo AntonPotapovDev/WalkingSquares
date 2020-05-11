@@ -17,6 +17,7 @@ export class HpValues {
 	static playerHp = 100;
 	static enemyHP  = 1;
 	static medkitHP = 20;
+	static meatHP = 150;
 }
 
 export class DamageValues {

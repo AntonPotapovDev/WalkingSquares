@@ -53,3 +53,25 @@ export class Medkit extends Item {
 		this.remove();
 	}
 }
+
+export class Meat extends Item {
+	constructor() {
+		super();
+		this.mesh = Visual.Meshes.meatMesh();
+		this.hp = Constants.HpValues.meatHP;
+	}
+	
+	update() {
+		if (this.hp == 0)
+			this.remove();
+	}
+	
+	damage(dp) {
+		this.hp = Math.max(0, this.hp - dp);
+	}
+	
+	pick(picker) {
+		picker.addDrop(this);
+	}
+}
+
