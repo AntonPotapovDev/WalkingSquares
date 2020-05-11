@@ -67,28 +67,16 @@ export class Game {
 			bullet.update();
 			
 			if (bullet.position().length > this._gameZoneRadius) {
+				bullet.remove();
 				this._bullets.splice(i, 1);
 				i--;
 				continue;
 			}
 			
-			let blast_deleted = false;
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
 
 				bullet.interactWithEnemy(target);
-				
-				if (target.hp != 0)
-					continue;
-
-				this._enemies.splice(j, 1);
-				j--;
-				if (blast_deleted)
-					continue;
-				
-				this._bullets.splice(i, 1);
-				i--;
-				blast_deleted = true;
 			}
 		}
 	}
@@ -102,6 +90,7 @@ export class Game {
 			target.interactWithPlayer(this._player);
 			
 			if (target.position().length > this._gameZoneRadius) {
+				target.remove();
 				this._enemies.splice(i, 1);
 				i--;
 			}
@@ -109,7 +98,26 @@ export class Game {
 	}
 	
 	_updateGameObjects() {
+		for (let i = 0; i < this._bullets.length; i++) {
+			if (!this._bullets[i].isNeedToRemove())
+				continue;
+			
+			this._bullets.splice(i, 1);
+		}
 		
+		for (let i = 0; i < this._enemies.length; i++) {
+			if (!this._enemies[i].isNeedToRemove())
+				continue;
+			
+			this._enemies.splice(i, 1);
+		}
+		
+		for (let i = 0; i < this._items.length; i++) {
+			if (!this._items[i].isNeedToRemove())
+				continue;
+			
+			this._items.splice(i, 1);
+		}
 	}
 	
 	_initEnemies() {

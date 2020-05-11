@@ -18,7 +18,7 @@ export class Bullet extends GObject.MovableObject {
 	}
 	
 	interactWithEnemy(enemy) {
-		if (!this.isIntersectWith(enemy) || enemy.hp == 0)
+		if (!this.isIntersectWith(enemy) || enemy.hp == 0 || this.isNeedToRemove())
 			return;
 		
 		enemy.damage(this._damage);
