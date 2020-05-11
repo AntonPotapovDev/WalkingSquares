@@ -116,5 +116,10 @@ export class Game {
 		let spawnedEnemies = this._enemySpawner.spawned();
 		for (let enemy of spawnedEnemies)
 			this._enemies.push(enemy);
+		
+		if (this._player.hp == 0) {
+			this._enemySpawner.stop();
+			this._weaponSpawner.stop();
+		}
 	}
 }
