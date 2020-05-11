@@ -20,6 +20,7 @@ export class HpValues {
 
 export class DamageValues {
 	static enemyDamage = 1;
+	static bulletDamage = 10;
 }
 
 export class TimeValues {

@@ -4,7 +4,7 @@ import * as Constants from '/js/constants.js';
 export class Enemy extends GObject.Unit {
 	constructor() {
 		super();
-		this.hp = Constants.HpValues;
+		this.hp = Constants.HpValues.enemyHP;
 		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
 		this._radius = Constants.PhisicalValues.enemyRadius;
 		
@@ -12,6 +12,13 @@ export class Enemy extends GObject.Unit {
 		let material = new THREE.MeshBasicMaterial({ color: 0x7db08b, side: THREE.DoubleSide });
 		let target = new THREE.Mesh(geometry, material);
 		this.mesh = target;
+	}
+	
+	interactWithPlayer(player) {
+		if (!this.isIntersectWith(player) || player.hp == 0)
+			return;
+		
+		player.damage(Constants.DamageValues.enemyDamage);
 	}
 	
 	update() {

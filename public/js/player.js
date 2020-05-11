@@ -62,4 +62,11 @@ export class Player extends GObject.Unit {
 		}
 		this._control.mouseClicksHandled();
 	}
+	
+	interactWithItem(item) {
+		if (!this.isIntersectWith(item) || this.hp == 0)
+			return;
+		
+		item.pick(this);
+	}
 }

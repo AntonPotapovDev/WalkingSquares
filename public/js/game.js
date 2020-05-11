@@ -50,11 +50,10 @@ export class Game {
 	
 	_updateItems() {
 		for (let i = 0; i < this._items.length; i++) {
-			if (!this._player.isIntersectWith(this._items[i]))
+			this._player.interactWithItem(this._items[i]);
+			if (this._items[i].isValid())
 				continue;
 
-			let item = this._items[i].pick();
-			this._player.weapon = item;
 			this._gameScene.remove(this._items[i]);
 			this._items.splice(i, 1);
 			i--;
@@ -77,7 +76,9 @@ export class Game {
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
 
-				if (!bullet.isIntersectWith(target))
+				bullet.interactWithEnemy(target);
+				
+				if (target.hp != 0)
 					continue;
 
 				this._gameScene.remove(target);
@@ -100,9 +101,7 @@ export class Game {
 			target.update();
 			target.lookAt(this._player.position());
 			
-			if (this._player.isIntersectWith(target) && this._player.hp != 0) {
-				this._player.damage(Constants.DamageValues.enemyDamage);
-			}
+			target.interactWithPlayer(this._player);
 			
 			if (target.position().length > this._gameZoneRadius) {
 				this._gameScene.remove(target);

@@ -6,6 +6,7 @@ export class Bullet extends GObject.MovableObject {
 		super();
 		this.speed = Constants.PhisicalValues.bulletSpeed;
 		this._radius = Constants.PhisicalValues.bulletRadius;
+		this._damage = Constants.DamageValues.bulletDamage;
 
 		let geometry = new THREE.PlaneGeometry(5, 10);
 		let material = new THREE.MeshBasicMaterial({ color: 0xfff000, side: THREE.DoubleSide });
@@ -14,6 +15,13 @@ export class Bullet extends GObject.MovableObject {
 		this.mesh = blast;
 		
 		this.setLookDirection(direction);
+	}
+	
+	interactWithEnemy(enemy) {
+		if (!this.isIntersectWith(enemy) || enemy.hp == 0)
+			return;
+		
+		enemy.damage(this._damage);
 	}
 	
 	update() {
