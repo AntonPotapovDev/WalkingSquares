@@ -44,6 +44,7 @@ export class Medkit extends Item {
 		super();
 		this.mesh = Visual.Meshes.medkitMesh();
 		this._health = Constants.HpValues.medkitHP;
+		setTimeout(() => { this.remove(); }, Constants.TimeValues.medkitLifetime);
 	}
 	
 	pick(picker) {

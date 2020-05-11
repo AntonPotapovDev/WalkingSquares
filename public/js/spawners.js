@@ -85,14 +85,15 @@ export class ItemSpawner extends Spawner {
 			return;
 		
 		setTimeout(() => {
-			let position = this._calcSpawnPosition();
 			
-			let kit = new Items.Medkit();
-			this._gameScene.add(kit);
-			kit.moveTo(position);
-			this._spawned.push(kit);
-			
-			this._weaponSpawnTimeout -= Constants.TimeValues.medkitSpawnTimeoutDecrease;
+			if (Math.random() < Constants.Chances.medkitSpawnChance) {
+				let position = this._calcSpawnPosition();
+				
+				let kit = new Items.Medkit();
+				this._gameScene.add(kit);
+				kit.moveTo(position);
+				this._spawned.push(kit);
+			}
 			
 			this._spawnMedkit();
 		}, this._medkitSpawnTimeout);
