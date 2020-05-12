@@ -11,6 +11,7 @@ export class TextObject {
 
 export class DomTextObject extends TextObject {
 	constructor(font, size, color, text) {
+		super();
 		this._dom = document.createElement('div');
 		this._dom.style.position = 'absolute';
 		this._dom.style.top = '100px';
@@ -56,16 +57,18 @@ export class TextRendererBase {
 
 export class DomTextRenderer extends TextRendererBase {
 	constructor() {
+		super();
 		this._textObjects = [];
 		this._defaultFont = null;
 		this._defaultSize = null;
 	}
 	
 	addText(text, color, x, y) {
-		let text = new DomTextObject(this._defaultFont, this._defaultSize, color, text);
-		text.moveTo(x, y);
-		this._textObjects.push(text);
-		document.body.appendChild(text.dom());
+		let textObj = new DomTextObject(this._defaultFont, this._defaultSize, color, text);
+		textObj.moveTo({x: x, y: y});
+		this._textObjects.push(textObj);
+		document.body.appendChild(textObj.dom());
+		return textObj;
 	}
 	
 	setFont(font) {
@@ -73,7 +76,7 @@ export class DomTextRenderer extends TextRendererBase {
 	}
 	
 	setSize(size) {
-		this._defaultSize = size.toString() + 'px';
+		this._defaultSize = size;
 	}
 	
 	update() {
