@@ -26,7 +26,7 @@ export class ItemSpawner extends Spawner {
 		super(gameScene);
 		this._weaponsToSpawn = [];
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
-		this._medkitSpawnTimeout = Constants.TimeValues.medkitSpawnTimeout;
+		this._medkitSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned = []
 	}
 	
@@ -59,7 +59,7 @@ export class ItemSpawner extends Spawner {
 	
 	_spawn() {
 		this._spawnWeapon();
-		this._spawnMedkit();
+		this._spawnItem();
 	}
 	
 	_spawnWeapon() {
@@ -80,7 +80,7 @@ export class ItemSpawner extends Spawner {
 		}, this._weaponSpawnTimeout);
 	}
 	
-	_spawnMedkit() {
+	_spawnItem() {
 		if (this._needToStop)
 			return;
 		
@@ -97,7 +97,7 @@ export class ItemSpawner extends Spawner {
 				this._spawned.push(item);
 			}
 			
-			this._spawnMedkit();
+			this._spawnItem();
 		}, this._medkitSpawnTimeout);
 	}
 }
