@@ -43,5 +43,5 @@ export class SystemValues {
 }
 
 export class Chances {
-	static medkitSpawnChance = 0.4;
+	static itemSpawnChange = 0.4 
 }
