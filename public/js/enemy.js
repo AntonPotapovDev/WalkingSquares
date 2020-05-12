@@ -14,11 +14,11 @@ export class Enemy extends GObject.Unit {
 		this.mesh = Visual.Meshes.enemyMesh();
 	}
 	
-	interactWithPlayer(player) {
-		if (!this.isIntersectWith(player) || player.hp == 0)
+	interactWithTarget(target) {
+		if (!this.isIntersectWith(target) || target.hp == 0)
 			return;
 		
-		player.damage(Constants.DamageValues.enemyDamage);
+		target.damage(Constants.DamageValues.enemyDamage);
 	}
 	
 	damage(dp) {

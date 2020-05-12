@@ -11,7 +11,7 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
-		this._targets = [];
+		this._drops = [];
 		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
 		this._aiInfo = null;
@@ -26,9 +26,7 @@ export class Game {
 		this._player = new Player(this._control, new Weapon.Pistol());
 		this._gameScene.add(this._player);
 		
-		this._targets.push(this._player);
-		
-		this._aiInfo = new AI.AiInfo(this._targets); 
+		this._aiInfo = new AI.AiInfo(this._gameScene); 
 		
 		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
@@ -46,6 +44,7 @@ export class Game {
 		this._updateBullets();
 		this._updateEnemies();
 		this._updateItems();
+		this._updateDrops();
 		this._updateGameObjects();
 		this._gameScene.update();
 		
@@ -65,7 +64,7 @@ export class Game {
 		let dropped = this._player.dropped();
 		for (let i = 0; i < dropped.length; i++) {
 			this._gameScene.add(dropped[i]);
-			this._targets.push(dropped);
+			this._drops.push(dropped[i]);
 		}
 	}
 	
@@ -94,9 +93,14 @@ export class Game {
 		}
 	}
 	
+	_updateDrops() {
+		for (let i = 0; i < this._drops.length; i++) {
+			let drop = this._drops[i];
+			drop.update();
+		}
+	}
+	
 	_updateGameObjects() {
-		//this._aiInfo.update(this._targets);
-		
 		for (let i = 0; i < this._bullets.length; i++) {
 			if (!this._bullets[i].isNeedToRemove())
 				continue;
@@ -118,11 +122,11 @@ export class Game {
 			this._items.splice(i, 1);
 		}
 		
-		for (let i = 0; i < this._targets.length; i++) {
-			if (!this._targets[i].isNeedToRemove())
+		for (let i = 0; i < this._drops.length; i++) {
+			if (!this._drops[i].isNeedToRemove())
 				continue;
 			
-			this._targets.splice(i, 1);
+			this._drops.splice(i, 1);
 		}
 	}
 	

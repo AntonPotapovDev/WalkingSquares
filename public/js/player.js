@@ -14,6 +14,7 @@ export class Player extends GObject.Unit {
 		this._dropped = [];
 		this._control = control;
 		this.mesh = Visual.Meshes.playerMesh();
+		this._aiPriority = 0.8;
 	}
 	
 	damage(dp) {
@@ -68,6 +69,7 @@ export class Player extends GObject.Unit {
 			let minCount = Math.min(this._control.drops(), this._drops.length);
 			for (let i = 0 ; i < minCount; i++) {
 				let drop = this._drops.shift();
+				drop.moveTo(this.position());
 				this._dropped.push(drop);
 			}
 			

@@ -1,6 +1,6 @@
 export class AiInfo {
-	constructor(targets) {
-		this._targetUnits = targets;
+	constructor(gameScene) {
+		this._targetUnits = gameScene.objects();
 	}
 	
 	closestTarget(from) {
@@ -8,7 +8,7 @@ export class AiInfo {
 		let closestTarget = null;
 		for (let target of this._targetUnits) {
 			let dist = target.distanceTo(from);
-			if (dist < minDist && target.hp != 0) {
+			if (target.aiPriority() > 0 && dist < minDist && target.hp != 0) {
 				minDist = dist;
 				closestTarget = target;
 			}
@@ -66,6 +66,6 @@ export class EnemyAI extends AI {
 		
 		this._agent.moveAlongLookDir();
 		if (this._currentTarget !== null)
-			this._agent.interactWithPlayer(this._currentTarget);
+			this._agent.interactWithTarget(this._currentTarget);
 	}
 }

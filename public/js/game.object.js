@@ -4,6 +4,7 @@ export class GameObject {
 		this.fpsFactor = 1;
 		this._radius = 0;
 		this._needToRemove = false;
+		this._aiPriority = 0;
 	}
 	
 	addToScene(scene) {
@@ -24,6 +25,10 @@ export class GameObject {
 	
 	radius() {
 		return this._radius;
+	}
+	
+	aiPriority() {
+		return this._aiPriority;
 	}
 	
 	isIntersectWith(obj) {

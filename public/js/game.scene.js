@@ -30,6 +30,10 @@ export class GameScene {
 		this._scene.remove(obj.mesh);
 	}
 	
+	objects() {
+		return this._objects;
+	}
+	
 	sizes() {
 		return this._sizes;
 	}

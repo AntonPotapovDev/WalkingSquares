@@ -59,6 +59,7 @@ export class Meat extends Item {
 		super();
 		this.mesh = Visual.Meshes.meatMesh();
 		this.hp = Constants.HpValues.meatHP;
+		this._aiPriority = 0.9;
 	}
 	
 	update() {
