@@ -43,5 +43,5 @@ export class SystemValues {
 }
 
 export class Chances {
-	static itemSpawnChange = 0.4 
+	static itemSpawnChance = 0.6; 
 }
