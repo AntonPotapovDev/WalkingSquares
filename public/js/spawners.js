@@ -89,7 +89,7 @@ export class ItemSpawner extends Spawner {
 			if (Math.random() < Constants.Chances.itemSpawnChance) {
 				let position = this._calcSpawnPosition();
 				
-				let itemsToSpawn = [ new Items.Medkit(), new Items.Meat() ];
+				let itemsToSpawn = [ new Items.Medkit(), new Items.MeatPack() ];
 				
 				let item = itemsToSpawn[Math.floor(Math.random() * itemsToSpawn.length)];
 				this._gameScene.add(item);

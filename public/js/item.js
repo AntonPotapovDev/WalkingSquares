@@ -54,7 +54,7 @@ export class Medkit extends Item {
 	}
 }
 
-export class Meat extends Item {
+export class Meat extends GObject.GameObject {
 	constructor() {
 		super();
 		this.mesh = Visual.Meshes.meatMesh();
@@ -70,9 +70,24 @@ export class Meat extends Item {
 	damage(dp) {
 		this.hp = Math.max(0, this.hp - dp);
 	}
+}
+
+export class MeatPack extends Item {
+	constructor() {
+		super();
+		this.mesh = Visual.Meshes.meatMesh();
+		this._meat = new Meat();
+	}
+	
+	update() {
+		if (this.hp == 0)
+			this.remove();
+	}
 	
 	pick(picker) {
-		picker.addDrop(this);
+		picker.addDrop(this._meat);
+		this._meat = null;
+		this.remove();
 	}
 }
 
