@@ -1,4 +1,4 @@
-import { Bullet } from '/js/bullet.js';
+import { Bullet } from './bullet.js';
 
 export class Weapon {
 	constructor(ammo) {

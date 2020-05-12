@@ -1,7 +1,7 @@
-import { Game } from '/js/game.js';
-import { Control } from '/js/control.js';
-import { GameScene } from '/js/game.scene.js';
-import * as Spawners from '/js/spawners.js';
+import { Game } from './game.js';
+import { Control } from './control.js';
+import { GameScene } from './game.scene.js';
+import * as Spawners from './spawners.js';
 
 function main() {
 	let control = new Control(innerWidth, innerHeight);

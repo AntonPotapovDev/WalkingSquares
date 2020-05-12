@@ -1,4 +1,4 @@
-import * as Constants from '/js/constants.js';
+import * as Constants from './constants.js';
 
 export class GameScene {
 	constructor(width, height) {

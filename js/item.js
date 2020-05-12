@@ -1,6 +1,6 @@
-import * as GObject from '/js/game.object.js';
-import * as Constants from '/js/constants.js';
-import * as Visual from '/js/visual.js';
+import * as GObject from './game.object.js';
+import * as Constants from './constants.js';
+import * as Visual from './visual.js';
 
 export class Item extends GObject.GameObject {
 	constructor() {

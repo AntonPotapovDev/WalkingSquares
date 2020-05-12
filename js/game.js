@@ -1,6 +1,6 @@
-import { Player } from '/js/player.js';
-import * as Weapon from '/js/weapon.js';
-import * as AI from '/js/ai.js'
+import { Player } from './player.js';
+import * as Weapon from './weapon.js';
+import * as AI from './ai.js'
 
 export class Game {
 	constructor(gameScene, control, enemySpawner, itemSpawner) {

@@ -1,4 +1,4 @@
-import * as GObject from '/js/game.object.js';
+import * as GObject from './game.object.js';
 
 let scene = new THREE.Scene();
 let camera = new THREE.OrthographicCamera(innerWidth / - 2, innerWidth / 2, innerHeight / 2, innerHeight / - 2, 1, 1000);
