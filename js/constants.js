@@ -40,8 +40,19 @@ export class TimeValues {
 export class SystemValues {
 	static gameZoneRadiusOffset = 200;
 	static gameZoneRadiusFactor = 0.8;
+	static hudFontSize = 30;
+	static hudX = 50;
+	static hudY = 50;
+	static hudElementsSpace = 5;
+	static hudRightOffset = 160;
 }
 
 export class Chances {
 	static itemSpawnChance = 0.6; 
+}
+
+export class Text {
+	static scoreText = 'Score: ';
+	static healthText = 'Healh: ';
+	static meatText = 'Meat: ';
 }

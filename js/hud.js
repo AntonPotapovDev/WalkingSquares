@@ -1,3 +1,6 @@
+import { SystemValues, Text } from './constants.js';
+import { Colors } from './visual.js';
+
 export class HudModel {
 	constructor() {
 		this._score = 0;
@@ -29,10 +32,10 @@ export class Hud {
 		this._renderer = textRenderer;
 		this._scene = gameScene;
 		this._model = model;
-		this._hudFontSize = 30;
-		this._scoreText = 'Score: ';
-		this._hpText = 'Health: ';
-		this._dropsText = 'Meat: '
+		this._hudFontSize = SystemValues.hudFontSize;
+		this._scoreText = Text.scoreText;
+		this._hpText = Text.healthText;
+		this._dropsText = Text.meatText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
@@ -40,9 +43,18 @@ export class Hud {
 	}
 	
 	_init() {
-		this._score = this._renderer.addText(this._scoreText, this._hudFontSize, '#7db08b', 50, 50);
-		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, '#f20000', this._scene.sizes().width - 210, 50);
-		this._drops = this._renderer.addText(this._dropsText, this._hudFontSize, '#ba5656', this._scene.sizes().width - 210, 85);
+		this._score = this._renderer.addText(this._scoreText, this._hudFontSize, 
+			Colors.stringColor(Colors.enemyColor), 
+			SystemValues.hudX, 
+			SystemValues.hudY);
+		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, 
+			Colors.stringColor(Colors.medkitColor), 
+			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset, 
+			SystemValues.hudY);
+		this._drops = this._renderer.addText(this._dropsText, this._hudFontSize, 
+			Colors.stringColor(Colors.meatColor), 
+			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset, 
+			SystemValues.hudY + this._hudFontSize + SystemValues.hudElementsSpace);
 		this.update();
 	}
 	
