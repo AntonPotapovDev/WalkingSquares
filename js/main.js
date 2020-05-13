@@ -2,7 +2,8 @@ import { Game } from './game.js';
 import { Control } from './control.js';
 import { GameScene } from './game.scene.js';
 import * as Spawners from './spawners.js';
-import * as Text from './text.renderer.js'
+import * as TextRenderer from './text.renderer.js'
+import { Text } from './constants.js';
 
 function main() {
 	let control = new Control(innerWidth, innerHeight);
@@ -14,8 +15,8 @@ function main() {
 	let gameScene = new GameScene(innerWidth, innerHeight);
 	document.body.appendChild(gameScene.domElement());
 	
-	let textRenderer = new Text.DomTextRenderer();
-	textRenderer.setFont('cursive');
+	let textRenderer = new TextRenderer.DomTextRenderer();
+	textRenderer.setFont(Text.mainFont);
 	
 	let enemySpawner = new Spawners.EnemySpawner(gameScene);
 	let itemSpawner = new Spawners.ItemSpawner(gameScene);
