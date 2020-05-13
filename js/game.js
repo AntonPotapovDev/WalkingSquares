@@ -5,7 +5,8 @@ import { Hud, HudModel } from './hud.js'
 
 export class Game {
 	constructor(gameScene, control, enemySpawner, itemSpawner) {
-		this._fpsFactor = 1;
+		this._prevTime = 0;
+		this._currentTime = 0;
 		this._gameScene = gameScene;
 		this._control = control;
 		this._player = null;
@@ -23,6 +24,7 @@ export class Game {
 	
 	start() {
 		this._init();
+		this._prevTime = Date.now();
 		this._gameLoop();
 	}
 	
@@ -52,6 +54,9 @@ export class Game {
 	}
 	
 	_gameLoop() {
+		this._currentTime = Date.now();
+		let fpsFactor = (this._currentTime - this._prevTime) / 1000;
+		
 		this._control.update();
 		
 		if (this._hud !== null)
@@ -59,9 +64,9 @@ export class Game {
 		
 		this._updateSpawners();
 		
-		this._updatePlayer();
-		this._updateBullets();
-		this._updateEnemies();
+		this._updatePlayer(fpsFactor);
+		this._updateBullets(fpsFactor);
+		this._updateEnemies(fpsFactor);
 		this._updateItems();
 		this._updateDrops();
 		this._updateGameObjects();
@@ -70,10 +75,12 @@ export class Game {
 		requestAnimationFrame(this._gameLoop.bind(this));
 		let renderer = this._gameScene.renderer();
 		renderer.render();
+		
+		this._prevTime = this._currentTime;
 	}
 	
-	_updatePlayer() {
-		this._player.update();
+	_updatePlayer(fpsFactor) {
+		this._player.update(fpsFactor);
 		let bullets = this._player.bullets();
 		for (let i = 0; i < bullets.length; i++) {
 			this._gameScene.add(bullets[i]);
@@ -92,10 +99,10 @@ export class Game {
 			this._player.interactWithItem(this._items[i]);
 	}
 	
-	_updateBullets() {
+	_updateBullets(fpsFactor) {
 		for (let i = 0; i < this._bullets.length; i++) {
 			let bullet = this._bullets[i];
-			bullet.update();
+			bullet.update(fpsFactor);
 			
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
@@ -105,10 +112,10 @@ export class Game {
 		}
 	}
 	
-	_updateEnemies() {
+	_updateEnemies(fpsFactor) {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
-			target.update();
+			target.update(fpsFactor);
 		}
 	}
 	

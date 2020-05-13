@@ -27,7 +27,8 @@ export class Enemy extends GObject.Unit {
 			this.remove();
 	}
 	
-	update() {
+	update(fpsFactor) {
+		super.update(fpsFactor);
 		this._ai.update();
 	}
 }

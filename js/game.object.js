@@ -1,10 +1,10 @@
 export class GameObject {
 	constructor() {
 		this.mesh = null;
-		this.fpsFactor = 1;
 		this._radius = 0;
 		this._needToRemove = false;
 		this._aiPriority = 0;
+		this._fpsFactor = 1;
 	}
 	
 	addToScene(scene) {
@@ -46,7 +46,9 @@ export class GameObject {
 		this.mesh.position.y = vec.y;
 	}
 	
-	update() {}
+	update(fpsFactor) {
+		this._fpsFactor = fpsFactor;
+	}
 }
 
 export class MovableObject extends GameObject {
@@ -64,8 +66,9 @@ export class MovableObject extends GameObject {
 			x = x / length;
 			y = y / length;
 		}
-		this.mesh.position.x += this.fpsFactor * this.speed * x;
-		this.mesh.position.y += this.fpsFactor * this.speed * y;
+		
+		this.mesh.position.x += this._fpsFactor * this.speed * x;
+		this.mesh.position.y += this._fpsFactor * this.speed * y;
 	}
 	
 	moveAlongLookDir() {

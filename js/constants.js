@@ -1,13 +1,13 @@
 export class PhisicalValues {
-	static playerSpeed     = 10;
-	static deadPlayerSpeed = 3;
+	static playerSpeed     = 500;
+	static deadPlayerSpeed = 150;
 	static playerRadius    = 25;
 	
-	static enemyBaseSpeed   = 2;
-	static enemySpeedFactor = 3;
+	static enemyBaseSpeed   = 100;
+	static enemySpeedFactor = 150;
 	static enemyRadius = 25;
 	
-	static bulletSpeed  = 20;
+	static bulletSpeed  = 1000;
 	static bulletRadius = 5;
 	
 	static itemRadius = 10;

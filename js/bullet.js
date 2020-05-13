@@ -27,7 +27,8 @@ export class Bullet extends GObject.MovableObject {
 		this.remove();
 	}
 	
-	update() {
+	update(fpsFactor) {
+		super.update(fpsFactor);
 		this.moveAlongLookDir();
 	}
 }

@@ -67,7 +67,8 @@ export class Player extends GObject.Unit {
 		this.mesh.material.color.b = normalColor.b + diff.b * percent;
 	}
 	
-	update() {
+	update(fpsFactor) {
+		super.update(fpsFactor);
 		if (this.hp > 0) {
 			
 			this._updateColor();
