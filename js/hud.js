@@ -24,7 +24,7 @@ export class HudModel {
 	}
 }
 
-export class Hud() {
+export class Hud {
 	constructor(textRenderer, gameScene, model) {
 		this._renderer = textRenderer;
 		this._scene = gameScene;
@@ -39,11 +39,11 @@ export class Hud() {
 	}
 	
 	_init() {
-		this._scene.setFont('Arial');
-		this._scene.setSize(20);
-		this._score = this._renderer.addText(this._scoreText, '#fff', 100, 100);
-		this._hp = this._renderer.addText(this._hpText, '#fff', this._scene.sizes().width - 100, 100);
-		this._drops = this._renderer.addText(this._dropsText, '#fff', this._scene.sizes().width - 100, 200);
+		this._renderer.setFont('cursive');
+		this._renderer.setSize(20);
+		this._score = this._renderer.addText(this._scoreText, '#ffc800', 50, 50);
+		this._hp = this._renderer.addText(this._hpText, '#f20000', this._scene.sizes().width - 150, 50);
+		this._drops = this._renderer.addText(this._dropsText, '#ba5656', this._scene.sizes().width - 150, 75);
 		this.update();
 	}
 	
