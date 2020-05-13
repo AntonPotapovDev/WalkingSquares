@@ -40,6 +40,9 @@ export class Hud {
 		this._hp = null;
 		this._drops = null;
 		this._init();
+		this._scoreValue = 0;
+		this._hpValue = 0;
+		this._dropsValue = 0;
 	}
 	
 	_init() {
@@ -59,8 +62,21 @@ export class Hud {
 	}
 	
 	update() {
-		this._score.setText(this._scoreText + this._model.score());
-		this._hp.setText(this._hpText + this._model.hp());
-		this._drops.setText(this._dropsText + this._model.drops());
+		let newScore = this._model.score();
+		let newHp = this._model.hp();
+		let newDrops = this._model.drops();
+		
+		if (newScore != this._scoreValue) {
+			this._scoreValue = newScore;
+			this._score.setText(this._scoreText + newScore);
+		}
+		if (newHp != this._hpValue) {
+			this._hpValue = newHp;
+			this._hp.setText(this._hpText + newHp);
+		}
+		if (newDrops != this._dropsValue) {
+			this._dropsValue = newDrops;
+			this._drops.setText(this._dropsText + newDrops);
+		}
 	}
 }
