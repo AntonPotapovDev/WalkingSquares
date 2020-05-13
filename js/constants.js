@@ -53,6 +53,6 @@ export class Chances {
 
 export class Text {
 	static scoreText = 'Score: ';
-	static healthText = 'Healh: ';
+	static healthText = 'Health: ';
 	static meatText = 'Meat: ';
 }
