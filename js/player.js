@@ -72,6 +72,7 @@ export class Player extends GObject.Unit {
 		if (this.hp > 0) {
 			
 			this._updateColor();
+			this.weapon.update(fpsFactor);
 			
 			let minCount = Math.min(this._control.drops(), this._drops.length);
 			for (let i = 0 ; i < minCount; i++) {

@@ -3,7 +3,8 @@ import { Bullet } from './bullet.js';
 export class Weapon {
 	constructor(ammo) {
 		this._ammo = ammo;
-		this._could_down = 0;
+		this._coolDown = 0;
+		this._timePassed = 0;
 		this._ready = true;
 		this._owner = null;
 	}
@@ -12,23 +13,27 @@ export class Weapon {
 		this._owner = owner;
 	}
 	
+	update(fpsFactor) {
+		this._timePassed += fpsFactor;
+		if (this._timePassed < this._coolDown)
+			return;
+		
+		this._timePassed = 0;
+		this._ready = true;
+	}
+	
 	use() {
 		if (!this._ready)
 			return;
 		// infinite ammo
 		//this._ammo = Math.max(0, this._ammo - 1);
-		this._couldDown();
-	}
-	
-	_couldDown() {
-		setTimeout(() => { this._ready = true; }, this._could_down);
 	}
 }
 
 export class Pistol extends Weapon {
 	constructor() {
 		super(100);
-		this._could_down = 300;
+		this._coolDown = 0.3;
 	}
 	
 	use(position, direction) {
@@ -46,7 +51,7 @@ export class Pistol extends Weapon {
 export class Shotgun extends Weapon {
 	constructor() {
 		super(100);
-		this._could_down = 600;
+		this._coolDown = 0.6;
 	}
 	
 	use(position, direction) {
@@ -74,7 +79,7 @@ export class Shotgun extends Weapon {
 export class SubmachineGun extends Weapon {
 	constructor() {
 		super(100);
-		this._could_down = 100;
+		this._coolDown = 0.1;
 	}
 	
 	use(position, direction) {
