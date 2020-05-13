@@ -29,6 +29,7 @@ export class Hud {
 		this._renderer = textRenderer;
 		this._scene = gameScene;
 		this._model = model;
+		this._hudFontSize = 30;
 		this._scoreText = 'Score: ';
 		this._hpText = 'Health: ';
 		this._dropsText = 'Meat: '
@@ -40,10 +41,9 @@ export class Hud {
 	
 	_init() {
 		this._renderer.setFont('cursive');
-		this._renderer.setSize(30);
-		this._score = this._renderer.addText(this._scoreText, '#7db08b', 50, 50);
-		this._hp = this._renderer.addText(this._hpText, '#f20000', this._scene.sizes().width - 170, 50);
-		this._drops = this._renderer.addText(this._dropsText, '#ba5656', this._scene.sizes().width - 170, 85);
+		this._score = this._renderer.addText(this._scoreText, this._hudFontSize, '#7db08b', 50, 50);
+		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, '#f20000', this._scene.sizes().width - 170, 50);
+		this._drops = this._renderer.addText(this._dropsText, this._hudFontSize, '#ba5656', this._scene.sizes().width - 170, 85);
 		this.update();
 	}
 	

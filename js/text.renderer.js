@@ -42,13 +42,10 @@ export class DomTextObject extends TextObject {
 }
 
 export class TextRendererBase {
-	addText(text, color, x, y) {
+	addText(text, size, color, x, y) {
 	}
 	
 	setFont(font) {
-	}
-	
-	setSize(size) {
 	}
 	
 	update() {
@@ -60,11 +57,10 @@ export class DomTextRenderer extends TextRendererBase {
 		super();
 		this._textObjects = [];
 		this._defaultFont = null;
-		this._defaultSize = null;
 	}
 	
-	addText(text, color, x, y) {
-		let textObj = new DomTextObject(this._defaultFont, this._defaultSize, color, text);
+	addText(text, size, color, x, y) {
+		let textObj = new DomTextObject(this._defaultFont, size, color, text);
 		textObj.moveTo({x: x, y: y});
 		this._textObjects.push(textObj);
 		document.body.appendChild(textObj.dom());
@@ -73,10 +69,6 @@ export class DomTextRenderer extends TextRendererBase {
 	
 	setFont(font) {
 		this._defaultFont = font;
-	}
-	
-	setSize(size) {
-		this._defaultSize = size;
 	}
 	
 	update() {
