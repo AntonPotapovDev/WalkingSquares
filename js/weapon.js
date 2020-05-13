@@ -5,6 +5,11 @@ export class Weapon {
 		this._ammo = ammo;
 		this._could_down = 0;
 		this._ready = true;
+		this._owner = null;
+	}
+	
+	setOwner(owner) {
+		this._owner = owner;
 	}
 	
 	use() {
@@ -33,7 +38,7 @@ export class Pistol extends Weapon {
 		
 		this._ready = false;
 		let bullet = [];
-		bullet.push(new Bullet(position, direction));
+		bullet.push(new Bullet(position, direction, this._owner));
 		return bullet;
 	}
 }
@@ -57,7 +62,7 @@ export class Shotgun extends Weapon {
 		let angle = -spreadAngle / 2;
 		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
-			let bullet = new Bullet(position, dir);
+			let bullet = new Bullet(position, dir, this._owner);
 			bullets.push(bullet);
 			angle += delta;
 		}
@@ -81,7 +86,7 @@ export class SubmachineGun extends Weapon {
 		let spreadAngle = 0.1;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
-		let bullet = new Bullet(position, dir);
+		let bullet = new Bullet(position, dir, this._owner);
 		
 		return [ bullet ];
 	}

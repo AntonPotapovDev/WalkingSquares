@@ -40,7 +40,6 @@ export class Hud {
 	}
 	
 	_init() {
-		this._renderer.setFont('cursive');
 		this._score = this._renderer.addText(this._scoreText, this._hudFontSize, '#7db08b', 50, 50);
 		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, '#f20000', this._scene.sizes().width - 170, 50);
 		this._drops = this._renderer.addText(this._dropsText, this._hudFontSize, '#ba5656', this._scene.sizes().width - 170, 85);

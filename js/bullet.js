@@ -3,11 +3,12 @@ import * as Constants from './constants.js';
 import * as Visual from './visual.js';
 
 export class Bullet extends GObject.MovableObject {
-	constructor(position, direction) {
+	constructor(position, direction, owner) {
 		super();
 		this.speed = Constants.PhisicalValues.bulletSpeed;
 		this._radius = Constants.PhisicalValues.bulletRadius;
 		this._damage = Constants.DamageValues.bulletDamage;
+		this._owner = owner;
 
 		this.mesh = Visual.Meshes.bulletMesh();
 		this.mesh.position.x = position.x;
@@ -21,6 +22,8 @@ export class Bullet extends GObject.MovableObject {
 			return;
 		
 		enemy.damage(this._damage);
+		if (this._owner !== null && enemy.hp == 0)
+			this._owner.score++;
 		this.remove();
 	}
 	

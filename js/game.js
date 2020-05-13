@@ -1,6 +1,7 @@
 import { Player } from './player.js';
 import * as Weapon from './weapon.js';
 import * as AI from './ai.js'
+import { Hud, HudModel } from './hud.js'
 
 export class Game {
 	constructor(gameScene, control, enemySpawner, itemSpawner) {
@@ -15,6 +16,9 @@ export class Game {
 		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
 		this._aiInfo = null;
+		this._textRenderer = null;
+		this._hud = null;
+		this._statistic = null;
 	}
 	
 	start() {
@@ -22,8 +26,14 @@ export class Game {
 		this._gameLoop();
 	}
 	
+	setTextRenderer(renderer) {
+		this._textRenderer = renderer;
+	}
+	
 	_init() {
-		this._player = new Player(this._control, new Weapon.Pistol());
+		let startWeapon = new Weapon.Pistol();
+		this._player = new Player(this._control, startWeapon);
+		startWeapon.setOwner(this._player);
 		this._gameScene.add(this._player);
 		
 		this._aiInfo = new AI.AiInfo(this._gameScene); 
@@ -31,12 +41,21 @@ export class Game {
 		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
 		
+		if (this._textRenderer !== null) {
+			this._statistic = new HudModel();
+			this._player.setStatistic(this._statistic);
+			this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
+		}
+		
 		this._enemySpawner.start();
 		this._itemSpawner.start();
 	}
 	
 	_gameLoop() {
 		this._control.update();
+		
+		if (this._hud !== null)
+			this._hud.update();
 		
 		this._updateSpawners();
 		

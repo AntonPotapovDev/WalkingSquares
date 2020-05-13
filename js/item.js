@@ -30,6 +30,7 @@ export class WeaponBox extends Item {
 	
 	pick(picker) {
 		picker.weapon = this._weapon;
+		picker.weapon.setOwner(picker);
 		this._weapon = null;
 		this.remove();
 	}

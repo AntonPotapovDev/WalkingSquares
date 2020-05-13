@@ -15,6 +15,12 @@ export class Player extends GObject.Unit {
 		this._control = control;
 		this.mesh = Visual.Meshes.playerMesh();
 		this._aiPriority = 0.8;
+		this.score = 0;
+		this._statistic = null;
+	}
+	
+	setStatistic(statistic) {
+		this._statistic = statistic;
 	}
 	
 	damage(dp) {
@@ -90,6 +96,9 @@ export class Player extends GObject.Unit {
 			this.moveAlongLookDir();
 		}
 		this._control.mouseClicksHandled();
+		
+		if (this._statistic !== null)
+			this._statistic.update(this.score, this.hp, this._drops.length);
 	}
 	
 	interactWithItem(item) {
