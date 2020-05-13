@@ -40,10 +40,10 @@ export class Hud {
 	
 	_init() {
 		this._renderer.setFont('cursive');
-		this._renderer.setSize(20);
-		this._score = this._renderer.addText(this._scoreText, '#ffc800', 50, 50);
-		this._hp = this._renderer.addText(this._hpText, '#f20000', this._scene.sizes().width - 150, 50);
-		this._drops = this._renderer.addText(this._dropsText, '#ba5656', this._scene.sizes().width - 150, 75);
+		this._renderer.setSize(30);
+		this._score = this._renderer.addText(this._scoreText, '#7db08b', 50, 50);
+		this._hp = this._renderer.addText(this._hpText, '#f20000', this._scene.sizes().width - 170, 50);
+		this._drops = this._renderer.addText(this._dropsText, '#ba5656', this._scene.sizes().width - 170, 85);
 		this.update();
 	}
 	
