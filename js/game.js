@@ -67,9 +67,9 @@ export class Game {
 		this._updatePlayer(fpsFactor);
 		this._updateBullets(fpsFactor);
 		this._updateEnemies(fpsFactor);
-		this._updateItems();
-		this._updateDrops();
-		this._updateGameObjects();
+		this._updateItems(fpsFactor);
+		this._updateDrops(fpsFactor);
+		this._clearObjects();
 		this._gameScene.update();
 		
 		requestAnimationFrame(this._gameLoop.bind(this));
@@ -94,9 +94,11 @@ export class Game {
 		}
 	}
 	
-	_updateItems() {
-		for (let i = 0; i < this._items.length; i++)
+	_updateItems(fpsFactor) {
+		for (let i = 0; i < this._items.length; i++) {
+			this._items[i].update(fpsFactor);
 			this._player.interactWithItem(this._items[i]);
+		}
 	}
 	
 	_updateBullets(fpsFactor) {
@@ -119,14 +121,14 @@ export class Game {
 		}
 	}
 	
-	_updateDrops() {
+	_updateDrops(fpsFactor) {
 		for (let i = 0; i < this._drops.length; i++) {
 			let drop = this._drops[i];
-			drop.update();
+			drop.update(fpsFactor);
 		}
 	}
 	
-	_updateGameObjects() {
+	_clearObjects() {
 		for (let i = 0; i < this._bullets.length; i++) {
 			if (!this._bullets[i].isNeedToRemove())
 				continue;

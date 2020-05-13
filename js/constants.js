@@ -34,7 +34,7 @@ export class TimeValues {
 	static weaponSpawnTimeoutDecrease = 30;
 	
 	static itemSpawnTimeout = 15;
-	static medkitLifetime = 5 * 1000;
+	static medkitLifetime = 5;
 }
 
 export class SystemValues {
