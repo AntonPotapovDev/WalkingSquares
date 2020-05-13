@@ -62,7 +62,7 @@ export class Game {
 		if (this._hud !== null)
 			this._hud.update();
 		
-		this._updateSpawners();
+		this._updateSpawners(fpsFactor);
 		
 		this._updatePlayer(fpsFactor);
 		this._updateBullets(fpsFactor);
@@ -156,7 +156,8 @@ export class Game {
 		}
 	}
 	
-	_updateSpawners() {
+	_updateSpawners(fpsFactor) {
+		this._itemSpawner.update(fpsFactor);
 		let spawnedItems = this._itemSpawner.spawned();
 		for (let item of spawnedItems)
 			this._items.push(item);

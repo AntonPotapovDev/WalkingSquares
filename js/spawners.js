@@ -7,9 +7,13 @@ export class Spawner {
 	constructor(gameScene) {
 		this._gameScene = gameScene;
 		this._needToStop = true;
+		this._timePassedWeapons = 0;
+		this._timePassedItems = 0;
 	}
 	
-	update() {
+	update(fpsFactor) {
+		this._timePassedWeapons += fpsFactor;
+		this._timePassedItems += fpsFactor;
 	}
 	
 	start() {
@@ -26,17 +30,26 @@ export class ItemSpawner extends Spawner {
 		super(gameScene);
 		this._weaponsToSpawn = [];
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
-		this._medkitSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
+		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned = []
 	}
 	
-	update() {
+	update(fpsFactor) {
+		super.update(fpsFactor);
 		
+		if (this._timePassedItems >= this._itemSpawnTimeout) {
+			this._spawnItem();
+			this._timePassedItems = 0;
+		}
+		
+		if (this._timePassedWeapons >= this._weaponSpawnTimeout) {
+			this._spawnWeapon();
+			this._timePassedWeapons = 0;
+		}
 	}
 	
 	start() {
 		super.start();
-		this._spawn();
 	}
 	
 	spawned() {
@@ -57,48 +70,29 @@ export class ItemSpawner extends Spawner {
 		return new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * Math.random() * spawnY, 0);
 	}
 	
-	_spawn() {
-		this._spawnWeapon();
-		this._spawnItem();
-	}
-	
 	_spawnWeapon() {
-		if (this._needToStop)
-			return;
+		let position = this._calcSpawnPosition();
 		
-		setTimeout(() => {
-			let position = this._calcSpawnPosition();
-			
-			let box = new Items.WeaponBox(this._weaponsToSpawn.shift());
-			this._gameScene.add(box);
-			box.moveTo(position);
-			this._spawned.push(box);
-			
-			this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
-			if (this._weaponsToSpawn.length > 0)
-				this._spawnWeapon();
-		}, this._weaponSpawnTimeout);
+		let box = new Items.WeaponBox(this._weaponsToSpawn.shift());
+		this._gameScene.add(box);
+		box.moveTo(position);
+		this._spawned.push(box);
+		
+		this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
 	}
 	
 	_spawnItem() {
-		if (this._needToStop)
+		if (Math.random() >= Constants.Chances.itemSpawnChance)
 			return;
+			
+		let position = this._calcSpawnPosition();
 		
-		setTimeout(() => {
-			
-			if (Math.random() < Constants.Chances.itemSpawnChance) {
-				let position = this._calcSpawnPosition();
-				
-				let itemsToSpawn = [ new Items.Medkit(), new Items.MeatPack() ];
-				
-				let item = itemsToSpawn[Math.floor(Math.random() * itemsToSpawn.length)];
-				this._gameScene.add(item);
-				item.moveTo(position);
-				this._spawned.push(item);
-			}
-			
-			this._spawnItem();
-		}, this._medkitSpawnTimeout);
+		let itemsToSpawn = [ new Items.Medkit(), new Items.MeatPack() ];
+		
+		let item = itemsToSpawn[Math.floor(Math.random() * itemsToSpawn.length)];
+		this._gameScene.add(item);
+		item.moveTo(position);
+		this._spawned.push(item);
 	}
 }
 

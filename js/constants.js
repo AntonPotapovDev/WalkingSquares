@@ -30,10 +30,10 @@ export class TimeValues {
 	static enemySpawnDecrease = 2;
 	static minEnemySpawnRate  = 100;
 	
-	static nextWeaponSpawnTimeout = 2 * 60 * 1000;
-	static weaponSpawnTimeoutDecrease = 30 * 1000;
+	static nextWeaponSpawnTimeout = 2 * 60;
+	static weaponSpawnTimeoutDecrease = 30;
 	
-	static itemSpawnTimeout = 15 * 1000;
+	static itemSpawnTimeout = 15;
 	static medkitLifetime = 5 * 1000;
 }
 
