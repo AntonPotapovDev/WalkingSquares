@@ -7,8 +7,6 @@ export class Spawner {
 	constructor(gameScene) {
 		this._gameScene = gameScene;
 		this._needToStop = true;
-		this._timePassedWeapons = 0;
-		this._timePassedItems = 0;
 	}
 	
 	update(fpsFactor) {
@@ -30,6 +28,8 @@ export class ItemSpawner extends Spawner {
 		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned = []
+		this._timePassedWeapons = 0;
+		this._timePassedItems = 0;
 	}
 	
 	update(fpsFactor) {
@@ -75,6 +75,9 @@ export class ItemSpawner extends Spawner {
 	}
 	
 	_spawnWeapon() {
+		if (this._weaponsToSpawn.length == 0)
+			return;
+		
 		let position = this._calcSpawnPosition();
 		
 		let box = new Items.WeaponBox(this._weaponsToSpawn.shift());
