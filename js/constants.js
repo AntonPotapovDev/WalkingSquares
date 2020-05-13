@@ -45,6 +45,7 @@ export class SystemValues {
 	static hudY = 50;
 	static hudElementsSpace = 5;
 	static hudRightOffset = 160;
+	static hudUpdateFreq = 0.25;
 }
 
 export class Chances {

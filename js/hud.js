@@ -43,6 +43,7 @@ export class Hud {
 		this._scoreValue = 0;
 		this._hpValue = 0;
 		this._dropsValue = 0;
+		this._timePassed = 0;
 	}
 	
 	_init() {
@@ -61,7 +62,13 @@ export class Hud {
 		this.update();
 	}
 	
-	update() {
+	update(fpsFactor) {
+		this._timePassed += fpsFactor;
+		if (this._timePassed < SystemValues.hudUpdateFreq)
+			return;
+		
+		this._timePassed = 0;
+		
 		let newScore = this._model.score();
 		let newHp = this._model.hp();
 		let newDrops = this._model.drops();

@@ -60,7 +60,7 @@ export class Game {
 		this._control.update();
 		
 		if (this._hud !== null)
-			this._hud.update();
+			this._hud.update(fpsFactor);
 		
 		this._updateSpawners(fpsFactor);
 		
