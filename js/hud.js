@@ -72,7 +72,7 @@ export class Hud {
 		}
 		if (newHp != this._hpValue) {
 			this._hpValue = newHp;
-			this._hp.setText(this._hpText + newHp);
+			this._hp.setText(this._hpText + Math.floor(newHp));
 		}
 		if (newDrops != this._dropsValue) {
 			this._dropsValue = newDrops;

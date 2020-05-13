@@ -18,7 +18,7 @@ export class Enemy extends GObject.Unit {
 		if (!this.isIntersectWith(target) || target.hp == 0)
 			return;
 		
-		target.damage(Constants.DamageValues.enemyDamage);
+		target.damage(Constants.DamageValues.enemyDamage * this._fpsFactor);
 	}
 	
 	damage(dp) {
