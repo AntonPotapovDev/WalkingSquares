@@ -12,8 +12,6 @@ export class Spawner {
 	}
 	
 	update(fpsFactor) {
-		this._timePassedWeapons += fpsFactor;
-		this._timePassedItems += fpsFactor;
 	}
 	
 	start() {
@@ -35,7 +33,11 @@ export class ItemSpawner extends Spawner {
 	}
 	
 	update(fpsFactor) {
-		super.update(fpsFactor);
+		if (this._needToStop)
+			return;
+		
+		this._timePassedWeapons += fpsFactor;
+		this._timePassedItems += fpsFactor;
 		
 		if (this._timePassedItems >= this._itemSpawnTimeout) {
 			this._spawnItem();
@@ -50,6 +52,8 @@ export class ItemSpawner extends Spawner {
 	
 	start() {
 		super.start();
+		this._timePassedWeapons = 0;
+		this._timePassedItems = 0;
 	}
 	
 	spawned() {
@@ -101,16 +105,25 @@ export class EnemySpawner extends Spawner {
 		super(gameScene);
 		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
 		this._spawned = [];
+		this._timePassed = 0;
 		this._aiInfo = null;
 	}
 	
-	update() {
+	update(fpsFactor) {
+		if (this._needToStop)
+			return;
 		
+		this._timePassed += fpsFactor;
+		
+		if (this._timePassed >= this._spawnRate) {
+			this._spawn();
+			this._timePassed = 0;
+		}
 	}
 	
 	start() {
 		super.start();
-		this._spawn();
+		this._timePassed = 0;
 	}
 	
 	spawned() {
@@ -124,31 +137,24 @@ export class EnemySpawner extends Spawner {
 	}
 	
 	_spawn() {
-		if (this._needToStop)
-			return;
+		let factor1 = Math.random() > 0.5 ? -1 : 1;
+		let factor2 = Math.random() > 0.5 ? -1 : 1;
+		let position = null;
 		
-		setTimeout(() => {
-			let factor1 = Math.random() > 0.5 ? -1 : 1;
-			let factor2 = Math.random() > 0.5 ? -1 : 1;
-			let position = null;
-			
-			let spawnX = this._gameScene.sizes().width / 2 + Constants.SystemValues.gameZoneRadiusOffset;
-			let spawnY = this._gameScene.sizes().height / 2 + Constants.SystemValues.gameZoneRadiusOffset;
-			if (Math.random() > 0.5)
-				position = new THREE.Vector3(factor1 * spawnX, factor2 * Math.random() * spawnY, 0);
-			else
-				position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
-			
-			let ai = new AI.EnemyAI(this._aiInfo);
-			let enemy = new Enemy(ai);
-			enemy.moveTo(position);
-			this._gameScene.add(enemy);
-			this._spawned.push(enemy);
-			
-			this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, 
-				this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
-			
-			this._spawn();
-		}, this._spawnRate);
+		let spawnX = this._gameScene.sizes().width / 2 + Constants.SystemValues.gameZoneRadiusOffset;
+		let spawnY = this._gameScene.sizes().height / 2 + Constants.SystemValues.gameZoneRadiusOffset;
+		if (Math.random() > 0.5)
+			position = new THREE.Vector3(factor1 * spawnX, factor2 * Math.random() * spawnY, 0);
+		else
+			position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
+		
+		let ai = new AI.EnemyAI(this._aiInfo);
+		let enemy = new Enemy(ai);
+		enemy.moveTo(position);
+		this._gameScene.add(enemy);
+		this._spawned.push(enemy);
+		
+		this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, 
+			this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
 	}
 }

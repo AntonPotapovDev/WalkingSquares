@@ -162,6 +162,7 @@ export class Game {
 		for (let item of spawnedItems)
 			this._items.push(item);
 		
+		this._enemySpawner.update(fpsFactor);
 		let spawnedEnemies = this._enemySpawner.spawned();
 		for (let enemy of spawnedEnemies)
 			this._enemies.push(enemy);

@@ -26,9 +26,9 @@ export class DamageValues {
 }
 
 export class TimeValues {
-	static baseEnemySpawnRate = 1000;
-	static enemySpawnDecrease = 2;
-	static minEnemySpawnRate  = 100;
+	static baseEnemySpawnRate = 1;
+	static enemySpawnDecrease = 0.002;
+	static minEnemySpawnRate  = 0.1;
 	
 	static nextWeaponSpawnTimeout = 2 * 60;
 	static weaponSpawnTimeoutDecrease = 30;
