@@ -14,7 +14,9 @@ export class Weapon {
 	}
 	
 	update(fpsFactor) {
-		this._timePassed += fpsFactor;
+		if (!this._ready)
+			this._timePassed += fpsFactor;
+		
 		if (this._timePassed < this._coolDown)
 			return;
 		
