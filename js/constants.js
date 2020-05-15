@@ -25,6 +25,18 @@ export class DamageValues {
 	static bulletDamage = 10;
 }
 
+export class WeaponCoolDown {
+	static pistolCool  = 0.3;
+	static shotgunCool = 0.6;
+	static submachineGunCool = 0.1;
+}
+
+export class WeaponAmmo {
+	static pistolAmmo = 100;
+	static shotgunAmmo = 100;
+	static submachineGunAmmo = 100;
+}
+
 export class TimeValues {
 	static baseEnemySpawnRate = 1;
 	static enemySpawnDecrease = 0.002;

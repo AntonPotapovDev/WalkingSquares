@@ -1,8 +1,9 @@
 import { Bullet } from './bullet.js';
+import { WeaponCoolDown, WeaponAmmo } from './constants.js';
 
 export class Weapon {
-	constructor(ammo) {
-		this._ammo = ammo;
+	constructor() {
+		this._ammo = 0;
 		this._coolDown = 0;
 		this._timePassed = 0;
 		this._ready = true;
@@ -34,8 +35,9 @@ export class Weapon {
 
 export class Pistol extends Weapon {
 	constructor() {
-		super(100);
-		this._coolDown = 0.3;
+		super();
+		this._ammo = WeaponAmmo.pistolAmmo;
+		this._coolDown = WeaponCoolDown.pistolCool;
 	}
 	
 	use(position, direction) {
@@ -52,8 +54,9 @@ export class Pistol extends Weapon {
 
 export class Shotgun extends Weapon {
 	constructor() {
-		super(100);
-		this._coolDown = 0.6;
+		super();
+		this._ammo = WeaponAmmo.shotgunAmmo;
+		this._coolDown = WeaponCoolDown.shotgunCool;
 	}
 	
 	use(position, direction) {
@@ -80,8 +83,9 @@ export class Shotgun extends Weapon {
 
 export class SubmachineGun extends Weapon {
 	constructor() {
-		super(100);
-		this._coolDown = 0.1;
+		super();
+		this._ammo = WeaponAmmo.submachineGunAmmo;
+		this._coolDown = WeaponCoolDown.submachineCool;
 	}
 	
 	use(position, direction) {
