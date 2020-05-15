@@ -102,3 +102,25 @@ export class SubmachineGun extends Weapon {
 		return [ bullet ];
 	}
 }
+
+export class Minigun extends Weapon {
+	constructor() {
+		super();
+		this._ammo = WeaponAmmo.minigunAmmo;
+		this._coolDown = WeaponCoolDown.minigunCool;
+	}
+	
+		use(position, direction) {
+		super.use();
+		if (!this._ready || this._ammo == 0)
+			return [];
+		
+		this._ready = false;
+		let spreadAngle = 0.2;
+		let factor = Math.random() > 0.5 ? 1 : -1;
+		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
+		let bullet = new Bullet(position, dir, this._owner);
+		
+		return [ bullet ];
+	}
+}

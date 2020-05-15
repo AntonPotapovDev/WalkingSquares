@@ -34,12 +34,14 @@ export class WeaponCoolDown {
 	static pistolCool  = 0.3;
 	static shotgunCool = 0.6;
 	static submachineGunCool = 0.1;
+	static minigunCool = 0.1;
 }
 
 export class WeaponAmmo {
 	static pistolAmmo = 100;
 	static shotgunAmmo = 100;
 	static submachineGunAmmo = 100;
+	static minigunAmmo = 100;
 }
 
 export class TimeValues {
