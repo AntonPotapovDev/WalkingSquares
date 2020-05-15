@@ -8,7 +8,7 @@ export class PhisicalValues {
 	static defaultEnemyRadius = 25;
 	
 	static fatEnemyBaseSpeed  = 70;
-	static fatEnemyRadius = 40;
+	static fatEnemyRadius = 27.5;
 	
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;

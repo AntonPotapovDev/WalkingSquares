@@ -23,7 +23,7 @@ function makeMesh(width, height, color, zIndex = 0) {
 export class Meshes {
 	static playerMesh() { return makeMesh(50, 50, Colors.playerColor, 1); }
 	static defaultEnemyMesh()  { return makeMesh(50, 50, Colors.enemyColor, 2); }
-	static fatEnemyMesh()  { return makeMesh(80, 80, Colors.enemyColor, 2); }
+	static fatEnemyMesh()  { return makeMesh(55, 55, Colors.enemyColor, 2); }
 	static bulletMesh() { return makeMesh(5, 10, Colors.bulletColor); }
 	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor); }
 	static medkitMesh() { return makeMesh(20, 20, Colors.medkitColor); }
