@@ -18,6 +18,7 @@ export class DomTextObject extends TextObject {
 		this._dom.style.left = '100px';
 		this._dom.style.zIndex = '100';
 		this._dom.style.userSelect = 'None';
+		this._dom.style.fontSmooth = '4em';
 		this._dom.style.fontFamily = font;
 		this._dom.style.color = color;
 		this._dom.style.fontSize = size.toString() + 'px';
