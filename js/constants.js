@@ -67,6 +67,7 @@ export class SystemValues {
 
 export class Chances {
 	static itemSpawnChance = 0.6; 
+	static fatEnemySpawnChance = 0.1;
 }
 
 export class Text {

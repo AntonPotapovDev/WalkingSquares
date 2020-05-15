@@ -152,7 +152,8 @@ export class EnemySpawner extends Spawner {
 			position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
 		
 		let ai = new AI.EnemyAI(this._aiInfo);
-		let enemy = new DefaultEnemy(ai);
+		let spawnFatBoy = Math.random() <= Constants.Chances.fatEnemySpawnChance;
+		let enemy = spawnFatBoy ? new FatEnemy(ai) : new DefaultEnemy(ai);
 		enemy.moveTo(position);
 		this._gameScene.add(enemy);
 		this._spawned.push(enemy);
