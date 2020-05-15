@@ -7,11 +7,6 @@ export class Enemy extends GObject.Unit {
 		super();
 		this._ai = ai;
 		this._ai.setAgent(this);
-		this.hp = Constants.HpValues.enemyHP;
-		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
-		this._radius = Constants.PhisicalValues.enemyRadius;
-		
-		this.mesh = Visual.Meshes.enemyMesh();
 	}
 	
 	interactWithTarget(target) {
@@ -31,4 +26,19 @@ export class Enemy extends GObject.Unit {
 		super.update(fpsFactor);
 		this._ai.update();
 	}
+}
+
+export class DefaultEnemy extends Enemy {
+	constructor(ai) {
+		super(ai);
+		this.hp = Constants.HpValues.enemyHP;
+		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
+		this._radius = Constants.PhisicalValues.enemyRadius;
+		
+		this.mesh = Visual.Meshes.enemyMesh();
+	}
+}
+
+export class FatEnemy {
+	
 }

@@ -1,6 +1,6 @@
 import * as Constants from './constants.js';
 import * as Items from './item.js';
-import { Enemy } from './enemy.js';
+import { DefaultEnemy, FatEnemy } from './enemy.js';
 import * as AI from './ai.js';
 
 export class Spawner {
@@ -152,7 +152,7 @@ export class EnemySpawner extends Spawner {
 			position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
 		
 		let ai = new AI.EnemyAI(this._aiInfo);
-		let enemy = new Enemy(ai);
+		let enemy = new DefaultEnemy(ai);
 		enemy.moveTo(position);
 		this._gameScene.add(enemy);
 		this._spawned.push(enemy);
