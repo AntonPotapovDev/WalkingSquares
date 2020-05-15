@@ -48,7 +48,7 @@ export class Hud {
 	
 	_init() {
 		this._score = this._renderer.addText(this._scoreText, this._hudFontSize, 
-			Colors.stringColor(Colors.enemyColor), 
+			Colors.stringColor(Colors.defaultEnemyColor), 
 			SystemValues.hudX, 
 			SystemValues.hudY);
 		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, 

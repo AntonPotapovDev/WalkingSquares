@@ -26,7 +26,7 @@ export class Player extends GObject.Unit {
 	damage(dp) {
 		super.damage(dp);
 		if (this.hp == 0) {
-			this.mesh.material.color.copy(new THREE.Color(Visual.Colors.enemyColor));
+			this.mesh.material.color.copy(new THREE.Color(Visual.Colors.defaultEnemyColor));
 			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
 		}
 	}
