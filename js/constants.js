@@ -7,7 +7,7 @@ export class PhisicalValues {
 	static enemySpeedFactor = 150;
 	static enemyRadius = 25;
 	
-	static bulletSpeed  = 1000;
+	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
 	
 	static itemRadius = 10;
