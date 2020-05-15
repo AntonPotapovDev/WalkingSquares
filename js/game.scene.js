@@ -5,7 +5,7 @@ export class GameScene {
 		this._scene = new THREE.Scene();
 		this._camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 1000);
 		this._camera.position.z = 1;
-		this._renderer = new THREE.WebGLRenderer();
+		this._renderer = new THREE.WebGLRenderer({ antialias: true });
 		this._renderer.setSize(width, height);
 		this._sizes = { width: width, height: height };
 		this._gameZoneRadius = Math.max(width, height)
