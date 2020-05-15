@@ -7,6 +7,9 @@ export class PhisicalValues {
 	static defaultEnemySpeedFactor = 150;
 	static defaultEnemyRadius = 25;
 	
+	static fatEnemyBaseSpeed  = 70;
+	static fatEnemyRadius = 40;
+	
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
 	
@@ -15,15 +18,16 @@ export class PhisicalValues {
 
 export class HpValues {
 	static playerHp = 100;
-	static defaultEnemyHP  = 1;
-	static fatEnemyHP = 5;
+	static defaultEnemyHP = 1;
+	static fatEnemyHP = 15;
 	static medkitHP = 20;
 	static meatHP = 250;
 }
 
 export class DamageValues {
 	static defaultEnemyDamage = 50;
-	static bulletDamage = 10;
+	static fatEnemyDamage = 80;
+	static bulletDamage = 5;
 }
 
 export class WeaponCoolDown {

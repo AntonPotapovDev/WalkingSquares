@@ -41,6 +41,14 @@ export class DefaultEnemy extends Enemy {
 	}
 }
 
-export class FatEnemy {
-	
+export class FatEnemy extends Enemy {
+	constructor(ai) {
+		super(ai);
+		this.hp = Constants.HpValues.fatEnemyHP;
+		this._damage = Constants.DamageValues.fatEnemyDamage;
+		this.speed = Constants.PhisicalValues.fatEnemyBaseSpeed;
+		this._radius = Constants.PhisicalValues.fatEnemyRadius;
+		
+		this.mesh = Visual.Meshes.fatEnemyMesh();
+	}
 }
