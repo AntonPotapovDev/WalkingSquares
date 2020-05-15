@@ -7,13 +7,14 @@ export class Enemy extends GObject.Unit {
 		super();
 		this._ai = ai;
 		this._ai.setAgent(this);
+		this._damage = 0
 	}
 	
 	interactWithTarget(target) {
 		if (!this.isIntersectWith(target) || target.hp == 0)
 			return;
 		
-		target.damage(Constants.DamageValues.enemyDamage * this._fpsFactor);
+		target.damage(this._damage * this._fpsFactor);
 	}
 	
 	damage(dp) {
@@ -31,11 +32,12 @@ export class Enemy extends GObject.Unit {
 export class DefaultEnemy extends Enemy {
 	constructor(ai) {
 		super(ai);
-		this.hp = Constants.HpValues.enemyHP;
-		this.speed = Constants.PhisicalValues.enemyBaseSpeed + Constants.PhisicalValues.enemySpeedFactor * Math.random();
-		this._radius = Constants.PhisicalValues.enemyRadius;
+		this.hp = Constants.HpValues.defaultEnemyHP;
+		this._damage = Constants.DamageValues.defaultEnemyDamage;
+		this.speed = Constants.PhisicalValues.defaultEnemyBaseSpeed + Constants.PhisicalValues.defaultEnemySpeedFactor * Math.random();
+		this._radius = Constants.PhisicalValues.defaultEnemyRadius;
 		
-		this.mesh = Visual.Meshes.enemyMesh();
+		this.mesh = Visual.Meshes.defaultEnemyMesh();
 	}
 }
 
