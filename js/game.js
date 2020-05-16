@@ -41,7 +41,7 @@ export class Game {
 		this._aiInfo = new AI.AiInfo(this._gameScene); 
 		
 		this._enemySpawner.setAiInfo(this._aiInfo);
-		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun() ]);
+		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun(), new Weapon.Minigun() ]);
 		
 		if (this._textRenderer !== null) {
 			this._statistic = new HudModel();

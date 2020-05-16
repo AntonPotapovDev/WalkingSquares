@@ -50,7 +50,7 @@ export class TimeValues {
 	static minEnemySpawnRate  = 0.1;
 	
 	static nextWeaponSpawnTimeout = 2 * 60;
-	static weaponSpawnTimeoutDecrease = 30;
+	static weaponSpawnTimeoutDecrease = 40;
 	
 	static itemSpawnTimeout = 15;
 	static medkitLifetime = 5;
