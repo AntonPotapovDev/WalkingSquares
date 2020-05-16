@@ -4,6 +4,7 @@ import { GameScene } from './game.scene.js';
 import * as Spawners from './spawners.js';
 import * as TextRenderer from './text.renderer.js'
 import { Text } from './constants.js';
+import { TextureLoader } from './visual.js';
 
 function main() {
 	let control = new Control(innerWidth, innerHeight);
@@ -25,7 +26,9 @@ function main() {
 	
 	let game = new Game(gameScene, control, enemySpawner, itemSpawner);
 	game.setTextRenderer(textRenderer);
-	game.start();
+	
+	let textureLoader = new TextureLoader();
+	textureLoader.loadTextures(game.start.bind(game));
 }
 
 main();
