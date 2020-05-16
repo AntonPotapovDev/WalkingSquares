@@ -89,16 +89,10 @@ export class Player extends GObject.Unit {
 			let mouse = this._control.mouse();
 			this.lookAt(mouse);
 			
-			if (this.weapon.isHoldable() && this._control.isMouseDown()) {
-				let bullets = this.fire();
-				this._bullets = this._bullets.concat(bullets);
-			}
-			else {
-				for (let i = 0; i < this._control.mouseClicks(); i++) {
-					let bullets = this.fire();
-					this._bullets = this._bullets.concat(bullets);
-				}	
-			}
+			let shotCount = this.weapon.isHoldable() ? (this._control.isMouseDown() ? 1 : 0) : this._control.mouseClicks();
+			for (let i = 0; i < shotCount; i++)
+				this._bullets = this._bullets.concat(this.fire());
+				
 		}
 		else {
 			this.moveAlongLookDir();
