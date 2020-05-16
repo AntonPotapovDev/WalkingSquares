@@ -73,7 +73,7 @@ export class Chances {
 }
 
 export class Text {
-	static mainFont    = 'cursive';
+	static mainFont    = 'Impact';
 	static scoreText  = 'Score: ';
 	static healthText = 'Health: ';
 	static meatText   = 'Meat: ';
