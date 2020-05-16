@@ -19,7 +19,7 @@ export class PhisicalValues {
 export class HpValues {
 	static playerHp = 100;
 	static defaultEnemyHP = 1;
-	static fatEnemyHP = 4;
+	static fatEnemyHP = 3;
 	static medkitHP = 20;
 	static meatHP = 250;
 }
