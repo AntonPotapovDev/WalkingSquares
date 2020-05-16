@@ -37,8 +37,10 @@ export class TextureLoader {
 	}
 	
 	loadTextures(callback) {
-		if (textureMap.length == 0)
+		if (textureMap.length == 0) {
 			callback();
+			return;
+		}
 		this._load(0, callback);
 	}
 
