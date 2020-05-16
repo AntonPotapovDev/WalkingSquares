@@ -1,8 +1,10 @@
 import * as Constants from './constants.js';
+import { Colors } from './visual.js';
 
 export class GameScene {
 	constructor(width, height) {
 		this._scene = new THREE.Scene();
+		this._scene.background = new THREE.Color(Colors.backgroundColor);
 		this._camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 1000);
 		this._camera.position.z = 1;
 		this._renderer = new THREE.WebGLRenderer({ antialias: true });

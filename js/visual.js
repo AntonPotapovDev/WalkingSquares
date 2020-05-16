@@ -7,6 +7,7 @@ export class Colors {
 	static weaponBoxColor  = 0xe07122;
 	static medkitColor = 0xf20000;
 	static meatColor = 0xba5656;
+	static backgroundColor = 0x303030;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);
