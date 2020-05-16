@@ -23,6 +23,10 @@ export class Control {
 		return this._mouseClickCount;
 	}
 	
+	isMouseDown() {
+		return this._isMouseDown;
+	}
+	
 	drops() {
 		return this._dropCount;
 	}

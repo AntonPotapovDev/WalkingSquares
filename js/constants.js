@@ -34,7 +34,7 @@ export class WeaponCoolDown {
 	static pistolCool  = 0.3;
 	static shotgunCool = 0.6;
 	static submachineGunCool = 0.1;
-	static minigunCool = 0.1;
+	static minigunCool = 0.04;
 }
 
 export class WeaponAmmo {

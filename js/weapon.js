@@ -8,10 +8,19 @@ export class Weapon {
 		this._timePassed = 0;
 		this._ready = true;
 		this._owner = null;
+		this._isHoldable = false;
 	}
 	
 	setOwner(owner) {
 		this._owner = owner;
+	}
+	
+	isHoldable() {
+		return this._isHoldable;
+	}
+	
+	coolDown() {
+		return this._coolDown;
 	}
 	
 	update(fpsFactor) {
@@ -85,7 +94,8 @@ export class SubmachineGun extends Weapon {
 	constructor() {
 		super();
 		this._ammo = WeaponAmmo.submachineGunAmmo;
-		this._coolDown = WeaponCoolDown.submachineCool;
+		this._isHoldable = true;
+		this._coolDown = WeaponCoolDown.submachineGunCool;
 	}
 	
 	use(position, direction) {
@@ -107,16 +117,17 @@ export class Minigun extends Weapon {
 	constructor() {
 		super();
 		this._ammo = WeaponAmmo.minigunAmmo;
+		this._isHoldable = true;
 		this._coolDown = WeaponCoolDown.minigunCool;
 	}
 	
-		use(position, direction) {
+	use(position, direction) {
 		super.use();
 		if (!this._ready || this._ammo == 0)
 			return [];
 		
 		this._ready = false;
-		let spreadAngle = 0.2;
+		let spreadAngle = 0.15;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
 		let bullet = new Bullet(position, dir, this._owner);

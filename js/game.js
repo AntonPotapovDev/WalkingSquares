@@ -33,7 +33,7 @@ export class Game {
 	}
 	
 	_init() {
-		let startWeapon = new Weapon.Pistol();
+		let startWeapon = new Weapon.Minigun();
 		this._player = new Player(this._control, startWeapon);
 		startWeapon.setOwner(this._player);
 		this._gameScene.add(this._player);
