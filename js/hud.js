@@ -42,13 +42,16 @@ export class Hud {
 		this._scoreText = Text.scoreText;
 		this._hpText = Text.healthText;
 		this._dropsText = Text.meatText;
+		this._weaponNameText = Text.weaponNameText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
+		this._weaponName = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
 		this._dropsValue = 0;
+		this._weaponNameValue = '';
 		this._timePassed = 0;
 	}
 	
@@ -57,6 +60,10 @@ export class Hud {
 			Colors.stringColor(Colors.defaultEnemyColor), 
 			SystemValues.hudX, 
 			SystemValues.hudY);
+		this._weaponName = this._renderer.addText(this._weaponNameText, this._hudFontSize,
+			Colors.stringColor(Colors.weaponBoxColor),
+			SystemValues.hudX,
+			SystemValues.hudY + this._hudFontSize + SystemValues.hudElementsSpace);
 		this._hp = this._renderer.addText(this._hpText, this._hudFontSize, 
 			Colors.stringColor(Colors.medkitColor), 
 			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset, 
@@ -78,6 +85,7 @@ export class Hud {
 		let newScore = this._model.score();
 		let newHp = this._model.hp();
 		let newDrops = this._model.drops();
+		let newWeapon = this._model.weaponName();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -90,6 +98,10 @@ export class Hud {
 		if (newDrops != this._dropsValue) {
 			this._dropsValue = newDrops;
 			this._drops.setText(this._dropsText + newDrops);
+		}
+		if (newWeapon != this._weaponNameValue) {
+			this._weaponNameValue = newWeapon;
+			this._weaponName.setText(this._weaponNameText + newWeapon);
 		}
 	}
 }
