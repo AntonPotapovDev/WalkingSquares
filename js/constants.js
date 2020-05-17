@@ -77,4 +77,8 @@ export class Text {
 	static scoreText  = 'Score: ';
 	static healthText = 'Health: ';
 	static meatText   = 'Meat: ';
+	static pistolName = 'Pistol';
+	static shotgunName = 'Shotgun';
+	static submachineGunName = 'SMG';
+	static minigunName = 'Minigun';
 }
