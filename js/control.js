@@ -8,7 +8,8 @@ export class Control {
 		this._isMouseDown = false;
 		this._mouseClickCount = 0;
 		this._dropCount = 0;
-		this._singlePress = [ "Space" ];
+		this._singlePress = [ "Space", "KeyR" ];
+		this._needToRestart = false;
 	}
 	
 	mouse() {
@@ -31,6 +32,14 @@ export class Control {
 		return this._dropCount;
 	}
 	
+	needToRestart() {
+		return this._needToRestart;
+	}
+	
+	restartHandled() {
+		this._needToRestart = false;
+	}
+	
 	update() {
 		this._moveVector = new THREE.Vector3(0, 0, 0);
 		for (let key in this._keyMap) {
@@ -44,6 +53,7 @@ export class Control {
 			if (key == "KeyA") this._moveVector.x = -1;
 			if (key == "KeyD") this._moveVector.x = 1;
 			if (key == "Space") this._dropCount++;
+			if (key == "KeyR") this._needToRestart = true;
 			
 			if (this._singlePress.includes(key))
 				this._keyMap[key] = false;
