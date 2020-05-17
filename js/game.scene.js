@@ -15,6 +15,13 @@ export class GameScene {
 		this._objects = [];
 	}
 	
+	clear() {
+		for (let obj of this._objects)
+			this.remove(obj);
+		
+		this._objects.length = 0;
+	}
+	
 	domElement() {
 		return this._renderer.domElement;
 	}

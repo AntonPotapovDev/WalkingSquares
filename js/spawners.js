@@ -12,6 +12,9 @@ export class Spawner {
 	update(fpsFactor) {
 	}
 	
+	reset() {
+	}
+	
 	start() {
 		this._needToStop = false;
 	}
@@ -48,6 +51,15 @@ export class ItemSpawner extends Spawner {
 			this._spawnWeapon();
 			this._timePassedWeapons = 0;
 		}
+	}
+	
+	reset() {
+		this._timePassedWeapons = 0;
+		this._timePassedItems = 0;
+		this._weaponsToSpawn.length = 0;
+		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
+		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
+		this._spawned.length = 0;
 	}
 	
 	start() {
@@ -122,6 +134,12 @@ export class EnemySpawner extends Spawner {
 			this._spawn();
 			this._timePassed = 0;
 		}
+	}
+	
+	reset() {
+		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
+		this._spawned.length = 0;
+		this._timePassed = 0;
 	}
 	
 	start() {

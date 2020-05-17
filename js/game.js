@@ -4,7 +4,7 @@ import * as AI from './ai.js'
 import { Hud, HudModel } from './hud.js'
 
 export class Game {
-	constructor(gameScene, control, enemySpawner, itemSpawner) {
+	constructor(gameScene, control, textRenderer, enemySpawner, itemSpawner) {
 		this._prevTime = 0;
 		this._currentTime = 0;
 		this._gameScene = gameScene;
@@ -17,19 +17,15 @@ export class Game {
 		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
 		this._aiInfo = null;
-		this._textRenderer = null;
-		this._hud = null;
-		this._statistic = null;
+		this._textRenderer = textRenderer;
+		this._statistic = new HudModel();
+		this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
 	}
 	
 	start() {
 		this._init();
 		this._prevTime = Date.now();
 		this._gameLoop();
-	}
-	
-	setTextRenderer(renderer) {
-		this._textRenderer = renderer;
 	}
 	
 	_init() {
@@ -43,11 +39,7 @@ export class Game {
 		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun(), new Weapon.Minigun() ]);
 		
-		if (this._textRenderer !== null) {
-			this._statistic = new HudModel();
-			this._player.setStatistic(this._statistic);
-			this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
-		}
+		this._player.setStatistic(this._statistic);
 		
 		this._enemySpawner.start();
 		this._itemSpawner.start();
@@ -59,8 +51,13 @@ export class Game {
 		
 		this._control.update();
 		
-		if (this._hud !== null)
-			this._hud.update(fpsFactor);
+		if (this._control.needToRestart()) {
+			this._resetAll();
+			this._init();
+			this._control.restartHandled();
+		}
+		
+		this._hud.update(fpsFactor);
 		
 		this._updateSpawners(fpsFactor);
 		
@@ -126,6 +123,17 @@ export class Game {
 			let drop = this._drops[i];
 			drop.update(fpsFactor);
 		}
+	}
+	
+	_resetAll() {
+		this._gameScene.clear();
+		this._enemySpawner.stop();
+		this._itemSpawner.stop();
+		this._enemies.length = 0;
+		this._items.length = 0;
+		this._drops.length = 0;
+		this._enemySpawner.reset();
+		this._itemSpawner.reset();
 	}
 	
 	_clearObjects() {

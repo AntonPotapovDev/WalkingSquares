@@ -24,8 +24,7 @@ function main() {
 	let enemySpawner = new Spawners.EnemySpawner(gameScene);
 	let itemSpawner = new Spawners.ItemSpawner(gameScene);
 	
-	let game = new Game(gameScene, control, enemySpawner, itemSpawner);
-	game.setTextRenderer(textRenderer);
+	let game = new Game(gameScene, control, textRenderer, enemySpawner, itemSpawner);
 	
 	let textureLoader = new TextureLoader();
 	textureLoader.loadTextures(game.start.bind(game));
