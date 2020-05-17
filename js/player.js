@@ -100,7 +100,7 @@ export class Player extends GObject.Unit {
 		this._control.mouseClicksHandled();
 		
 		if (this._statistic !== null)
-			this._statistic.update(this.score, this.hp, this._drops.length);
+			this._statistic.update(this.score, this.hp, this._drops.length, this.weapon.name());
 	}
 	
 	interactWithItem(item) {

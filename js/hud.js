@@ -6,12 +6,14 @@ export class HudModel {
 		this._score = 0;
 		this._hp = 0;
 		this._drops = 0;
+		this._weaponName = '';
 	}
 	
-	update(score, hp, drops) {
+	update(score, hp, drops, weaponName) {
 		this._score = score;
 		this._hp = hp;
 		this._drops = drops;
+		this._weaponName = weaponName;
 	}
 	
 	score() {
@@ -24,6 +26,10 @@ export class HudModel {
 	
 	drops() {
 		return this._drops;
+	}
+	
+	weaponName() {
+		return this._weaponName;
 	}
 }
 
