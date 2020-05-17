@@ -39,11 +39,17 @@ export class Weapon {
 		this._ready = true;
 	}
 	
-	use() {
-		if (!this._ready)
-			return;
-		// infinite ammo
+	_shoot(position, direction) {
+	}
+	
+	use(position, direction) {
+		if (!this._ready || this._ammo == 0)
+			return [];
+		
+		this._ready = false;
 		//this._ammo = Math.max(0, this._ammo - 1);
+		
+		return this._shoot(position, direction);
 	}
 }
 
@@ -55,15 +61,8 @@ export class Pistol extends Weapon {
 		this._name = Text.pistolName;
 	}
 	
-	use(position, direction) {
-		super.use();
-		if (!this._ready || this._ammo == 0)
-			return [];
-		
-		this._ready = false;
-		let bullet = [];
-		bullet.push(new Bullet(position, direction, this._owner));
-		return bullet;
+	_shoot(position, direction) {
+		return [ new Bullet(position, direction, this._owner) ];
 	}
 }
 
@@ -75,17 +74,13 @@ export class Shotgun extends Weapon {
 		this._name = Text.shotgunName;
 	}
 	
-	use(position, direction) {
-		super.use();
-		if (!this._ready || this._ammo == 0)
-			return [];
-		
-		this._ready = false;
+	_shoot(position, direction) {
 		let bullets = [];
 		let bulletCount = 4;
 		let spreadAngle = 0.2;
 		let delta = spreadAngle / (bulletCount - 1);
 		let angle = -spreadAngle / 2;
+		
 		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
 			let bullet = new Bullet(position, dir, this._owner);
@@ -106,18 +101,12 @@ export class SubmachineGun extends Weapon {
 		this._name = Text.submachineGunName;
 	}
 	
-	use(position, direction) {
-		super.use();
-		if (!this._ready || this._ammo == 0)
-			return [];
-		
-		this._ready = false;
+	_shoot(position, direction) {
 		let spreadAngle = 0.1;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
-		let bullet = new Bullet(position, dir, this._owner);
 		
-		return [ bullet ];
+		return [ new Bullet(position, dir, this._owner) ];
 	}
 }
 
@@ -130,17 +119,11 @@ export class Minigun extends Weapon {
 		this._name = Text.minigunName;
 	}
 	
-	use(position, direction) {
-		super.use();
-		if (!this._ready || this._ammo == 0)
-			return [];
-		
-		this._ready = false;
+	_shoot(position, direction) {
 		let spreadAngle = 0.15;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
-		let bullet = new Bullet(position, dir, this._owner);
 		
-		return [ bullet ];
+		return [ new Bullet(position, dir, this._owner) ];
 	}
 }
