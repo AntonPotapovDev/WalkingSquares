@@ -74,6 +74,7 @@ export class Text {
 	static healthText = 'Health: ';
 	static meatText   = 'Meat: ';
 	static weaponNameText = 'Weapon: ';
+	static leftEnemiesText = 'Left: ';
 	static pistolName = 'Pistol';
 	static shotgunName = 'Shotgun';
 	static submachineGunName = 'SMG';

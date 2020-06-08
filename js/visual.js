@@ -8,6 +8,7 @@ export class Colors {
 	static medkitColor = 0xf20000;
 	static meatColor = 0xba5656;
 	static backgroundColor = 0x303030;
+	static waveColor = 0xededed;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);

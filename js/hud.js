@@ -9,6 +9,7 @@ export class HudModel {
 		this._weaponName = '';
 		this._left = 0
 		this._wave = 0
+		this._showLeft = false;
 	}
 	
 	update(score, hp, drops, weaponName, waveController) {
@@ -18,6 +19,7 @@ export class HudModel {
 		this._weaponName = weaponName;
 		this._left = waveController.left();
 		this._wave = waveController.currentWave() + 1;
+		this._showLeft = waveController.isWaveActive();
 	}
 	
 	score() {
@@ -35,6 +37,18 @@ export class HudModel {
 	weaponName() {
 		return this._weaponName;
 	}
+	
+	left() {
+		return this._left;
+	}
+	
+	currentWave() {
+		return this._wave;
+	}
+	
+	showLeft() {
+		return this._showLeft;
+	}
 }
 
 export class Hud {
@@ -47,15 +61,19 @@ export class Hud {
 		this._hpText = Text.healthText;
 		this._dropsText = Text.meatText;
 		this._weaponNameText = Text.weaponNameText;
+		this._leftText = Text.leftEnemiesText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
 		this._weaponName = null;
+		this._left = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
 		this._dropsValue = 0;
 		this._weaponNameValue = '';
+		this._leftValue = 0;
+		this._showLeftValue = false;
 		this._timePassed = 0;
 	}
 	
@@ -76,6 +94,10 @@ export class Hud {
 			Colors.stringColor(Colors.meatColor), 
 			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset, 
 			SystemValues.hudY + this._hudFontSize + SystemValues.hudElementsSpace);
+		this._left = this._renderer.addText(this._leftText, this._hudFontSize,
+			Colors.stringColor(Colors.waveColor), 
+			SystemValues.hudX,
+			SystemValues.hudY + this._hudFontSize * 2 + SystemValues.hudElementsSpace * 2);
 		this.update();
 	}
 	
@@ -90,6 +112,8 @@ export class Hud {
 		let newHp = this._model.hp();
 		let newDrops = this._model.drops();
 		let newWeapon = this._model.weaponName();
+		let newLeft = this._model.left();
+		let newShowLeft = this._model.showLeft();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -106,6 +130,12 @@ export class Hud {
 		if (newWeapon != this._weaponNameValue) {
 			this._weaponNameValue = newWeapon;
 			this._weaponName.setText(this._weaponNameText + newWeapon);
+		}
+		if (newLeft != this._leftValue || newShowLeft != this._showLeftValue) {
+			this._leftValue = newLeft;
+			this._showLeftValue = newShowLeft;
+			let text = newShowLeft ? this._leftText + newLeft : '';
+			this._left.setText(text);
 		}
 	}
 }
