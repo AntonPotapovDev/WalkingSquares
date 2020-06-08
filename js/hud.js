@@ -7,13 +7,17 @@ export class HudModel {
 		this._hp = 0;
 		this._drops = 0;
 		this._weaponName = '';
+		this._left = 0
+		this._wave = 0
 	}
 	
-	update(score, hp, drops, weaponName) {
+	update(score, hp, drops, weaponName, waveController) {
 		this._score = score;
 		this._hp = hp;
 		this._drops = drops;
 		this._weaponName = weaponName;
+		this._left = waveController.left();
+		this._wave = waveController.currentWave() + 1;
 	}
 	
 	score() {

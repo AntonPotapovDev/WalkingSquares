@@ -16,11 +16,6 @@ export class Player extends GObject.Unit {
 		this.mesh = Visual.Meshes.playerMesh();
 		this._aiPriority = 0.8;
 		this.score = 0;
-		this._statistic = null;
-	}
-	
-	setStatistic(statistic) {
-		this._statistic = statistic;
 	}
 	
 	damage(dp) {
@@ -45,6 +40,10 @@ export class Player extends GObject.Unit {
 		let dropped = this._dropped.slice();
 		this._dropped.length = 0;
 		return dropped;
+	}
+	
+	dropsCount() {
+		return this._drops.length;
 	}
 	
 	addDrop(drop) {
@@ -98,9 +97,6 @@ export class Player extends GObject.Unit {
 			this.moveAlongLookDir();
 		}
 		this._control.mouseClicksHandled();
-		
-		if (this._statistic !== null)
-			this._statistic.update(this.score, this.hp, this._drops.length, this.weapon.name());
 	}
 	
 	interactWithItem(item) {

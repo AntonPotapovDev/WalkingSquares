@@ -42,8 +42,6 @@ export class Game {
 		this._enemySpawner.setAiInfo(this._aiInfo);
 		this._itemSpawner.setWeaponsToSpawn([ new Weapon.Shotgun(), new Weapon.SubmachineGun(), new Weapon.Minigun() ]);
 		
-		this._player.setStatistic(this._statistic);
-		
 		this._waveController = new WaveController();
 		this._waveController.setSettingList(waveSettings);
 		this._waveController.setEnemyList(this._enemies);
@@ -76,6 +74,9 @@ export class Game {
 		this._updateItems(fpsFactor);
 		this._updateDrops(fpsFactor);
 		this._updateSpawners(fpsFactor);
+		
+		this._statistic.update(this._player.score, this._player.hp, 
+			this._player.dropsCount(), this._player.weapon.name(), this._waveController);
 		
 		this._clearObjects();
 		this._gameScene.update();
