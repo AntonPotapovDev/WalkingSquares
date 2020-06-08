@@ -44,11 +44,7 @@ export class WeaponAmmo {
 	static minigunAmmo = 100;
 }
 
-export class TimeValues {
-	static baseEnemySpawnRate = 1;
-	static enemySpawnDecrease = 0.002;
-	static minEnemySpawnRate  = 0.1;
-	
+export class TimeValues {	
 	static nextWeaponSpawnTimeout = 2 * 60;
 	static weaponSpawnTimeoutDecrease = 40;
 	
