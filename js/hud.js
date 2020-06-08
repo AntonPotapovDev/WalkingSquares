@@ -62,17 +62,20 @@ export class Hud {
 		this._dropsText = Text.meatText;
 		this._weaponNameText = Text.weaponNameText;
 		this._leftText = Text.leftEnemiesText;
+		this._waveText = Text.currentWaveText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
 		this._weaponName = null;
 		this._left = null;
+		this._wave = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
 		this._dropsValue = 0;
 		this._weaponNameValue = '';
 		this._leftValue = 0;
+		this._waveValue = 0;
 		this._showLeftValue = false;
 		this._timePassed = 0;
 	}
@@ -98,6 +101,10 @@ export class Hud {
 			Colors.stringColor(Colors.waveColor), 
 			SystemValues.hudX,
 			SystemValues.hudY + this._hudFontSize * 2 + SystemValues.hudElementsSpace * 2);
+		this._wave = this._renderer.addText(this._waveText, this._hudFontSize,
+			Colors.stringColor(Colors.waveColor), 
+			SystemValues.hudX + this._scene.sizes().width / 2 - 100,
+			SystemValues.hudY);
 		this.update();
 	}
 	
@@ -114,6 +121,7 @@ export class Hud {
 		let newWeapon = this._model.weaponName();
 		let newLeft = this._model.left();
 		let newShowLeft = this._model.showLeft();
+		let newWave = this._model.currentWave();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -133,9 +141,14 @@ export class Hud {
 		}
 		if (newLeft != this._leftValue || newShowLeft != this._showLeftValue) {
 			this._leftValue = newLeft;
-			this._showLeftValue = newShowLeft;
 			let text = newShowLeft ? this._leftText + newLeft : '';
 			this._left.setText(text);
 		}
+		if (newWave != this._waveValue || newShowLeft != this._showLeftValue) {
+			this._waveValue = newWave;
+			let text = newShowLeft ? this._waveText + newWave : '';
+			this._wave.setText(text);
+		}
+		this._showLeftValue = newShowLeft;
 	}
 }
