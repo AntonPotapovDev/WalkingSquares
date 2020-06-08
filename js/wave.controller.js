@@ -3,6 +3,7 @@ class WaveSettings {
 		this.enemyCount = 0;
 		this.enemyTypes = [];
 		this.startTimeout = 0;
+		this.spawnRate = 0;
 	}
 }
 
@@ -11,12 +12,17 @@ class WaveController {
 		this._currentWave = 0;
 		this._settings = [];
 		this._timeToNextWave = 0;
-		this._isActive = false;
+		this._isStarted = false;
 		this._totalSpawned = 0;
+		this._enemies = [];
 	}
 	
 	currentWave() {
 		return this._currentWave + 1;
+	}
+	
+	timeToNextWave() {
+		return this._timeToNextWave;
 	}
 	
 	currentSettings() {
@@ -27,8 +33,21 @@ class WaveController {
 		this._settings = settings;
 	}
 	
+	setEnemyList(enemies) {
+		this._enemies = enemies;
+	}
+	
 	isStarted() {
-		return this._isActive;
+		return this._isStarted;
+	}
+	
+	isWaveActive() {
+		let left = 0;
+		for (let enemy of this._enemies)
+			if (enemy.hp > 0)
+				left++;
+				
+		return left > 0;
 	}
 	
 	totalSpawned() {
@@ -36,19 +55,22 @@ class WaveController {
 	}
 	
 	start() {
-		if (this._settings.length == 0)
+		if (this._isStarted || this._settings.length == 0)
 			return;
 		
-		this._isActive = true;
+		this._isStarted = true;
 		this._timeToNextWave = this._settings[0].startTimeout;
 		this._totalSpawned += this._settings[0].enemyCount;
 	}
 	
 	stop() {
-		this._isActive = false;
+		this._isStarted = false;
 	}
 	
 	update (delta) {
+		if (!this._isStarted)
+			return;
+		
 		this._timeToNextWave -= delta;
 		
 		if (this._timeToNextWave > 0)

@@ -7,9 +7,15 @@ export class Spawner {
 	constructor(gameScene) {
 		this._gameScene = gameScene;
 		this._needToStop = true;
+		this._waveController = null;
 	}
 	
+	setWaveController(waveController) {
+		this._waveController = waveController;
+	}	
+	
 	update(fpsFactor) {
+		this._waveController.update(fpsFactor);
 	}
 	
 	reset() {
@@ -125,6 +131,8 @@ export class EnemySpawner extends Spawner {
 	}
 	
 	update(fpsFactor) {
+		super.update(fpsFactor);
+		
 		if (this._needToStop)
 			return;
 		
