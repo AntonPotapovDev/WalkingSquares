@@ -2,7 +2,8 @@ import { Player } from './player.js';
 import * as Weapon from './weapon.js';
 import * as AI from './ai.js'
 import { Hud, HudModel } from './hud.js'
-import { WaveController, WaveSettings } from './wave.controller.js';
+import { WaveController } from './wave.controller.js';
+import { waveSettings } from './wave.settings.js';
 
 export class Game {
 	constructor(gameScene, control, textRenderer, enemySpawner, itemSpawner) {
@@ -44,8 +45,7 @@ export class Game {
 		this._player.setStatistic(this._statistic);
 		
 		this._waveController = new WaveController();
-		//let waveSettings = [ { enemyCount: 3, startTimeout: 5, spawnRate: 2 } ];
-		//this._waveController.setSettingList(waveSettings);
+		this._waveController.setSettingList(waveSettings);
 		this._waveController.setEnemyList(this._enemies);
 		
 		this._enemySpawner.setWaveController(this._waveController);
