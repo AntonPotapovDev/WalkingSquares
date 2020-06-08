@@ -13,7 +13,7 @@ class WaveController {
 		this._settings = [];
 		this._timeToNextWave = 0;
 		this._isStarted = false;
-		this._totalSpawned = 0;
+		this._left = 0;
 		this._enemies = [];
 	}
 	
@@ -50,8 +50,8 @@ class WaveController {
 		return left > 0;
 	}
 	
-	totalSpawned() {
-		return this._totalSpawned;
+	left() {
+		return this._left;
 	}
 	
 	start() {
@@ -59,8 +59,6 @@ class WaveController {
 			return;
 		
 		this._isStarted = true;
-		this._timeToNextWave = this._settings[0].startTimeout;
-		this._totalSpawned += this._settings[0].enemyCount;
 	}
 	
 	stop() {
@@ -73,6 +71,10 @@ class WaveController {
 		
 		this._timeToNextWave -= delta;
 		
+		for (let enemy of this._enemies)
+			if (enemy.hp <= 0)
+				this._left--;
+		
 		if (this._timeToNextWave > 0)
 			return;
 		
@@ -80,6 +82,6 @@ class WaveController {
 		
 		let waveIndex = Math.min(this._currentWave, this._settings.length - 1);
 		this._timeToNextWave = this._settings[waveIndex].startTimeout;
-		this._totalSpawned += this._settings[waveIndex].enemyCount;
+		this._left = this._settings[waveIndex].enemyCount;
 	}
 }
