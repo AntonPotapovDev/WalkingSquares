@@ -15,7 +15,6 @@ export class Spawner {
 	}	
 	
 	update(fpsFactor) {
-		this._waveController.update(fpsFactor);
 	}
 	
 	reset() {
@@ -128,6 +127,7 @@ export class EnemySpawner extends Spawner {
 		this._spawned = [];
 		this._timePassed = 0;
 		this._aiInfo = null;
+		this._spawnedCount = 0;
 	}
 	
 	update(fpsFactor) {
@@ -136,18 +136,23 @@ export class EnemySpawner extends Spawner {
 		if (this._needToStop)
 			return;
 		
-		this._timePassed += fpsFactor;
+		if (this._waveController.isWaveActive())
+			this._timePassed += fpsFactor;
+		else
+			this._spawnedCount = 0;
 		
-		if (this._timePassed >= this._spawnRate) {
+		if (this._waveController.isWaveActive()
+			&& this._timePassed >= this._waveController.currentSettings().spawnRate
+			&& this._spawnedCount != this._waveController.currentSettings().enemyCount) {
 			this._spawn();
 			this._timePassed = 0;
 		}
 	}
 	
 	reset() {
-		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
 		this._spawned.length = 0;
 		this._timePassed = 0;
+		this._spawnedCount = 0;
 	}
 	
 	start() {
@@ -183,8 +188,6 @@ export class EnemySpawner extends Spawner {
 		enemy.moveTo(position);
 		this._gameScene.add(enemy);
 		this._spawned.push(enemy);
-		
-		this._spawnRate = Math.max(Constants.TimeValues.minEnemySpawnRate, 
-			this._spawnRate - Constants.TimeValues.enemySpawnDecrease);
+		this._spawnedCount++;
 	}
 }

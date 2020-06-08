@@ -1,4 +1,4 @@
-class WaveSettings {
+export class WaveSettings {
 	constructor() {
 		this.enemyCount = 0;
 		this.enemyTypes = [];
@@ -7,18 +7,19 @@ class WaveSettings {
 	}
 }
 
-class WaveController {
+export class WaveController {
 	constructor() {
-		this._currentWave = 0;
+		this._currentWave = -1;
 		this._settings = [];
 		this._timeToNextWave = 0;
 		this._isStarted = false;
+		this._isWaveActive = false;
 		this._left = 0;
 		this._enemies = [];
 	}
 	
 	currentWave() {
-		return this._currentWave + 1;
+		return this._currentWave;
 	}
 	
 	timeToNextWave() {
@@ -42,12 +43,7 @@ class WaveController {
 	}
 	
 	isWaveActive() {
-		let left = 0;
-		for (let enemy of this._enemies)
-			if (enemy.hp > 0)
-				left++;
-				
-		return left > 0;
+		return this._isWaveActive;
 	}
 	
 	left() {
@@ -65,23 +61,34 @@ class WaveController {
 		this._isStarted = false;
 	}
 	
+	reset() {
+		this._currentWave = -1;
+		this._timeToNextWave = 0;
+		this._isStarted = false;
+		this._isWaveActive = false;
+		this._left = 0;
+	}
+	
 	update (delta) {
 		if (!this._isStarted)
 			return;
-		
-		this._timeToNextWave -= delta;
 		
 		for (let enemy of this._enemies)
 			if (enemy.hp <= 0)
 				this._left--;
 		
-		if (this._timeToNextWave > 0)
-			return;
+		this._isWaveActive = true;
 		
-		this._currentWave++;
-		
-		let waveIndex = Math.min(this._currentWave, this._settings.length - 1);
-		this._timeToNextWave = this._settings[waveIndex].startTimeout;
-		this._left = this._settings[waveIndex].enemyCount;
+		if (this._left <= 0) {
+			this._currentWave++;
+			let waveIndex = Math.min(this._currentWave, this._settings.length - 1);
+			this._timeToNextWave = this._settings[waveIndex].startTimeout;
+			this._left = this._settings[waveIndex].enemyCount;
+			this._isWaveActive = false;
+		}
+		else if (this._timeToNextWave > 0) {
+			this._timeToNextWave -= delta;
+			this._isWaveActive = false;
+		}
 	}
 }

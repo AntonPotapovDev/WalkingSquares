@@ -2,6 +2,7 @@ import { Player } from './player.js';
 import * as Weapon from './weapon.js';
 import * as AI from './ai.js'
 import { Hud, HudModel } from './hud.js'
+import { WaveController, WaveSettings } from './wave.controller.js';
 
 export class Game {
 	constructor(gameScene, control, textRenderer, enemySpawner, itemSpawner) {
@@ -20,6 +21,7 @@ export class Game {
 		this._textRenderer = textRenderer;
 		this._statistic = new HudModel();
 		this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
+		this._waveController = null;
 	}
 	
 	start() {
@@ -41,6 +43,15 @@ export class Game {
 		
 		this._player.setStatistic(this._statistic);
 		
+		this._waveController = new WaveController();
+		//let waveSettings = [ { enemyCount: 3, startTimeout: 5, spawnRate: 2 } ];
+		//this._waveController.setSettingList(waveSettings);
+		this._waveController.setEnemyList(this._enemies);
+		
+		this._enemySpawner.setWaveController(this._waveController);
+		this._itemSpawner.setWaveController(this._waveController);
+		this._waveController.start();
+		
 		this._enemySpawner.start();
 		this._itemSpawner.start();
 	}
@@ -59,13 +70,13 @@ export class Game {
 		
 		this._hud.update(fpsFactor);
 		
-		this._updateSpawners(fpsFactor);
-		
 		this._updatePlayer(fpsFactor);
 		this._updateBullets(fpsFactor);
 		this._updateEnemies(fpsFactor);
 		this._updateItems(fpsFactor);
 		this._updateDrops(fpsFactor);
+		this._updateSpawners(fpsFactor);
+		
 		this._clearObjects();
 		this._gameScene.update();
 		
@@ -134,6 +145,7 @@ export class Game {
 		this._drops.length = 0;
 		this._enemySpawner.reset();
 		this._itemSpawner.reset();
+		this._waveController.reset();
 	}
 	
 	_clearObjects() {
@@ -167,6 +179,8 @@ export class Game {
 	}
 	
 	_updateSpawners(fpsFactor) {
+		this._waveController.update(fpsFactor);
+		
 		this._itemSpawner.update(fpsFactor);
 		let spawnedItems = this._itemSpawner.spawned();
 		for (let item of spawnedItems)
