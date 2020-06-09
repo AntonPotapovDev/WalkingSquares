@@ -32,21 +32,18 @@ export class Spawner {
 export class ItemSpawner extends Spawner {
 	constructor(gameScene) {
 		super(gameScene);
-		this._weaponsToSpawn = [];
-		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned = []
-		this._timePassedWeapons = 0;
 		this._timePassedItems = 0;
 		this._itemSpawned = 0;
 		this._lastWave = 0;
+		this._isWeaponsSpawned = false;
 	}
 	
 	update(fpsFactor) {
 		if (this._needToStop)
 			return;
 		
-		this._timePassedWeapons += fpsFactor;
 		this._timePassedItems += fpsFactor;
 		
 		let newWave = this._waveController.currentWave();
@@ -54,42 +51,39 @@ export class ItemSpawner extends Spawner {
 			this._timePassedItems = 0;
 			this._itemSpawned = 0;
 			this._lastWave = newWave;
+			this._isWeaponsSpawned = false;
+		}
+		
+		if (!this._isWeaponsSpawned) {
+			this._spawnWeapon();
+			this._isWeaponsSpawned = true;
 		}
 		
 		if (this._timePassedItems >= this._itemSpawnTimeout) {
 			this._spawnItem();
 			this._timePassedItems = 0;
 		}
-		
-		if (this._timePassedWeapons >= this._weaponSpawnTimeout) {
-			this._spawnWeapon();
-			this._timePassedWeapons = 0;
-		}
 	}
 	
 	reset() {
-		this._timePassedWeapons = 0;
 		this._timePassedItems = 0;
-		this._weaponsToSpawn.length = 0;
-		this._weaponSpawnTimeout = Constants.TimeValues.nextWeaponSpawnTimeout;
 		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned.length = 0;
+		this._itemSpawned = 0;
+		this._lastWave = 0;
+		this._isWeaponsSpawned = false;
 	}
 	
 	start() {
 		super.start();
-		this._timePassedWeapons = 0;
 		this._timePassedItems = 0;
+		this._isWeaponsSpawned = false;
 	}
 	
 	spawned() {
 		let spawned = this._spawned.slice();
 		this._spawned.length = 0;
 		return spawned;
-	}
-	
-	setWeaponsToSpawn(weapons) {
-		this._weaponsToSpawn = weapons;
 	}
 	
 	_calcSpawnPosition() {
@@ -101,17 +95,18 @@ export class ItemSpawner extends Spawner {
 	}
 	
 	_spawnWeapon() {
-		if (this._weaponsToSpawn.length == 0)
+		let weapons = this._waveController.currentSettings().weapons;
+		if (weapons.length == 0)
 			return;
 		
-		let position = this._calcSpawnPosition();
-		
-		let box = new Items.WeaponBox(this._weaponsToSpawn.shift());
-		this._gameScene.add(box);
-		box.moveTo(position);
-		this._spawned.push(box);
-		
-		this._weaponSpawnTimeout -= Constants.TimeValues.weaponSpawnTimeoutDecrease;
+		for (let weapon of weapons) {
+			let position = this._calcSpawnPosition();
+			
+			let box = new Items.WeaponBox(weapon);
+			this._gameScene.add(box);
+			box.moveTo(position);
+			this._spawned.push(box);
+		}
 	}
 	
 	_spawnItem() {
