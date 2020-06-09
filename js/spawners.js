@@ -38,6 +38,8 @@ export class ItemSpawner extends Spawner {
 		this._spawned = []
 		this._timePassedWeapons = 0;
 		this._timePassedItems = 0;
+		this._itemSpawned = 0;
+		this._lastWave = 0;
 	}
 	
 	update(fpsFactor) {
@@ -46,6 +48,13 @@ export class ItemSpawner extends Spawner {
 		
 		this._timePassedWeapons += fpsFactor;
 		this._timePassedItems += fpsFactor;
+		
+		let newWave = this._waveController.currentWave();
+		if (newWave != this._lastWave) {
+			this._timePassedItems = 0;
+			this._itemSpawned = 0;
+			this._lastWave = newWave;
+		}
 		
 		if (this._timePassedItems >= this._itemSpawnTimeout) {
 			this._spawnItem();
@@ -106,7 +115,8 @@ export class ItemSpawner extends Spawner {
 	}
 	
 	_spawnItem() {
-		if (Math.random() >= Constants.Chances.itemSpawnChance)
+		if (Math.random() >= Constants.Chances.itemSpawnChance ||
+			this._itemSpawned >= this._waveController.currentSettings().maxItems)
 			return;
 			
 		let position = this._calcSpawnPosition();
@@ -117,6 +127,7 @@ export class ItemSpawner extends Spawner {
 		this._gameScene.add(item);
 		item.moveTo(position);
 		this._spawned.push(item);
+		this._itemSpawned++;
 	}
 }
 

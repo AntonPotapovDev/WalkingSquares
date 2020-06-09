@@ -1,9 +1,10 @@
 export class WaveSettings {
 	constructor() {
 		this.enemyCount = 0;
-		this.enemyTypes = [];
 		this.startTimeout = 0;
 		this.spawnRate = 0;
+		this.maxItems = 0;
+		this.weapons = [];
 	}
 }
 
