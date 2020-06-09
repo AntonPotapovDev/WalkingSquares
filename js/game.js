@@ -155,6 +155,7 @@ export class Game {
 				continue;
 			
 			this._bullets.splice(i, 1);
+			i--;
 		}
 		
 		for (let i = 0; i < this._enemies.length; i++) {
@@ -162,6 +163,7 @@ export class Game {
 				continue;
 			
 			this._enemies.splice(i, 1);
+			i--;
 		}
 		
 		for (let i = 0; i < this._items.length; i++) {
@@ -169,6 +171,7 @@ export class Game {
 				continue;
 			
 			this._items.splice(i, 1);
+			i--;
 		}
 		
 		for (let i = 0; i < this._drops.length; i++) {
@@ -176,6 +179,7 @@ export class Game {
 				continue;
 			
 			this._drops.splice(i, 1);
+			i--;
 		}
 	}
 	
