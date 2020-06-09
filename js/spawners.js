@@ -8,11 +8,16 @@ export class Spawner {
 		this._gameScene = gameScene;
 		this._needToStop = true;
 		this._waveController = null;
+		this._chanceController = null;
 	}
 	
 	setWaveController(waveController) {
 		this._waveController = waveController;
-	}	
+	}
+	
+	setChanceController(chanceController) {
+		this._chanceController = chanceController;
+	}
 	
 	update(fpsFactor) {
 	}
@@ -116,9 +121,9 @@ export class ItemSpawner extends Spawner {
 			
 		let position = this._calcSpawnPosition();
 		
-		let itemsToSpawn = [ new Items.Medkit(), new Items.MeatPack() ];
+		let spawnMedkit = Math.random() < this._chanceController.medkitSpawnChance;
 		
-		let item = itemsToSpawn[Math.floor(Math.random() * itemsToSpawn.length)];
+		let item = spawnMedkit ? new Items.Medkit() : new Items.MeatPack();
 		this._gameScene.add(item);
 		item.moveTo(position);
 		this._spawned.push(item);

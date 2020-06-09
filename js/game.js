@@ -4,6 +4,7 @@ import * as AI from './ai.js'
 import { Hud, HudModel } from './hud.js'
 import { WaveController } from './wave.controller.js';
 import { waveSettings } from './wave.settings.js';
+import { ChanceController } from './chance.controller.js';
 
 export class Game {
 	constructor(gameScene, control, textRenderer, enemySpawner, itemSpawner) {
@@ -23,6 +24,7 @@ export class Game {
 		this._statistic = new HudModel();
 		this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
 		this._waveController = null;
+		this._chanceController = null;
 	}
 	
 	start() {
@@ -48,6 +50,11 @@ export class Game {
 		this._enemySpawner.setWaveController(this._waveController);
 		this._itemSpawner.setWaveController(this._waveController);
 		this._waveController.start();
+		
+		this._chanceController = new ChanceController();
+		this._chanceController.setPlayer(this._player);
+		this._enemySpawner.setChanceController(this._chanceController);
+		this._itemSpawner.setChanceController(this._chanceController);
 		
 		this._enemySpawner.start();
 		this._itemSpawner.start();
@@ -184,6 +191,7 @@ export class Game {
 	
 	_updateSpawners(fpsFactor) {
 		this._waveController.update(fpsFactor);
+		this._chanceController.update(fpsFactor);
 		
 		this._itemSpawner.update(fpsFactor);
 		let spawnedItems = this._itemSpawner.spawned();

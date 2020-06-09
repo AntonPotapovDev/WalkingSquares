@@ -8,15 +8,17 @@ export class ChanceController {
 	}
 	
 	update (delta) {
-		if (player.hp == player.maxHp) {
+		let medkit = 0;
+		
+		if (this._player.hp == this._player.maxHp) {
 			medkit = 0;
 		}
-		else if (player.hp > player.maxHp / 2) {
+		else if (this._player.hp > this._player.maxHp / 2) {
 			medkit = Chances.medkitSpawnChance;
 		}
 		else {
 			medkit = Chances.medkitSpawnChance 
-					+ (1 - Chances.medkitSpawnChance) * ((player.maxHp - player.hp) / player.maxHp);
+					+ (1 - Chances.medkitSpawnChance) * ((this._player.maxHp - this._player.hp) / this._player.maxHp);
 		}
 		
 		this.medkitSpawnChance = medkit;
