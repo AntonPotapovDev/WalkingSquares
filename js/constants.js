@@ -44,10 +44,7 @@ export class WeaponAmmo {
 	static minigunAmmo = 100;
 }
 
-export class TimeValues {	
-	static nextWeaponSpawnTimeout = 2 * 60;
-	static weaponSpawnTimeoutDecrease = 40;
-	
+export class TimeValues {
 	static itemSpawnTimeout = 15;
 	static medkitLifetime = 5;
 }
