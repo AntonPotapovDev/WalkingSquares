@@ -76,6 +76,7 @@ export class Text {
 	static weaponNameText = 'Weapon: ';
 	static leftEnemiesText = 'Left: ';
 	static currentWaveText = 'Wave ';
+	static toNextWaveText = 'Next wave in: ';
 	static pistolName = 'Pistol';
 	static shotgunName = 'Shotgun';
 	static submachineGunName = 'SMG';

@@ -9,6 +9,7 @@ export class HudModel {
 		this._weaponName = '';
 		this._left = 0
 		this._wave = 0
+		this._timeToNextWave = 0;
 		this._showLeft = false;
 	}
 	
@@ -20,6 +21,7 @@ export class HudModel {
 		this._left = waveController.left();
 		this._wave = waveController.currentWave() + 1;
 		this._showLeft = waveController.isWaveActive();
+		this._timeToNextWave = waveController.timeToNextWave();
 	}
 	
 	score() {
@@ -49,6 +51,10 @@ export class HudModel {
 	showLeft() {
 		return this._showLeft;
 	}
+	
+	timeToNextWave() {
+		return this._timeToNextWave;
+	}
 }
 
 export class Hud {
@@ -63,12 +69,14 @@ export class Hud {
 		this._weaponNameText = Text.weaponNameText;
 		this._leftText = Text.leftEnemiesText;
 		this._waveText = Text.currentWaveText;
+		this._toNextWaveText = Text.toNextWaveText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
 		this._weaponName = null;
 		this._left = null;
 		this._wave = null;
+		this._timer = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
@@ -76,6 +84,7 @@ export class Hud {
 		this._weaponNameValue = '';
 		this._leftValue = 0;
 		this._waveValue = 0;
+		this._timeToNextValue = 0;
 		this._showLeftValue = false;
 		this._timePassed = 0;
 	}
@@ -105,6 +114,10 @@ export class Hud {
 			Colors.stringColor(Colors.waveColor), 
 			SystemValues.hudX + this._scene.sizes().width / 2 - 100,
 			SystemValues.hudY);
+		this._timer = this._renderer.addText(this._toNextWaveText, this._hudFontSize,
+			Colors.stringColor(Colors.waveColor), 
+			SystemValues.hudX + this._scene.sizes().width / 2 - 150,
+			SystemValues.hudY);
 		this.update();
 	}
 	
@@ -122,6 +135,7 @@ export class Hud {
 		let newLeft = this._model.left();
 		let newShowLeft = this._model.showLeft();
 		let newWave = this._model.currentWave();
+		let newTimeLeft = this._model.timeToNextWave();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -148,6 +162,11 @@ export class Hud {
 			this._waveValue = newWave;
 			let text = newShowLeft ? this._waveText + newWave : '';
 			this._wave.setText(text);
+		}
+		if (newWave != this._timeToNextValue || newShowLeft != this._showLeftValue) {
+			this._timeToNextValue = newTimeLeft;
+			let text = !newShowLeft ? this._toNextWaveText + Math.ceil(newTimeLeft) : '';
+			this._timer.setText(text);
 		}
 		this._showLeftValue = newShowLeft;
 	}
