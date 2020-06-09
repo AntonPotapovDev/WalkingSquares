@@ -47,7 +47,7 @@ export class Medkit extends Item {
 	}
 	
 	pick(picker) {
-		picker.hp += this._health;
+		picker.hp = Math.min(picker.hp + this._health, picker.maxHp);
 		this._health = 0;
 		this.remove();
 	}
