@@ -70,6 +70,7 @@ export class Hud {
 		this._leftText = Text.leftEnemiesText;
 		this._waveText = Text.currentWaveText;
 		this._toNextWaveText = Text.toNextWaveText;
+		this._restartText = Text.restartText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
@@ -77,6 +78,7 @@ export class Hud {
 		this._left = null;
 		this._wave = null;
 		this._timer = null;
+		this._restart = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
@@ -118,12 +120,16 @@ export class Hud {
 			Colors.stringColor(Colors.waveColor), 
 			SystemValues.hudX + this._scene.sizes().width / 2 - 150,
 			SystemValues.hudY);
+		this._restart = this._renderer.addText('', this._hudFontSize * 2,
+			Colors.stringColor(Colors.restartTextColor), 
+			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset * 3, 
+			this._scene.sizes().height - SystemValues.hudY - 100);
 		this.update();
 	}
 	
-	update(fpsFactor) {
+	update(fpsFactor, force = false) {
 		this._timePassed += fpsFactor;
-		if (this._timePassed < SystemValues.hudUpdateFreq)
+		if (this._timePassed < SystemValues.hudUpdateFreq && !force)
 			return;
 		
 		this._timePassed = 0;
@@ -144,6 +150,8 @@ export class Hud {
 		if (newHp != this._hpValue) {
 			this._hpValue = newHp;
 			this._hp.setText(this._hpText + Math.floor(newHp));
+			let restartText = newHp <= 0 ? this._restartText : '';
+			this._restart.setText(restartText);
 		}
 		if (newDrops != this._dropsValue) {
 			this._dropsValue = newDrops;

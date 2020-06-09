@@ -9,6 +9,7 @@ export class Colors {
 	static meatColor = 0xba5656;
 	static backgroundColor = 0x303030;
 	static waveColor = 0xededed;
+	static restartTextColor = 0x9c1c1c;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);

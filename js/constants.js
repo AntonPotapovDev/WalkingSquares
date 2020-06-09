@@ -75,6 +75,7 @@ export class Text {
 	static leftEnemiesText = 'Left: ';
 	static currentWaveText = 'Wave ';
 	static toNextWaveText = 'Next wave in: ';
+	static restartText = 'Press R to restart';
 	static pistolName = 'Pistol';
 	static shotgunName = 'Shotgun';
 	static submachineGunName = 'SMG';
