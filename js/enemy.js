@@ -2,6 +2,7 @@ import * as GObject from './game.object.js';
 import * as Constants from './constants.js';
 import * as Visual from './visual.js';
 import * as AI from './ai.js';
+import { Spittle } from './bullet.js';
 
 export class Enemy extends GObject.Unit {
 	constructor(aiInfo) {
@@ -65,5 +66,24 @@ export class FatEnemy extends Enemy {
 		this._radius = Constants.PhisicalValues.fatEnemyRadius;
 		
 		this.mesh = Visual.Meshes.fatEnemyMesh();
+	}
+}
+
+export class Spitter extends Enemy {
+	constructor(aiInfo) {
+		super(aiInfo);
+		this._ai = new AI.DefaultEnemyAI(aiInfo);
+		this._ai.setAgent(this);
+		this.hp = Constants.HpValues.spitterHP;
+		this._damage = Constants.DamageValues.spitterDamage;
+		this.speed = Constants.PhisicalValues.spitterSpeed;
+		this._radius = Constants.PhisicalValues.spitterRadius;
+		
+		this.mesh = Visual.Meshes.spitterMesh();
+	}
+	
+	rangeAttack() {
+		let spittle = new Spittle(this.position(), this.lookDirection());
+		this._blasts.push(spittle);
 	}
 }

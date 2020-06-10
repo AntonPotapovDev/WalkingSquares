@@ -14,7 +14,10 @@ export class PhisicalValues {
 	static bulletRadius = 5;
 	
 	static spittleSpeed = 1000;
-	static spittleRadius = 15;
+	static spittleRadius = 7.5;
+	
+	static spitterSpeed = 200;
+	static spitterRadius = 25;
 	
 	static itemRadius = 10;
 }
@@ -25,6 +28,7 @@ export class HpValues {
 	static fatEnemyHP = 3;
 	static medkitHP = 20;
 	static meatHP = 250;
+	static spitterHP = 1;
 }
 
 export class DamageValues {
@@ -32,6 +36,7 @@ export class DamageValues {
 	static fatEnemyDamage = 80;
 	static bulletDamage = 1;
 	static spittleDamage = 10;
+	static spitterDamage = 15;
 }
 
 export class WeaponCoolDown {
