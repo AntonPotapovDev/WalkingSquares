@@ -95,6 +95,7 @@ export class Player extends GObject.Unit {
 				
 		}
 		else {
+			this._targetType = GObject.TargetType.NONE;
 			this.moveAlongLookDir();
 		}
 		this._control.mouseClicksHandled();

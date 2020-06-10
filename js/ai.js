@@ -10,7 +10,7 @@ export class AiInfo {
 		let closestTarget = null;
 		for (let target of this._targetUnits) {
 			let dist = target.distanceTo(from);
-			if (target.targetType() != TargetType.NONE && dist < minDist && target.hp != 0) {
+			if (target.targetType() != TargetType.NONE && dist < minDist) {
 				minDist = dist;
 				closestTarget = target;
 			}
