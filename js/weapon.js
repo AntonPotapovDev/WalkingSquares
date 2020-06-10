@@ -62,7 +62,9 @@ export class Pistol extends Weapon {
 	}
 	
 	_shoot(position, direction) {
-		return [ new Bullet(position, direction, this._owner) ];
+		let bullet = new Bullet(position, direction);
+		bullet.setOwner(this._owner);
+		return [ bullet ];
 	}
 }
 
@@ -83,7 +85,8 @@ export class Shotgun extends Weapon {
 		
 		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
-			let bullet = new Bullet(position, dir, this._owner);
+			let bullet = new Bullet(position, dir);
+			bullet.setOwner(this._owner);
 			bullets.push(bullet);
 			angle += delta;
 		}
@@ -105,8 +108,10 @@ export class SubmachineGun extends Weapon {
 		let spreadAngle = 0.1;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
+		let bullet = new Bullet(position, dir);
+		bullet.setOwner(this._owner);
 		
-		return [ new Bullet(position, dir, this._owner) ];
+		return [ bullet ];
 	}
 }
 
@@ -123,7 +128,9 @@ export class Minigun extends Weapon {
 		let spreadAngle = 0.15;
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
+		let bullet = new Bullet(position, dir);
+		bullet.setOwner(this._owner);
 		
-		return [ new Bullet(position, dir, this._owner) ];
+		return [ bullet ];
 	}
 }
