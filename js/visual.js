@@ -10,6 +10,7 @@ export class Colors {
 	static backgroundColor = 0x303030;
 	static waveColor = 0xededed;
 	static restartTextColor = 0x9c1c1c;
+	static spittleColor = 0x4c6e2d;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);
@@ -24,6 +25,7 @@ export class Meshes {
 	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor, null); }
 	static medkitMesh() { return makeMesh(20, 20, Colors.medkitColor, null); }
 	static meatMesh() { return makeMesh(20, 20, Colors.meatColor, null); }
+	static spittleMesh() { return makeMesh(10, 10, Colors.spittleColor, null); }
 }
 
 export class Textures {

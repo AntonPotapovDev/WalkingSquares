@@ -13,6 +13,9 @@ export class PhisicalValues {
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
 	
+	static spittleSpeed = 500;
+	static spittleRadius = 10;
+	
 	static itemRadius = 10;
 }
 
@@ -28,6 +31,7 @@ export class DamageValues {
 	static defaultEnemyDamage = 50;
 	static fatEnemyDamage = 80;
 	static bulletDamage = 1;
+	static spittleDamage = 10;
 }
 
 export class WeaponCoolDown {

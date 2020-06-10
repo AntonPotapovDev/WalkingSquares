@@ -45,3 +45,15 @@ export class Bullet extends Blast {
 		this._placeToStart(position, direction);
 	}
 }
+
+export class Spittle extends Blast {
+	constructor(position, direction) {
+		super();
+		this.speed = Constants.PhisicalValues.spittleSpeed;
+		this._radius = Constants.PhisicalValues.spittleRadius;
+		this._damage = Constants.DamageValues.spittleDamage;
+		
+		this.mesh = Visual.Meshes.spittleMesh();
+		this._placeToStart(position, direction);
+	}
+}
