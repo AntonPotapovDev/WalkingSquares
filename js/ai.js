@@ -44,7 +44,7 @@ export class AI {
 	}
 }
 
-export class EnemyAI extends AI {
+export class DefaultEnemyAI extends AI {
 	constructor(aiInfo) {
 		super(aiInfo);
 		this._currentTarget = null;

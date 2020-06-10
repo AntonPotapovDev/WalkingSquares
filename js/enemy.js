@@ -1,12 +1,13 @@
 import * as GObject from './game.object.js';
 import * as Constants from './constants.js';
 import * as Visual from './visual.js';
+import * as AI from './ai.js';
 
 export class Enemy extends GObject.Unit {
-	constructor(ai) {
+	constructor(aiInfo) {
 		super();
-		this._ai = ai;
-		this._ai.setAgent(this);
+		this._aiInfo = aiInfo
+		this._ai = null;
 		this._damage = 0
 	}
 	
@@ -30,8 +31,10 @@ export class Enemy extends GObject.Unit {
 }
 
 export class DefaultEnemy extends Enemy {
-	constructor(ai) {
-		super(ai);
+	constructor(aiInfo) {
+		super(aiInfo);
+		this._ai = new AI.DefaultEnemyAI(aiInfo);
+		this._ai.setAgent(this);
 		this.hp = Constants.HpValues.defaultEnemyHP;
 		this._damage = Constants.DamageValues.defaultEnemyDamage;
 		this.speed = Constants.PhisicalValues.defaultEnemyBaseSpeed + Constants.PhisicalValues.defaultEnemySpeedFactor * Math.random();
@@ -42,8 +45,10 @@ export class DefaultEnemy extends Enemy {
 }
 
 export class FatEnemy extends Enemy {
-	constructor(ai) {
-		super(ai);
+	constructor(aiInfo) {
+		super(aiInfo);
+		this._ai = new AI.DefaultEnemyAI(aiInfo);
+		this._ai.setAgent(this);
 		this.hp = Constants.HpValues.fatEnemyHP;
 		this._damage = Constants.DamageValues.fatEnemyDamage;
 		this.speed = Constants.PhisicalValues.fatEnemyBaseSpeed;
