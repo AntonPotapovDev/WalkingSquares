@@ -180,6 +180,14 @@ export class Game {
 			i--;
 		}
 		
+		for let i = 0; i < this._enemyBlasts.length; i++) {
+			if (!this._enemyBlasts[i].isNeedToRemove())
+				continue;
+			
+			this._enemyBlasts.splice(i, 1);
+			i--;
+		}
+		
 		for (let i = 0; i < this._enemies.length; i++) {
 			if (!this._enemies[i].isNeedToRemove())
 				continue;
