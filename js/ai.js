@@ -1,4 +1,5 @@
 import { TargetType } from './game.object.js';
+import { TimeValues, AIValues } from './constants.js';
 
 export class AiInfo {
 	constructor(gameScene) {
@@ -69,5 +70,45 @@ export class DefaultEnemyAI extends AI {
 		this._agent.moveAlongLookDir();
 		if (this._currentTarget !== null)
 			this._agent.interactWithTarget(this._currentTarget);
+	}
+}
+
+export class SpitterAI extends AI {
+	constructor(aiInfo) {
+		super(aiInfo);
+		this._currentTarget = null;
+		this._timePassed = 0;
+	}
+	
+	update(fpsFactor) {
+		if (this._agent === null)
+			return;
+		
+		this._timePassed += fpsFactor;
+		
+		let target = this._aiInfo.closestTarget(this._agent);
+		if (target !== null) {
+			let targetType = target.targetType();
+			this._agent.lookAt(target.position());
+			if (targetType == TargetType.FAKE) {
+				this._agent.interactWithTarget(target);
+			}
+			else if (targetType == TargetType.ALIVE) {
+				if (this.distanceTo(target) > AIValues.spittingDistance)
+					this._agent.moveAlongLookDir();
+				else if (this._timePassed >= TimeValues.spittingInterval) {
+					this._agent.rangeAttack();
+					this._timePassed = 0;
+				}
+			}
+		}
+		else if (this._currentTarget !== null) {
+			this._agent.rotate(Math.random() * Math.PI * 2);
+		}
+		else {
+			this._agent.moveAlongLookDir();
+		}
+		
+		this._currentTarget = target;
 	}
 }
