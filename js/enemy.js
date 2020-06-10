@@ -36,7 +36,7 @@ export class Enemy extends GObject.Unit {
 	
 	update(fpsFactor) {
 		super.update(fpsFactor);
-		this._ai.update();
+		this._ai.update(fpsFactor);
 	}
 }
 

@@ -36,7 +36,7 @@ export class AI {
 		this._agent = null;
 	}
 	
-	update() {
+	update(fpsFactor) {
 	}
 	
 	setAgent(agent) {
@@ -50,7 +50,7 @@ export class DefaultEnemyAI extends AI {
 		this._currentTarget = null;
 	}
 	
-	update() {
+	update(fpsFactor) {
 		if (this._agent === null)
 			return;
 		
