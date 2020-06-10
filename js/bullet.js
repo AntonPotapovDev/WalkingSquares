@@ -17,7 +17,7 @@ export class Bullet extends GObject.MovableObject {
 		this.setLookDirection(direction);
 	}
 	
-	interactWithEnemy(enemy) {
+	interactWithTarget(enemy) {
 		if (!this.isIntersectWith(enemy) || enemy.hp == 0 || this.isNeedToRemove())
 			return;
 		

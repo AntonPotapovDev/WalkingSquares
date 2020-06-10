@@ -129,13 +129,13 @@ export class Game {
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
 
-				bullet.interactWithEnemy(target);
+				bullet.interactWithTarget(target);
 			}
 		}
 		
 		for (let i = 0; i < this._enemyBlasts.length; i++) {
 			this._enemyBlasts[i].update(fpsFactor);
-			this._enemyBlasts[i].interactWithPlayer(this._player);
+			this._enemyBlasts[i].interactWithTarget(this._player);
 		}
 	}
 	
