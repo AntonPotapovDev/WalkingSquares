@@ -77,7 +77,7 @@ export class Chances {
 }
 
 export class AIValues {
-	static spittingDistance = 400;
+	static spittingDistance = Math.floor(innerHeight * 0.6);
 }
 
 export class Text {
