@@ -25,7 +25,7 @@ export class Meshes {
 	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor, null); }
 	static medkitMesh() { return makeMesh(20, 20, Colors.medkitColor, null); }
 	static meatMesh() { return makeMesh(20, 20, Colors.meatColor, null); }
-	static spittleMesh() { return makeMesh(10, 10, Colors.spittleColor, null); }
+	static spittleMesh() { return makeMesh(15, 15, Colors.spittleColor, null); }
 }
 
 export class Textures {

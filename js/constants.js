@@ -13,8 +13,8 @@ export class PhisicalValues {
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
 	
-	static spittleSpeed = 500;
-	static spittleRadius = 10;
+	static spittleSpeed = 1000;
+	static spittleRadius = 15;
 	
 	static itemRadius = 10;
 }

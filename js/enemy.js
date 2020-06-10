@@ -23,7 +23,7 @@ export class Enemy extends GObject.Unit {
 	}
 	
 	blasts() {
-		let blasts = this._blasts;
+		let blasts = this._blasts.slice();
 		this._blasts.length = 0;
 		return blasts;
 	}
