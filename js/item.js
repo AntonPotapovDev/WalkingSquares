@@ -58,7 +58,7 @@ export class Meat extends GObject.GameObject {
 		super();
 		this.mesh = Visual.Meshes.meatMesh();
 		this.hp = Constants.HpValues.meatHP;
-		this._aiPriority = 0.9;
+		this._targetType = GObject.TargetType.FAKE;
 	}
 	
 	update(fpsFactor) {

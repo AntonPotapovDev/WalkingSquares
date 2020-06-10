@@ -1,9 +1,15 @@
+export const TargetType = {
+	NONE: 'none',
+	ALIVE: 'alive',
+	FAKE: 'fake'
+};
+
 export class GameObject {
 	constructor() {
 		this.mesh = null;
 		this._radius = 0;
 		this._needToRemove = false;
-		this._aiPriority = 0;
+		this._targetType = TargetType.NONE;
 		this._fpsFactor = 1;
 	}
 	
@@ -27,8 +33,8 @@ export class GameObject {
 		return this._radius;
 	}
 	
-	aiPriority() {
-		return this._aiPriority;
+	targetType() {
+		return this._targetType;
 	}
 	
 	isIntersectWith(obj) {

@@ -1,3 +1,5 @@
+import { TargetType } from './game.object.js';
+
 export class AiInfo {
 	constructor(gameScene) {
 		this._targetUnits = gameScene.objects();
@@ -8,7 +10,7 @@ export class AiInfo {
 		let closestTarget = null;
 		for (let target of this._targetUnits) {
 			let dist = target.distanceTo(from);
-			if (target.aiPriority() > 0 && dist < minDist && target.hp != 0) {
+			if (target.targetType() != TargetType.NONE && dist < minDist && target.hp != 0) {
 				minDist = dist;
 				closestTarget = target;
 			}

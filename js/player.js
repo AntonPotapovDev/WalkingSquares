@@ -15,7 +15,7 @@ export class Player extends GObject.Unit {
 		this._dropped = [];
 		this._control = control;
 		this.mesh = Visual.Meshes.playerMesh();
-		this._aiPriority = 0.8;
+		this._targetType = GObject.TargetType.ALIVE;
 		this.score = 0;
 	}
 	
