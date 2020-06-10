@@ -72,7 +72,7 @@ export class FatEnemy extends Enemy {
 export class Spitter extends Enemy {
 	constructor(aiInfo) {
 		super(aiInfo);
-		this._ai = new AI.DefaultEnemyAI(aiInfo);
+		this._ai = new AI.SpitterAI(aiInfo);
 		this._ai.setAgent(this);
 		this.hp = Constants.HpValues.spitterHP;
 		this._damage = Constants.DamageValues.spitterDamage;

@@ -56,7 +56,7 @@ export class WeaponAmmo {
 export class TimeValues {
 	static itemSpawnTimeout = 15;
 	static medkitLifetime = 5;
-	static spittingInterval = 5;
+	static spittingInterval = 3;
 }
 
 export class SystemValues {
@@ -77,7 +77,7 @@ export class Chances {
 }
 
 export class AIValues {
-	static spittingDistance = 200;
+	static spittingDistance = 400;
 }
 
 export class Text {

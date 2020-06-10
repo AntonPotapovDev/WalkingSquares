@@ -94,7 +94,8 @@ export class SpitterAI extends AI {
 				this._agent.interactWithTarget(target);
 			}
 			else if (targetType == TargetType.ALIVE) {
-				if (this.distanceTo(target) > AIValues.spittingDistance)
+				this._agent.interactWithTarget(target);
+				if (this._agent.distanceTo(target) > AIValues.spittingDistance)
 					this._agent.moveAlongLookDir();
 				else if (this._timePassed >= TimeValues.spittingInterval) {
 					this._agent.rangeAttack();
