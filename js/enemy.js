@@ -9,6 +9,7 @@ export class Enemy extends GObject.Unit {
 		this._aiInfo = aiInfo
 		this._ai = null;
 		this._damage = 0
+		this._blasts = [];
 	}
 	
 	interactWithTarget(target) {
@@ -16,6 +17,15 @@ export class Enemy extends GObject.Unit {
 			return;
 		
 		target.damage(this._damage * this._fpsFactor);
+	}
+	
+	rangeAttack() {
+	}
+	
+	blasts() {
+		let blasts = this._blasts;
+		this._blasts.length = 0;
+		return blasts;
 	}
 	
 	damage(dp) {

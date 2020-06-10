@@ -16,6 +16,7 @@ export class Game {
 		this._enemies = [];
 		this._items = [];
 		this._bullets = [];
+		this._enemyBlasts = [];
 		this._drops = [];
 		this._itemSpawner = itemSpawner;
 		this._enemySpawner = enemySpawner;
@@ -131,12 +132,23 @@ export class Game {
 				bullet.interactWithEnemy(target);
 			}
 		}
+		
+		for (let i = 0; i < this._enemyBlasts.length; i++) {
+			this._enemyBlasts[i].update(fpsFactor);
+			this._enemyBlasts[i].interactWithPlayer(this._player);
+		}
 	}
 	
 	_updateEnemies(fpsFactor) {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update(fpsFactor);
+			
+			let blasts = target.blasts();
+			for (let j = 0; j < blasts.length; j++) {
+				this._gameScene.add(blasts[j]);
+				this._enemyBlasts.push(blasts[j]);
+			}
 		}
 	}
 	
