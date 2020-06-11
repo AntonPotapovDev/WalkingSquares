@@ -54,6 +54,16 @@ export class GameScene {
 		return rendererObj;
 	}
 	
+	isOffscreen(object) {
+		let {x, y} = object.position();
+		let {width, height} = this._sizes;
+		let isAbove = y > height / 2;
+		let isBelow = y < -height / 2;
+		let left = x < -width / 2;
+		let right = x > width / 2;
+		return isAbove || isBelow || left || right;
+	}
+	
 	update() {
 		for (let i = 0; i < this._objects.length; i++) {
 			let object = this._objects[i];

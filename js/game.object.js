@@ -11,6 +11,7 @@ export class GameObject {
 		this._needToRemove = false;
 		this._targetType = TargetType.NONE;
 		this._fpsFactor = 1;
+		this._isOffscreen = null;
 	}
 	
 	addToScene(scene) {
@@ -54,6 +55,14 @@ export class GameObject {
 	
 	update(fpsFactor) {
 		this._fpsFactor = fpsFactor;
+	}
+	
+	isOffscreen() {
+		return this._isOffscreen;
+	}
+	
+	setIsOffscreen(isOff) {
+		this._isOffscreen = isOff;
 	}
 }
 

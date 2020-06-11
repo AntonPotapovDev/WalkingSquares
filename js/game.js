@@ -143,6 +143,7 @@ export class Game {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update(fpsFactor);
+			target.setIsOffscreen(this._gameScene.isOffscreen(target));
 			
 			let blasts = target.blasts();
 			for (let j = 0; j < blasts.length; j++) {
