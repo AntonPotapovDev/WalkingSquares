@@ -95,11 +95,11 @@ export class SpitterAI extends AI {
 				this._agent.interactWithTarget(target);
 			}
 			else if (targetType == TargetType.ALIVE) {
-				let isOffscreen = this._agent.isOffscreen() !== true;
+				let isOffscreen = this._agent.isOffscreen() === true;
 				this._agent.interactWithTarget(target);
 				if (this._agent.distanceTo(target) > AIValues.spittingDistance || isOffscreen)
 					this._agent.moveAlongLookDir();
-				if (this._timePassed >= TimeValues.spittingInterval && isOffscreen) {
+				if (this._timePassed >= TimeValues.spittingInterval && !isOffscreen) {
 					this._agent.rangeAttack();
 					this._timePassed = 0;
 				}
