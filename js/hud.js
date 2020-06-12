@@ -1,3 +1,4 @@
+import { TargetType } from './game.object.js';
 import { SystemValues, Text } from './constants.js';
 import { Colors } from './visual.js';
 
@@ -11,13 +12,15 @@ export class HudModel {
 		this._wave = 0
 		this._timeToNextWave = 0;
 		this._showLeft = false;
+		this._targetType = TargetType.NONE;
 	}
 	
-	update(score, hp, drops, weaponName, waveController) {
-		this._score = score;
-		this._hp = hp;
-		this._drops = drops;
-		this._weaponName = weaponName;
+	update(player, waveController) {
+		this._score = player.score;
+		this._targetType = player.targetType();
+		this._hp = this._targetType === TargetType.ALIVE ? player.hp : 0;
+		this._drops = player.dropsCount();
+		this._weaponName = player.weapon.name();	
 		this._left = waveController.left();
 		this._wave = waveController.currentWave() + 1;
 		this._showLeft = waveController.isWaveActive();
@@ -55,6 +58,10 @@ export class HudModel {
 	timeToNextWave() {
 		return this._timeToNextWave;
 	}
+	
+	targetType() {
+		return this._targetType;
+	}
 }
 
 export class Hud {
@@ -88,6 +95,7 @@ export class Hud {
 		this._waveValue = 0;
 		this._timeToNextValue = 0;
 		this._showLeftValue = false;
+		this._targetTypeValue = TargetType.NONE;
 		this._timePassed = 0;
 	}
 	
@@ -142,6 +150,7 @@ export class Hud {
 		let newShowLeft = this._model.showLeft();
 		let newWave = this._model.currentWave();
 		let newTimeLeft = this._model.timeToNextWave();
+		let newTargetType = this._model.targetType();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -150,7 +159,7 @@ export class Hud {
 		if (newHp != this._hpValue) {
 			this._hpValue = newHp;
 			this._hp.setText(this._hpText + Math.floor(newHp));
-			let restartText = newHp <= 0 ? this._restartText : '';
+			let restartText = newHp <= 0 && newTargetType !== TargetType.ALIVE ? this._restartText : '';
 			this._restart.setText(restartText);
 		}
 		if (newDrops != this._dropsValue) {

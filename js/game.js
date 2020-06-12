@@ -60,8 +60,7 @@ export class Game {
 		this._enemySpawner.start();
 		this._itemSpawner.start();
 		
-		this._statistic.update(this._player.score, this._player.hp, 
-			this._player.dropsCount(), this._player.weapon.name(), this._waveController);
+		this._statistic.update(this._player, this._waveController);
 		this._hud.update(0, true);
 	}
 	
@@ -86,8 +85,7 @@ export class Game {
 		this._updateDrops(fpsFactor);
 		this._updateSpawners(fpsFactor);
 		
-		this._statistic.update(this._player.score, this._player.hp, 
-			this._player.dropsCount(), this._player.weapon.name(), this._waveController);
+		this._statistic.update(this._player, this._waveController);
 		
 		this._clearObjects();
 		this._gameScene.update();
