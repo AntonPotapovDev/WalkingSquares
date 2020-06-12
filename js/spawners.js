@@ -115,7 +115,7 @@ export class ItemSpawner extends Spawner {
 	}
 	
 	_spawnItem() {
-		if (Math.random() >= Constants.Chances.itemSpawnChance ||
+		if (Math.random() >= this._waveController.currentSettings().itemChance ||
 			this._itemSpawned >= this._waveController.currentSettings().maxItems)
 			return;
 			
