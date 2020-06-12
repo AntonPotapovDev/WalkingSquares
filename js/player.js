@@ -17,14 +17,7 @@ export class Player extends GObject.Unit {
 		this.mesh = Visual.Meshes.playerMesh();
 		this._targetType = GObject.TargetType.ALIVE;
 		this.score = 0;
-	}
-	
-	damage(dp) {
-		super.damage(dp);
-		if (this.hp == 0) {
-			this.mesh.material.color.copy(new THREE.Color(Visual.Colors.defaultEnemyColor));
-			this.speed = Constants.PhisicalValues.deadPlayerSpeed;
-		}
+		this._oldHp = this.hp;
 	}
 	
 	fire() {
@@ -71,7 +64,11 @@ export class Player extends GObject.Unit {
 		super.update(fpsFactor);
 		if (this.hp > 0) {
 			
-			this._updateColor();
+			if (this._oldHp != this.hp) {
+				this._updateColor();
+				this._oldHp = this.hp;
+			}
+			
 			this.weapon.update(fpsFactor);
 			
 			let minCount = Math.min(this._control.drops(), this._drops.length);
@@ -96,7 +93,6 @@ export class Player extends GObject.Unit {
 		}
 		else {
 			this._targetType = GObject.TargetType.NONE;
-			this.moveAlongLookDir();
 		}
 		this._control.mouseClicksHandled();
 	}
