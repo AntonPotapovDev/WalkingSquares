@@ -62,7 +62,7 @@ export class Player extends GObject.Unit {
 	
 	update(fpsFactor) {
 		super.update(fpsFactor);
-		if (this.hp > 0) {
+		if (this.hp > 0 && this._targetType === GObject.TargetType.ALIVE) {
 			
 			if (this._oldHp != this.hp) {
 				this._updateColor();
@@ -91,9 +91,15 @@ export class Player extends GObject.Unit {
 				this._bullets = this._bullets.concat(this.fire());
 				
 		}
-		else {
-			this._targetType = GObject.TargetType.NONE;
+		else if (this._targetType === GObject.TargetType.ALIVE) {
+			this._targetType = GObject.TargetType.FAKE;
+			this.hp = Constants.HpValues.deadPlayerHp;
 		}
+		else if (this.hp <= 0){
+			this._targetType = GObject.TargetType.NONE;
+			this.remove();
+		}
+		
 		this._control.mouseClicksHandled();
 	}
 	
