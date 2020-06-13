@@ -87,3 +87,15 @@ export class Spitter extends Enemy {
 		this._blasts.push(spittle);
 	}
 }
+
+export function makeDefault(aiInfo) {
+	return new DefaultEnemy(aiInfo);
+}
+
+export function makeFat(aiInfo) {
+	return new FatEnemy(aiInfo);
+}
+
+export function makeSpitter(aiInfo) {
+	return new Spitter(aiInfo);
+}

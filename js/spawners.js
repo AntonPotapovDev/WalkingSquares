@@ -139,6 +139,7 @@ export class EnemySpawner extends Spawner {
 		this._timePassed = 0;
 		this._aiInfo = null;
 		this._spawnedCount = 0;
+		this._currentChances = [];
 	}
 	
 	update(fpsFactor) {
@@ -147,10 +148,23 @@ export class EnemySpawner extends Spawner {
 		if (this._needToStop)
 			return;
 		
-		if (this._waveController.isWaveActive())
+		if (this._waveController.isWaveActive()) {
 			this._timePassed += fpsFactor;
-		else
+		}
+		else {
 			this._spawnedCount = 0;
+			
+			this._currentChances.length = 0;
+			let enemies = this._waveController.currentSettings().enemies;
+			let first = 0;
+			let second = 0;
+			for (let i = 0; i < enemies.length - 1; i++) {
+				second += enemies[i].chance;
+				this._currentChances.push({first: first, second: second});
+				first = second;
+			}
+			this._currentChances.push({first: first, second: 1});
+		}
 		
 		if (this._waveController.isWaveActive()
 			&& this._timePassed >= this._waveController.currentSettings().spawnRate
@@ -181,6 +195,13 @@ export class EnemySpawner extends Spawner {
 		this._aiInfo = aiInfo;
 	}
 	
+	_chooseEnemy() {
+		let number = Math.random();
+		for (let i = 0; i < this._currentChances.length; i++)
+			if (number >= this._currentChances[i].first && number < this._currentChances[i].second)
+				return i;
+	}
+	
 	_spawn() {
 		let factor1 = Math.random() > 0.5 ? -1 : 1;
 		let factor2 = Math.random() > 0.5 ? -1 : 1;
@@ -193,12 +214,8 @@ export class EnemySpawner extends Spawner {
 		else
 			position = new THREE.Vector3(factor1 * Math.random() * spawnX, factor2 * spawnY, 0);
 		
-		let spawnFatBoy = Math.random() <= Constants.Chances.fatEnemySpawnChance;
-		let spawnSpitter = !spawnFatBoy && Math.random() <= Constants.Chances.spitterSpawnChance;
-		let enemy = null;
-		if (spawnFatBoy) enemy = new FatEnemy(this._aiInfo);
-		else if (spawnSpitter) enemy = new Spitter(this._aiInfo);
-		else enemy = new DefaultEnemy(this._aiInfo);
+		let enemyIndex = this._chooseEnemy();
+		let enemy = this._waveController.currentSettings().enemies[enemyIndex].factory(this._aiInfo);
 		enemy.moveTo(position);
 		this._gameScene.add(enemy);
 		this._spawned.push(enemy);

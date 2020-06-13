@@ -73,8 +73,6 @@ export class SystemValues {
 
 export class Chances {
 	static medkitSpawnChance = 0.5;
-	static fatEnemySpawnChance = 0.1;
-	static spitterSpawnChance = 0.1;
 }
 
 export class AIValues {
