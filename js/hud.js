@@ -86,6 +86,7 @@ export class Hud {
 		this._wave = null;
 		this._timer = null;
 		this._restart = null;
+		this._version = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
@@ -130,6 +131,9 @@ export class Hud {
 			Colors.stringColor(Colors.restartTextColor), 
 			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset * 3, 
 			this._scene.sizes().height - SystemValues.hudY - 100);
+		this._version = this._renderer.addText(SystemValues.version, this._hudFontSize * 0.6,
+			Colors.stringColor(Colors.waveColor),
+			10, this._scene.sizes().height - this._hudFontSize * 0.6 - 10);
 		this.update();
 	}
 	
