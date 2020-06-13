@@ -7,6 +7,9 @@ export class TextObject {
 	
 	text() {
 	}
+	
+	moveToHCenter() {	
+	}
 }
 
 export class DomTextObject extends TextObject {
@@ -28,6 +31,11 @@ export class DomTextObject extends TextObject {
 	moveTo(vec) {
 		this._dom.style.left = vec.x.toString() + 'px';
 		this._dom.style.top = vec.y.toString() + 'px';
+	}
+	
+	moveToHCenter() {
+		this._dom.style.left = '50%';
+		this._dom.style.transform = 'translateX(-50%)';
 	}
 	
 	setText(text) {
@@ -61,7 +69,7 @@ export class DomTextRenderer extends TextRendererBase {
 		this._defaultFont = null;
 	}
 	
-	addText(text, size, color, x, y) {
+	addText(text, size, color, x = 0, y = 0) {
 		let textObj = new DomTextObject(this._defaultFont, size, color, text);
 		textObj.moveTo({x: x, y: y});
 		this._textObjects.push(textObj);

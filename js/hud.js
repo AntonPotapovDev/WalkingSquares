@@ -121,13 +121,11 @@ export class Hud {
 			SystemValues.hudX,
 			SystemValues.hudY + this._hudFontSize * 2 + SystemValues.hudElementsSpace * 2);
 		this._wave = this._renderer.addText(this._waveText, this._hudFontSize,
-			Colors.stringColor(Colors.waveColor), 
-			SystemValues.hudX + this._scene.sizes().width / 2 - 100,
-			SystemValues.hudY);
+			Colors.stringColor(Colors.waveColor), 0, SystemValues.hudY);
+		this._wave.moveToHCenter();
 		this._timer = this._renderer.addText(this._toNextWaveText, this._hudFontSize,
-			Colors.stringColor(Colors.waveColor), 
-			SystemValues.hudX + this._scene.sizes().width / 2 - 150,
-			SystemValues.hudY);
+			Colors.stringColor(Colors.waveColor), 0, SystemValues.hudY);
+		this._timer.moveToHCenter();
 		this._restart = this._renderer.addText('', this._hudFontSize * 2,
 			Colors.stringColor(Colors.restartTextColor), 
 			this._scene.sizes().width - SystemValues.hudX - SystemValues.hudRightOffset * 3, 
