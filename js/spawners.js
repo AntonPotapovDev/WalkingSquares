@@ -1,7 +1,5 @@
 import * as Constants from './constants.js';
 import * as Items from './item.js';
-import { DefaultEnemy, FatEnemy, Spitter } from './enemy.js';
-import * as AI from './ai.js';
 
 export class Spawner {
 	constructor(gameScene) {
