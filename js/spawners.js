@@ -37,9 +37,8 @@ export class Spawner {
 export class ItemSpawner extends Spawner {
 	constructor(gameScene) {
 		super(gameScene);
-		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
 		this._spawned = []
-		this._timePassedItems = 0;
+		this._timePassed = 0;
 		this._itemSpawned = 0;
 		this._lastWave = 0;
 		this._isWeaponsSpawned = false;
@@ -49,11 +48,11 @@ export class ItemSpawner extends Spawner {
 		if (this._needToStop)
 			return;
 		
-		this._timePassedItems += fpsFactor;
+		this._timePassed += fpsFactor;
 		
 		let newWave = this._waveController.currentWave();
 		if (newWave != this._lastWave) {
-			this._timePassedItems = 0;
+			this._timePassed = 0;
 			this._itemSpawned = 0;
 			this._lastWave = newWave;
 			this._isWeaponsSpawned = false;
@@ -64,15 +63,14 @@ export class ItemSpawner extends Spawner {
 			this._isWeaponsSpawned = true;
 		}
 		
-		if (this._timePassedItems >= this._itemSpawnTimeout) {
+		if (this._timePassed >= this._waveController.currentSettings().itemInterval) {
 			this._spawnItem();
-			this._timePassedItems = 0;
+			this._timePassed = 0;
 		}
 	}
 	
 	reset() {
-		this._timePassedItems = 0;
-		this._itemSpawnTimeout = Constants.TimeValues.itemSpawnTimeout;
+		this._timePassed = 0;
 		this._spawned.length = 0;
 		this._itemSpawned = 0;
 		this._lastWave = 0;
@@ -81,7 +79,7 @@ export class ItemSpawner extends Spawner {
 	
 	start() {
 		super.start();
-		this._timePassedItems = 0;
+		this._timePassed = 0;
 		this._isWeaponsSpawned = false;
 	}
 	

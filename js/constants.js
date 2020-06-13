@@ -55,7 +55,6 @@ export class WeaponAmmo {
 }
 
 export class TimeValues {
-	static itemSpawnTimeout = 15;
 	static medkitLifetime = 5;
 	static spittingInterval = 1.2;
 }
