@@ -40,7 +40,7 @@ export class ItemSpawner extends Spawner {
 		this._spawned = []
 		this._timePassed = 0;
 		this._itemSpawned = 0;
-		this._lastWave = 0;
+		this._lastWave = -1;
 		this._isWeaponsSpawned = false;
 	}
 	
@@ -138,18 +138,19 @@ export class EnemySpawner extends Spawner {
 		this._aiInfo = null;
 		this._spawnedCount = 0;
 		this._currentChances = [];
+		this._lastWave = -1;
 	}
 	
 	update(fpsFactor) {
-		super.update(fpsFactor);
-		
 		if (this._needToStop)
 			return;
 		
-		if (this._waveController.isWaveActive()) {
+		if (this._waveController.isWaveActive())
 			this._timePassed += fpsFactor;
-		}
-		else {
+		
+		let newWave = this._waveController.currentWave();
+		if (this._lastWave != newWave) {
+			this._lastWave = newWave;
 			this._spawnedCount = 0;
 			
 			this._currentChances.length = 0;
@@ -166,7 +167,7 @@ export class EnemySpawner extends Spawner {
 		
 		if (this._waveController.isWaveActive()
 			&& this._timePassed >= this._waveController.currentSettings().spawnRate
-			&& this._spawnedCount != this._waveController.currentSettings().enemyCount) {
+			&& this._spawnedCount < this._waveController.currentSettings().enemyCount) {
 			this._spawn();
 			this._timePassed = 0;
 		}
@@ -176,6 +177,7 @@ export class EnemySpawner extends Spawner {
 		this._spawned.length = 0;
 		this._timePassed = 0;
 		this._spawnedCount = 0;
+		this._currentChances.length = 0;
 	}
 	
 	start() {
@@ -198,6 +200,7 @@ export class EnemySpawner extends Spawner {
 		for (let i = 0; i < this._currentChances.length; i++)
 			if (number >= this._currentChances[i].first && number < this._currentChances[i].second)
 				return i;
+		return null;
 	}
 	
 	_spawn() {
