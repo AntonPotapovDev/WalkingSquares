@@ -73,7 +73,7 @@ export class ItemSpawner extends Spawner {
 		this._timePassed = 0;
 		this._spawned.length = 0;
 		this._itemSpawned = 0;
-		this._lastWave = 0;
+		this._lastWave = -1;
 		this._isWeaponsSpawned = false;
 	}
 	
@@ -132,7 +132,6 @@ export class ItemSpawner extends Spawner {
 export class EnemySpawner extends Spawner {
 	constructor(gameScene) {
 		super(gameScene);
-		this._spawnRate = Constants.TimeValues.baseEnemySpawnRate;
 		this._spawned = [];
 		this._timePassed = 0;
 		this._aiInfo = null;
@@ -178,6 +177,7 @@ export class EnemySpawner extends Spawner {
 		this._timePassed = 0;
 		this._spawnedCount = 0;
 		this._currentChances.length = 0;
+		this._lastWave = -1;
 	}
 	
 	start() {
