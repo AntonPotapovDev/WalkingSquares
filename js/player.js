@@ -18,6 +18,7 @@ export class Player extends GObject.Unit {
 		this._targetType = GObject.TargetType.ALIVE;
 		this.score = 0;
 		this._oldHp = this.hp;
+		this._offscreenAllowed = false;
 	}
 	
 	fire() {

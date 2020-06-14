@@ -5,6 +5,7 @@ import { Hud, HudModel } from './hud.js'
 import { WaveController } from './wave.controller.js';
 import { waveSettings } from './wave.settings.js';
 import { ChanceController } from './chance.controller.js';
+import { PhysicEngine } from './physic.engine.js';
 
 export class Game {
 	constructor(gameScene, control, textRenderer, enemySpawner, itemSpawner) {
@@ -26,6 +27,7 @@ export class Game {
 		this._hud = new Hud(this._textRenderer, this._gameScene, this._statistic);
 		this._waveController = null;
 		this._chanceController = null;
+		this._physicEngine = new PhysicEngine(this._gameScene);
 	}
 	
 	start() {
@@ -99,6 +101,7 @@ export class Game {
 	
 	_updatePlayer(fpsFactor) {
 		this._player.update(fpsFactor);
+		this._physicEngine.process(this._player);
 		let bullets = this._player.bullets();
 		for (let i = 0; i < bullets.length; i++) {
 			this._gameScene.add(bullets[i]);
@@ -123,6 +126,7 @@ export class Game {
 		for (let i = 0; i < this._bullets.length; i++) {
 			let bullet = this._bullets[i];
 			bullet.update(fpsFactor);
+			this._physicEngine.process(bullet);
 			
 			for (let j = 0; j < this._enemies.length; j++) {
 				let target = this._enemies[j];
@@ -133,6 +137,7 @@ export class Game {
 		
 		for (let i = 0; i < this._enemyBlasts.length; i++) {
 			this._enemyBlasts[i].update(fpsFactor);
+			this._physicEngine.process(this._enemyBlasts[i]);
 			this._enemyBlasts[i].interactWithTarget(this._player);
 		}
 	}
@@ -141,7 +146,8 @@ export class Game {
 		for (let i = 0; i < this._enemies.length; i++) {
 			let target = this._enemies[i];
 			target.update(fpsFactor);
-			target.setIsOffscreen(this._gameScene.isOffscreen(target));
+			this._gameScene.isOffscreen(target);
+			this._physicEngine.process(target);
 			
 			let blasts = target.blasts();
 			for (let j = 0; j < blasts.length; j++) {

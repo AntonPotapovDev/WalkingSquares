@@ -12,6 +12,7 @@ export class GameObject {
 		this._targetType = TargetType.NONE;
 		this._fpsFactor = 1;
 		this._isOffscreen = null;
+		this._offscreenAllowed = true;
 	}
 	
 	addToScene(scene) {
@@ -60,6 +61,10 @@ export class GameObject {
 	isOffscreen() {
 		return this._isOffscreen;
 	}
+
+	offscreenAllowed() {
+		return this._offscreenAllowed;
+	}
 	
 	setIsOffscreen(isOff) {
 		this._isOffscreen = isOff;
@@ -71,6 +76,7 @@ export class MovableObject extends GameObject {
 		super();
 		this.speed = 0;
 		this._look_dir = new THREE.Vector3(0, 1, 0);
+		this._movement = new THREE.Vector3(0, 0, 0);
 	}
 	
 	move(vec) {
@@ -82,8 +88,22 @@ export class MovableObject extends GameObject {
 			y = y / length;
 		}
 		
-		this.mesh.position.x += this._fpsFactor * this.speed * x;
-		this.mesh.position.y += this._fpsFactor * this.speed * y;
+		this._movement.x = this._fpsFactor * this.speed * x;
+		this._movement.y = this._fpsFactor * this.speed * y;
+	}
+
+	applyMovement() {
+		this.mesh.position.x += this._movement.x;
+		this.mesh.position.y += this._movement.y;
+		this._movement = new THREE.Vector3(0, 0, 0);
+	}
+
+	rejectMovement() {
+		this._movement = new THREE.Vector3(0, 0, 0);
+	}
+
+	movement() {
+		return this._movement;
 	}
 	
 	moveAlongLookDir() {

@@ -55,13 +55,31 @@ export class GameScene {
 	}
 	
 	isOffscreen(object) {
-		let {x, y} = object.position();
+		let res = this.isDotOffscreen(object.position());
+		object.setIsOffscreen(res); 
+		return res;
+	}
+
+	isDotOffscreen(vec) {
+		let {x, y} = vec;
 		let {width, height} = this._sizes;
 		let isAbove = y > height / 2;
 		let isBelow = y < -height / 2;
 		let left = x < -width / 2;
 		let right = x > width / 2;
 		return isAbove || isBelow || left || right;
+	}
+
+	outBorders(vec) {
+		let {x, y} = vec;
+		let {width, height} = this._sizes;
+		let res = {
+			isAbove: y > height / 2,
+			isBelow: y < -height / 2,
+			left: x < -width / 2,
+			right: x > width / 2
+		};
+		return res;
 	}
 	
 	update() {
