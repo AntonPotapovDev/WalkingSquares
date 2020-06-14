@@ -142,9 +142,40 @@ export class Unit extends MovableObject {
 	constructor() {
 		super();
 		this.hp = 0;
+		this._immortalityTime = 0;
+		this._timeAfterDamage = 0;
+		this._isImmortal = false;
+		this._knockBackResist = 0;
+		this._isInBacking = false;
+		this._backingVector = new THREE.Vector3(0, 0, 0);
 	}
 	
 	damage(dp) {
+		if (this._isImmortal)
+			return;
+		
 		this.hp = Math.max(this.hp - dp, 0);
+		this._isImmortal = true;
+	}
+
+	update(fpsFactor) {
+		super.update(fpsFactor);
+
+		if (this._isImmortal)
+			this._timeAfterDamage += fpsFactor;
+
+		if (this._timeAfterDamage >= this._immortalityTime) {
+			this._timeAfterDamage = 0;
+			this._isImmortal = false;
+		}
+	}
+
+	push(vec, speed) {
+		if (this._isInBacking)
+			return;
+
+		this._backingVector.x = vec.x;
+		this._backingVector.y = vec.y;
+		this._isInBacking = true;
 	}
 }
