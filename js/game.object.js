@@ -145,7 +145,7 @@ export class Unit extends MovableObject {
 		this._immortalityTime = 0;
 		this._timeAfterDamage = 0;
 		this._isImmortal = false;
-		this._knockBackResist = 0;
+		this._knockBackResist = false;
 		this._isInBacking = false;
 		this._backingVector = new THREE.Vector3(0, 0, 0);
 	}
@@ -168,14 +168,19 @@ export class Unit extends MovableObject {
 			this._timeAfterDamage = 0;
 			this._isImmortal = false;
 		}
+
+		if (this._isInBacking) {
+			this._movement.x += this._backingVector.x;
+			this._movement.y += this._backingVector.y;
+		}
 	}
 
 	push(vec, speed) {
-		if (this._isInBacking)
+		if (this._isInBacking || this._knockBackResist)
 			return;
 
-		this._backingVector.x = vec.x;
-		this._backingVector.y = vec.y;
+		this._backingVector.x = vec.x * speed;
+		this._backingVector.y = vec.y * speed;
 		this._isInBacking = true;
 	}
 }
