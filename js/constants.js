@@ -80,8 +80,14 @@ export class KnockBackValues {
 	static defaultEnemyKnockBack = 600;
 	static fatEnemyKnockBack = 800;
 	static spitterKnockBack = 400;
+
 	static spittleKnockBack = 300;
-	static bulletKnockBack = 400;
+	static bulletKnockBack = 100;
+
+	static pistolKnockBack = 300;
+	static shotgunKnockBack = 600;
+	static submachineGunKnockBack = 200;
+	static minigunKnockBack = 300;
 }
 
 export class Chances {

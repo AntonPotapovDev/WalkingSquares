@@ -1,5 +1,5 @@
 import { Bullet } from './bullet.js';
-import { WeaponCoolDown, WeaponAmmo, Text } from './constants.js';
+import { WeaponCoolDown, WeaponAmmo, Text, KnockBackValues } from './constants.js';
 
 export class Weapon {
 	constructor() {
@@ -64,6 +64,7 @@ export class Pistol extends Weapon {
 	_shoot(position, direction) {
 		let bullet = new Bullet(position, direction);
 		bullet.setOwner(this._owner);
+		bullet.knockBack += KnockBackValues.pistolKnockBack;
 		return [ bullet ];
 	}
 }
@@ -86,6 +87,7 @@ export class Shotgun extends Weapon {
 		for (let i = 0; i < bulletCount; i++) {
 			let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), angle);
 			let bullet = new Bullet(position, dir);
+			bullet.knockBack += KnockBackValues.shotgunKnockBack;
 			bullet.setOwner(this._owner);
 			bullets.push(bullet);
 			angle += delta;
@@ -109,6 +111,7 @@ export class SubmachineGun extends Weapon {
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
 		let bullet = new Bullet(position, dir);
+		bullet.knockBack += KnockBackValues.submachineGunKnockBack;
 		bullet.setOwner(this._owner);
 		
 		return [ bullet ];
@@ -129,6 +132,7 @@ export class Minigun extends Weapon {
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
 		let bullet = new Bullet(position, dir);
+		bullet.knockBack += KnockBackValues.minigunKnockBack;
 		bullet.setOwner(this._owner);
 		
 		return [ bullet ];
