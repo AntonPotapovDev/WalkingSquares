@@ -20,6 +20,10 @@ export class PhisicalValues {
 	static spitterRadius = 25;
 	
 	static itemRadius = 10;
+
+	static pushAccFactor = -5;
+	static minPushLength = 100;
+	static knockBackSpeedFactor = 0.6;
 }
 
 export class HpValues {
@@ -57,6 +61,7 @@ export class WeaponAmmo {
 export class TimeValues {
 	static medkitLifetime = 5;
 	static spittingInterval = 1.2;
+	static playerImmortalityTime = 0.3;
 }
 
 export class SystemValues {
@@ -69,6 +74,14 @@ export class SystemValues {
 	static hudRightOffset = 160;
 	static hudUpdateFreq = 0.25;
 	static version = 'v 0.1.0';
+}
+
+export class KnockBackValues {
+	static defaultEnemyKnockBack = 600;
+	static fatEnemyKnockBack = 800;
+	static spitterKnockBack = 400;
+	static spittleKnockBack = 300;
+	static bulletKnockBack = 400;
 }
 
 export class Chances {

@@ -53,7 +53,7 @@ export class DefaultEnemy extends Enemy {
 		this.speed = Constants.PhisicalValues.defaultEnemyBaseSpeed + Constants.PhisicalValues.defaultEnemySpeedFactor * Math.random();
 		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.defaultEnemyRadius;
-		this.knockBack = 600;
+		this.knockBack = Constants.KnockBackValues.defaultEnemyKnockBack;
 		
 		this.mesh = Visual.Meshes.defaultEnemyMesh();
 	}
@@ -69,7 +69,7 @@ export class FatEnemy extends Enemy {
 		this.speed = Constants.PhisicalValues.fatEnemyBaseSpeed;
 		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.fatEnemyRadius;
-		this.knockBack = 800;
+		this.knockBack = Constants.KnockBackValues.fatEnemyKnockBack;
 		
 		this.mesh = Visual.Meshes.fatEnemyMesh();
 	}
@@ -85,7 +85,7 @@ export class Spitter extends Enemy {
 		this.speed = Constants.PhisicalValues.spitterSpeed;
 		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.spitterRadius;
-		this.knockBack = 400;
+		this.knockBack = Constants.KnockBackValues.spitterKnockBack;
 		
 		this.mesh = Visual.Meshes.spitterMesh();
 	}

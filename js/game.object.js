@@ -1,3 +1,6 @@
+import { PhisicalValues } from './constants.js';
+import { PhysicEngine } from './physic.engine.js';
+
 export const TargetType = {
 	NONE: 'none',
 	ALIVE: 'alive',
@@ -174,10 +177,10 @@ export class Unit extends MovableObject {
 		if (this._isInBacking) {
 			this._movement.x = this._backingVector.x * fpsFactor;
 			this._movement.y = this._backingVector.y * fpsFactor;
-			let exp = Math.exp(-5 * fpsFactor)
+			let exp = Math.exp(PhisicalValues.pushAccFactor * fpsFactor)
 			this._backingVector.x *= exp;
 			this._backingVector.y *= exp;
-			if (this._backingVector.length() < 100) {
+			if (this._backingVector.length() < PhisicalValues.minPushLength) {
 				this._isInBacking = false;
 				this.speed = this._origSpeed;
 			}
@@ -185,12 +188,12 @@ export class Unit extends MovableObject {
 	}
 
 	push(vec, speed) {
-		if (this._isInBacking || this._knockBackResist || this._isImmortal)
+		if (this._isInBacking || this._knockBackResist)
 			return;
 
 		this._backingVector.x = vec.x * speed;
 		this._backingVector.y = vec.y * speed;
 		this._isInBacking = true;
-		this.speed = this.speed * 0.6;
+		this.speed = this.speed * PhisicalValues.knockBackSpeedFactor;
 	}
 }

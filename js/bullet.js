@@ -42,7 +42,7 @@ export class Bullet extends Blast {
 		this.speed = Constants.PhisicalValues.bulletSpeed;
 		this._radius = Constants.PhisicalValues.bulletRadius;
 		this._damage = Constants.DamageValues.bulletDamage;
-		this.knockBack = 400;
+		this.knockBack = Constants.KnockBackValues.bulletKnockBack;
 
 		this.mesh = Visual.Meshes.bulletMesh();
 		this._placeToStart(position, direction);
@@ -55,7 +55,7 @@ export class Spittle extends Blast {
 		this.speed = Constants.PhisicalValues.spittleSpeed;
 		this._radius = Constants.PhisicalValues.spittleRadius;
 		this._damage = Constants.DamageValues.spittleDamage;
-		this.knockBack = 300;
+		this.knockBack = Constants.KnockBackValues.spittleKnockBack;
 		
 		this.mesh = Visual.Meshes.spittleMesh();
 		this._placeToStart(position, direction);
