@@ -88,8 +88,8 @@ export class MovableObject extends GameObject {
 			y = y / length;
 		}
 		
-		this._movement.x = this._fpsFactor * this.speed * x;
-		this._movement.y = this._fpsFactor * this.speed * y;
+		this._movement.x += this._fpsFactor * this.speed * x;
+		this._movement.y += this._fpsFactor * this.speed * y;
 	}
 
 	applyMovement() {
@@ -148,6 +148,7 @@ export class Unit extends MovableObject {
 		this._knockBackResist = false;
 		this._isInBacking = false;
 		this._backingVector = new THREE.Vector3(0, 0, 0);
+		this._origSpeed = 0;
 	}
 	
 	damage(dp) {
@@ -170,17 +171,25 @@ export class Unit extends MovableObject {
 		}
 
 		if (this._isInBacking) {
-			this._movement.x += this._backingVector.x;
-			this._movement.y += this._backingVector.y;
+			this._movement.x = this._backingVector.x * fpsFactor;
+			this._movement.y = this._backingVector.y * fpsFactor;
+			let exp = Math.exp(-5 * fpsFactor)
+			this._backingVector.x *= exp;
+			this._backingVector.y *= exp;
+			if (this._backingVector.length() < 100) {
+				this._isInBacking = false;
+				this.speed = this._origSpeed;
+			}
 		}
 	}
 
 	push(vec, speed) {
-		if (this._isInBacking || this._knockBackResist)
+		if (this._isInBacking || this._knockBackResist || this._isImmortal)
 			return;
 
 		this._backingVector.x = vec.x * speed;
 		this._backingVector.y = vec.y * speed;
 		this._isInBacking = true;
+		this.speed = this.speed * 0.6;
 	}
 }

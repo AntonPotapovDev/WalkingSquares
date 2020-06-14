@@ -6,6 +6,7 @@ export class Player extends GObject.Unit {
 	constructor(control, weapon) {
 		super();
 		this.speed = Constants.PhisicalValues.playerSpeed;
+		this._origSpeed = this.speed
 		this.hp = Constants.HpValues.playerHp;
 		this.maxHp = Constants.HpValues.playerHp;
 		this._radius = Constants.PhisicalValues.playerRadius;
