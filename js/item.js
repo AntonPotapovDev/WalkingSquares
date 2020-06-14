@@ -53,10 +53,11 @@ export class Medkit extends Item {
 	}
 }
 
-export class Meat extends GObject.GameObject {
+export class Meat extends GObject.Unit {
 	constructor() {
 		super();
 		this.mesh = Visual.Meshes.meatMesh();
+		this._knockBackResist = true;
 		this.hp = Constants.HpValues.meatHP;
 		this._targetType = GObject.TargetType.FAKE;
 	}
@@ -65,10 +66,6 @@ export class Meat extends GObject.GameObject {
 		super.update(fpsFactor);
 		if (this.hp == 0)
 			this.remove();
-	}
-	
-	damage(dp) {
-		this.hp = Math.max(0, this.hp - dp);
 	}
 }
 

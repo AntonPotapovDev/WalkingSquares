@@ -6,6 +6,7 @@ export class Blast extends GObject.MovableObject {
 	constructor() {
 		super();
 		this._owner = null;
+		this.knockBack = 0;
 	}
 	
 	update(fpsFactor) {
@@ -18,6 +19,7 @@ export class Blast extends GObject.MovableObject {
 			return;
 		
 		target.damage(this._damage);
+		target.push(this.lookDirection(), this.knockBack);
 		if (this._owner !== null && target.hp == 0)
 			this._owner.score++;
 		this.remove();
@@ -40,6 +42,7 @@ export class Bullet extends Blast {
 		this.speed = Constants.PhisicalValues.bulletSpeed;
 		this._radius = Constants.PhisicalValues.bulletRadius;
 		this._damage = Constants.DamageValues.bulletDamage;
+		this.knockBack = 400;
 
 		this.mesh = Visual.Meshes.bulletMesh();
 		this._placeToStart(position, direction);
@@ -52,6 +55,7 @@ export class Spittle extends Blast {
 		this.speed = Constants.PhisicalValues.spittleSpeed;
 		this._radius = Constants.PhisicalValues.spittleRadius;
 		this._damage = Constants.DamageValues.spittleDamage;
+		this.knockBack = 300;
 		
 		this.mesh = Visual.Meshes.spittleMesh();
 		this._placeToStart(position, direction);

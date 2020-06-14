@@ -96,6 +96,7 @@ export class Player extends GObject.Unit {
 		else if (this._targetType === GObject.TargetType.ALIVE) {
 			this._targetType = GObject.TargetType.FAKE;
 			this.hp = Constants.HpValues.deadPlayerHp;
+			this._knockBackResist = true;
 		}
 		else if (this.hp <= 0){
 			this._targetType = GObject.TargetType.NONE;

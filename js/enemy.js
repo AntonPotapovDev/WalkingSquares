@@ -11,6 +11,7 @@ export class Enemy extends GObject.Unit {
 		this._ai = null;
 		this._damage = 0
 		this._blasts = [];
+		this.knockBack = 0;
 	}
 	
 	interactWithTarget(target) {
@@ -18,6 +19,7 @@ export class Enemy extends GObject.Unit {
 			return;
 		
 		target.damage(this._damage * this._fpsFactor);
+		target.push(this.lookDirection(), this.knockBack);
 	}
 	
 	rangeAttack() {
@@ -49,7 +51,9 @@ export class DefaultEnemy extends Enemy {
 		this.hp = Constants.HpValues.defaultEnemyHP;
 		this._damage = Constants.DamageValues.defaultEnemyDamage;
 		this.speed = Constants.PhisicalValues.defaultEnemyBaseSpeed + Constants.PhisicalValues.defaultEnemySpeedFactor * Math.random();
+		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.defaultEnemyRadius;
+		this.knockBack = 600;
 		
 		this.mesh = Visual.Meshes.defaultEnemyMesh();
 	}
@@ -63,7 +67,9 @@ export class FatEnemy extends Enemy {
 		this.hp = Constants.HpValues.fatEnemyHP;
 		this._damage = Constants.DamageValues.fatEnemyDamage;
 		this.speed = Constants.PhisicalValues.fatEnemyBaseSpeed;
+		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.fatEnemyRadius;
+		this.knockBack = 800;
 		
 		this.mesh = Visual.Meshes.fatEnemyMesh();
 	}
@@ -77,7 +83,9 @@ export class Spitter extends Enemy {
 		this.hp = Constants.HpValues.spitterHP;
 		this._damage = Constants.DamageValues.spitterDamage;
 		this.speed = Constants.PhisicalValues.spitterSpeed;
+		this._origSpeed = this.speed;
 		this._radius = Constants.PhisicalValues.spitterRadius;
+		this.knockBack = 400;
 		
 		this.mesh = Visual.Meshes.spitterMesh();
 	}

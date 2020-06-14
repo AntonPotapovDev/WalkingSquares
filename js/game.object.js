@@ -156,7 +156,8 @@ export class Unit extends MovableObject {
 			return;
 		
 		this.hp = Math.max(this.hp - dp, 0);
-		this._isImmortal = true;
+		if (this._immortalityTime > 0)
+			this._isImmortal = true;
 	}
 
 	update(fpsFactor) {
