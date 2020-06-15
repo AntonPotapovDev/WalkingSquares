@@ -13,9 +13,10 @@ export class HudModel {
 		this._timeToNextWave = 0;
 		this._showLeft = false;
 		this._targetType = TargetType.NONE;
+		this._pause = false;
 	}
 	
-	update(player, waveController) {
+	update(player, waveController, control) {
 		this._score = player.score;
 		this._targetType = player.targetType();
 		this._hp = this._targetType === TargetType.ALIVE ? player.hp : 0;
@@ -25,6 +26,7 @@ export class HudModel {
 		this._wave = waveController.currentWave() + 1;
 		this._showLeft = waveController.isWaveActive();
 		this._timeToNextWave = waveController.timeToNextWave();
+		this._pause = control.isPause();
 	}
 	
 	score() {
@@ -62,6 +64,10 @@ export class HudModel {
 	targetType() {
 		return this._targetType;
 	}
+
+	isPause() {
+		return this._pause;
+	}
 }
 
 export class Hud {
@@ -78,6 +84,7 @@ export class Hud {
 		this._waveText = Text.currentWaveText;
 		this._toNextWaveText = Text.toNextWaveText;
 		this._restartText = Text.restartText;
+		this._pauseText = Text.pauseText;
 		this._score = null;
 		this._hp = null;
 		this._drops = null;
@@ -87,6 +94,7 @@ export class Hud {
 		this._timer = null;
 		this._restart = null;
 		this._version = null;
+		this._pause = null;
 		this._init();
 		this._scoreValue = 0;
 		this._hpValue = 0;
@@ -98,6 +106,7 @@ export class Hud {
 		this._showLeftValue = false;
 		this._targetTypeValue = TargetType.NONE;
 		this._timePassed = 0;
+		this._pauseValue = false;
 	}
 	
 	_init() {
@@ -134,6 +143,10 @@ export class Hud {
 		this._version = this._renderer.addText(SystemValues.version, this._hudFontSize * 0.6,
 			Colors.stringColor(Colors.waveColor),
 			10, this._scene.sizes().height - this._hudFontSize * 0.6 - 10);
+		this._pause = this._renderer.addText(this._pauseText, this._hudFontSize * 4,
+			Colors.stringColor(Colors.waveColor), 0, this._scene.sizes().height / 2 * 0.8);
+		this._pause.moveToHCenter();
+		this._pause.hide();
 		this.update();
 	}
 	
@@ -153,6 +166,7 @@ export class Hud {
 		let newWave = this._model.currentWave();
 		let newTimeLeft = this._model.timeToNextWave();
 		let newTargetType = this._model.targetType();
+		let newPause = this._model.isPause();
 		
 		if (newScore != this._scoreValue) {
 			this._scoreValue = newScore;
@@ -186,6 +200,11 @@ export class Hud {
 			this._timeToNextValue = newTimeLeft;
 			let text = !newShowLeft ? this._toNextWaveText + Math.ceil(newTimeLeft) : '';
 			this._timer.setText(text);
+		}
+		if (newPause != this._pauseValue) {
+			this._pauseValue = newPause;
+			if (newPause) this._pause.show();
+			else this._pause.hide();
 		}
 		this._showLeftValue = newShowLeft;
 	}

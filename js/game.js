@@ -62,15 +62,17 @@ export class Game {
 		this._enemySpawner.start();
 		this._itemSpawner.start();
 		
-		this._statistic.update(this._player, this._waveController);
+		this._statistic.update(this._player, this._waveController, this._control);
 		this._hud.update(0, true);
 	}
 	
 	_gameLoop() {
 		this._currentTime = Date.now();
 		let fpsFactor = (this._currentTime - this._prevTime) / 1000;
-		if (this._control.isPause())
+		if (this._control.isPause()) {
 			fpsFactor = 0;
+			this._hud.update(0, true);
+		}
 		
 		this._control.update();
 		
@@ -89,7 +91,7 @@ export class Game {
 		this._updateDrops(fpsFactor);
 		this._updateSpawners(fpsFactor);
 		
-		this._statistic.update(this._player, this._waveController);
+		this._statistic.update(this._player, this._waveController, this._control);
 		
 		this._clearObjects();
 		this._gameScene.update();

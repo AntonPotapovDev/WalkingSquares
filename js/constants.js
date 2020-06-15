@@ -112,6 +112,7 @@ export class Text {
 	static currentWaveText = 'Wave ';
 	static toNextWaveText  = 'Next wave in: ';
 	static restartText     = 'Press R to restart';
+	static pauseText       = 'Pause';
 
 	static pistolName  = 'Pistol';
 	static shotgunName = 'Shotgun';

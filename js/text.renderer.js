@@ -10,6 +10,15 @@ export class TextObject {
 	
 	moveToHCenter() {	
 	}
+
+	moveToVCenter() {
+	}
+
+	hide() {
+	}
+
+	show() {
+	}
 }
 
 export class DomTextObject extends TextObject {
@@ -37,6 +46,10 @@ export class DomTextObject extends TextObject {
 		this._dom.style.left = '50%';
 		this._dom.style.transform = 'translateX(-50%)';
 	}
+
+	moveToVCenter() {
+		this._dom.style.top = '50%';
+	}
 	
 	setText(text) {
 		this._dom.innerHTML = text;
@@ -48,6 +61,14 @@ export class DomTextObject extends TextObject {
 	
 	dom() {
 		return this._dom;
+	}
+
+	hide() {
+		this._dom.style.visibility = 'hidden';
+	}
+
+	show() {
+		this._dom.style.visibility = 'visible';
 	}
 }
 
