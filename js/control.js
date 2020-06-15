@@ -8,8 +8,9 @@ export class Control {
 		this._isMouseDown = false;
 		this._mouseClickCount = 0;
 		this._dropCount = 0;
-		this._singlePress = [ "Space", "KeyR" ];
+		this._singlePress = [ "Space", "KeyR", "Escape" ];
 		this._needToRestart = false;
+		this._pause = false;
 	}
 	
 	mouse() {
@@ -26,6 +27,10 @@ export class Control {
 	
 	isMouseDown() {
 		return this._isMouseDown;
+	}
+
+	isPause() {
+		return this._pause;
 	}
 	
 	drops() {
@@ -47,13 +52,17 @@ export class Control {
 			
 			if (!value)
 				continue;
+			
+			if (!this._pause) {
+				if (key == "KeyW") this._moveVector.y = 1;
+				if (key == "KeyS") this._moveVector.y = -1;
+				if (key == "KeyA") this._moveVector.x = -1;
+				if (key == "KeyD") this._moveVector.x = 1;
+				if (key == "Space") this._dropCount++;
+				if (key == "KeyR") this._needToRestart = true;
+			}
 
-			if (key == "KeyW") this._moveVector.y = 1;
-			if (key == "KeyS") this._moveVector.y = -1;
-			if (key == "KeyA") this._moveVector.x = -1;
-			if (key == "KeyD") this._moveVector.x = 1;
-			if (key == "Space") this._dropCount++;
-			if (key == "KeyR") this._needToRestart = true;
+			if (key == "Escape") this._pause = !this._pause;
 			
 			if (this._singlePress.includes(key))
 				this._keyMap[key] = false;
@@ -67,15 +76,24 @@ export class Control {
 	}
 	
 	onMouseMove(event) {
+		if (this._pause)
+			return;
+
 		this._mouse.x = event.clientX - this._width / 2;
 		this._mouse.y = -event.clientY + this._height / 2;
 	}
 	
 	onMouseDown(event) {
+		if (this._pause)
+			return;
+
 		this._isMouseDown = event.type == "mousedown";
 	}
 	
 	onMouseClick(event) {
+		if (this._pause)
+			return;
+
 		this._mouseClickCount++;
 	}
 	

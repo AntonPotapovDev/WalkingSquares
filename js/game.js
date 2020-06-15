@@ -69,6 +69,8 @@ export class Game {
 	_gameLoop() {
 		this._currentTime = Date.now();
 		let fpsFactor = (this._currentTime - this._prevTime) / 1000;
+		if (this._control.isPause())
+			fpsFactor = 0;
 		
 		this._control.update();
 		
