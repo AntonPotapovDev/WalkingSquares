@@ -61,7 +61,7 @@ export class WeaponAmmo {
 export class TimeValues {
 	static medkitLifetime        = 5;
 	static spittingInterval      = 1.2;
-	static playerImmortalityTime = 0.3;
+	static playerImmortalityTime = 0.6;
 }
 
 export class SystemValues {

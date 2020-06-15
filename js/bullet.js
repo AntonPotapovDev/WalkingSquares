@@ -18,8 +18,8 @@ export class Blast extends GObject.MovableObject {
 		if (!this.isIntersectWith(target) || target.hp == 0 || this.isNeedToRemove())
 			return;
 		
-		target.damage(this._damage);
 		target.push(this.lookDirection(), this.knockBack);
+		target.damage(this._damage);
 		if (this._owner !== null && target.hp == 0)
 			this._owner.score++;
 		this.remove();

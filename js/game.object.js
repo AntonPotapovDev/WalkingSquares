@@ -188,7 +188,7 @@ export class Unit extends MovableObject {
 	}
 
 	push(vec, speed) {
-		if (this._isInBacking || this._knockBackResist)
+		if (this._isInBacking || this._knockBackResist || this._isImmortal)
 			return;
 
 		this._backingVector.x = vec.x * speed;

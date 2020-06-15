@@ -18,8 +18,8 @@ export class Enemy extends GObject.Unit {
 		if (!this.isIntersectWith(target) || target.hp == 0)
 			return;
 		
-		target.damage(this._damage);
 		target.push(this.lookDirection(), this.knockBack);
+		target.damage(this._damage);
 	}
 	
 	rangeAttack() {
