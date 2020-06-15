@@ -14,6 +14,7 @@ function main() {
 	document.addEventListener("click", control.onMouseClick.bind(control), false );
 	document.addEventListener("mousedown", control.onMouseDown.bind(control), false );
 	document.addEventListener("mouseup", control.onMouseDown.bind(control), false );
+	document.addEventListener('visibilitychange', control.onTabChanged.bind(control), false);
 	
 	let gameScene = new GameScene(innerWidth, innerHeight);
 	document.body.appendChild(gameScene.domElement());

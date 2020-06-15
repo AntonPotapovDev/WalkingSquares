@@ -89,6 +89,11 @@ export class Control {
 
 		this._isMouseDown = event.type == "mousedown";
 	}
+
+	onTabChanged(event) {
+		if (document.visibilityState == 'hidden')
+			this._pause = true;
+	}
 	
 	onMouseClick(event) {
 		if (this._pause)
