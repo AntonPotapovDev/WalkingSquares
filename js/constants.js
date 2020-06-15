@@ -32,7 +32,7 @@ export class HpValues {
 	static fatEnemyHP     = 3;
 	static spitterHP      = 1;
 	static medkitHP       = 20;
-	static meatHP         = 250;
+	static meatHP         = 100;
 }
 
 export class DamageValues {
@@ -59,9 +59,11 @@ export class WeaponAmmo {
 }
 
 export class TimeValues {
-	static medkitLifetime        = 5;
-	static spittingInterval      = 1.2;
+	static medkitLifetime   = 5;
+	static spittingInterval = 1.2;
+
 	static playerImmortalityTime = 0.6;
+	static meatImmoralityTime    = 0.6;
 }
 
 export class SystemValues {

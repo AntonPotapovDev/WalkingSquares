@@ -59,6 +59,7 @@ export class Meat extends GObject.Unit {
 		this.mesh = Visual.Meshes.meatMesh();
 		this._knockBackResist = true;
 		this.hp = Constants.HpValues.meatHP;
+		this._immortalityTime = Constants.TimeValues.meatImmoralityTime;
 		this._targetType = GObject.TargetType.FAKE;
 	}
 	

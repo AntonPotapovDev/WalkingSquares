@@ -94,7 +94,7 @@ const waveSettings = [
 		itemInterval: 15,
 		itemChance:   0.6,
 		maxItems:     3,
-		weapons:      [ ],
+		weapons:      [ new Weapon.Shotgun() ],
 		enemies:
 		[
 			{
@@ -118,7 +118,7 @@ const waveSettings = [
 		itemInterval: 15,
 		itemChance:   0.6,
 		maxItems:     3,
-		weapons:      [ new Weapon.Shotgun() ],
+		weapons:      [ ],
 		enemies:
 		[
 			{
