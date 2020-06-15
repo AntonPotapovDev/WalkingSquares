@@ -98,7 +98,6 @@ export class Player extends GObject.Unit {
 			this._targetType = GObject.TargetType.FAKE;
 			this.hp = Constants.HpValues.deadPlayerHp;
 			this._knockBackResist = true;
-			this._immortalityTime = 0
 			this._isImmortal = false;
 		}
 		else if (this.hp <= 0){

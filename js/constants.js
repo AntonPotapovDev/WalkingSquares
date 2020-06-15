@@ -28,7 +28,7 @@ export class PhisicalValues {
 
 export class HpValues {
 	static playerHp = 100;
-	static deadPlayerHp = 500;
+	static deadPlayerHp = 100;
 	static defaultEnemyHP = 1;
 	static fatEnemyHP = 3;
 	static medkitHP = 20;
@@ -37,11 +37,11 @@ export class HpValues {
 }
 
 export class DamageValues {
-	static defaultEnemyDamage = 50;
-	static fatEnemyDamage = 80;
+	static defaultEnemyDamage = 5;
+	static fatEnemyDamage = 7;
 	static bulletDamage = 1;
 	static spittleDamage = 10;
-	static spitterDamage = 15;
+	static spitterDamage = 3;
 }
 
 export class WeaponCoolDown {
