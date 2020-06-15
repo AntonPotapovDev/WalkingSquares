@@ -10,15 +10,29 @@ export class PhysicEngine {
         let movement = movableObject.movement();
         let newPos = this._calcNewPosition(movableObject.position(), movement);
 
-        if (!movableObject.offscreenAllowed() && this._gameScene.isDotOffscreen(newPos)) {
-            let outBorders = this._gameScene.outBorders(newPos);
-            if (outBorders.left || outBorders.right) movement.x = 0;
-            if (outBorders.isAbove || outBorders.isBelow) movement.y = 0;
-            movableObject.applyMovement();
+        if (!movableObject.offscreenAllowed()) {
+            let intersections = this._checkScreenBorderCollision(newPos, movableObject);
+            for (let line of intersections) {
+                movement.x *= Math.abs(line.b);
+                movement.y *= Math.abs(line.a);
+            }
         }
-        else {
-            movableObject.applyMovement();
+
+        movableObject.applyMovement();
+    }
+
+    _checkScreenBorderCollision(newPosition, obj) {
+        let x = newPosition.x;
+        let y = newPosition.y;
+        let intersections = [];
+        for (let line of this._gameScene.lines()) {
+            let distance = Math.abs(line.a * x + line.b * y + line.c)
+                / Math.sqrt(line.a * line.a + line.b * line.b);
+            if (distance <= obj.radius())
+                intersections.push(line);
         }
+        
+        return intersections;
     }
 
     _calcNewPosition(pos, movement) {

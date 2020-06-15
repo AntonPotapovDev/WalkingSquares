@@ -13,6 +13,7 @@ export class GameScene {
 		this._gameZoneRadius = Math.max(width, height)
 			+ Constants.SystemValues.gameZoneRadiusOffset;
 		this._objects = [];
+		this._lines = [];
 	}
 	
 	clear() {
@@ -45,6 +46,17 @@ export class GameScene {
 	
 	sizes() {
 		return this._sizes;
+	}
+
+	lines() {
+		if (this._lines.length == 0) {
+			this._lines.push({ a:  1, b: 0, c: this._sizes.width / 2});
+			this._lines.push({ a: -1, b: 0, c: this._sizes.width / 2 });
+			this._lines.push({ a: 0, b:  1, c: this._sizes.height / 2});
+			this._lines.push({ a: 0, b: -1, c: this._sizes.height / 2});
+		}
+
+		return this._lines;
 	}
 	
 	renderer() {
