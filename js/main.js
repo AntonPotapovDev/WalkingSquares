@@ -3,7 +3,7 @@ import { Control } from './control.js';
 import { GameScene } from './game.scene.js';
 import * as Spawners from './spawners.js';
 import * as TextRenderer from './text.renderer.js'
-import { Text } from './constants.js';
+import { SystemValues } from './constants.js';
 import { TextureLoader } from './visual.js';
 
 function main() {
@@ -19,7 +19,7 @@ function main() {
 	document.body.appendChild(gameScene.domElement());
 	
 	let textRenderer = new TextRenderer.DomTextRenderer();
-	textRenderer.setFont(Text.mainFont);
+	textRenderer.setFont(SystemValues.mainFont);
 	
 	let enemySpawner = new Spawners.EnemySpawner(gameScene);
 	let itemSpawner = new Spawners.ItemSpawner(gameScene);

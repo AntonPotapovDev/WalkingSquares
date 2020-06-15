@@ -100,10 +100,10 @@ export class Shotgun extends Weapon {
 export class SubmachineGun extends Weapon {
 	constructor() {
 		super();
-		this._ammo = WeaponAmmo.submachineGunAmmo;
+		this._ammo = WeaponAmmo.smgAmmo;
 		this._isHoldable = true;
-		this._coolDown = WeaponCoolDown.submachineGunCool;
-		this._name = Text.submachineGunName;
+		this._coolDown = WeaponCoolDown.smgCool;
+		this._name = Text.smgName;
 	}
 	
 	_shoot(position, direction) {
@@ -111,7 +111,7 @@ export class SubmachineGun extends Weapon {
 		let factor = Math.random() > 0.5 ? 1 : -1;
 		let dir = direction.clone().applyAxisAngle(new THREE.Vector3(0, 0, 1), spreadAngle * factor * Math.random());
 		let bullet = new Bullet(position, dir);
-		bullet.knockBack += KnockBackValues.submachineGunKnockBack;
+		bullet.knockBack += KnockBackValues.smgKnockBack;
 		bullet.setOwner(this._owner);
 		
 		return [ bullet ];
