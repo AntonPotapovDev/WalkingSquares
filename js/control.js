@@ -96,8 +96,10 @@ export class Control {
 	}
 	
 	onMouseClick(event) {
-		if (this._pause)
+		if (this._pause) {
+			this._pause = false;
 			return;
+		}
 
 		this._mouseClickCount++;
 	}
