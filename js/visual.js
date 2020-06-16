@@ -1,11 +1,11 @@
 export class Colors {
-	static bulletColor = 0xffc800;
+	static bulletColor = 0xe5e6c1;
 	static defaultEnemyColor = 0x7db08b;
 	static fatEnemyColor = 0x4db068;
 	static playerColor = 0x4ea3f2;
 	static deadPlayerColor = 0xf54542;
 	static weaponBoxColor  = 0xe07122;
-	static medkitColor = 0xf20000;
+	static medkitColor = 0xe31b1b;
 	static meatColor = 0xba5656;
 	static backgroundColor = 0x303030;
 	static waveColor = 0xededed;
