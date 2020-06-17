@@ -1,5 +1,5 @@
 import { Bullet } from './bullet.js';
-import { WeaponCoolDown, WeaponAmmo, Text, KnockBackValues } from './constants.js';
+import { WeaponCoolDown, WeaponAmmo, Text, KnockBackValues, WeaponSpeedFactor } from './constants.js';
 
 export class Weapon {
 	constructor() {
@@ -10,6 +10,7 @@ export class Weapon {
 		this._owner = null;
 		this._isHoldable = false;
 		this._name = '';
+		this.speedReduceFactor = 1;
 	}
 	
 	setOwner(owner) {
@@ -59,6 +60,7 @@ export class Pistol extends Weapon {
 		this._ammo = WeaponAmmo.pistolAmmo;
 		this._coolDown = WeaponCoolDown.pistolCool;
 		this._name = Text.pistolName;
+		this.speedReduceFactor = WeaponSpeedFactor.pistolSpeedFactor;
 	}
 	
 	_shoot(position, direction) {
@@ -75,6 +77,7 @@ export class Shotgun extends Weapon {
 		this._ammo = WeaponAmmo.shotgunAmmo;
 		this._coolDown = WeaponCoolDown.shotgunCool;
 		this._name = Text.shotgunName;
+		this.speedReduceFactor = WeaponSpeedFactor.shotgunSpeedFactor;
 	}
 	
 	_shoot(position, direction) {
@@ -104,6 +107,7 @@ export class SubmachineGun extends Weapon {
 		this._isHoldable = true;
 		this._coolDown = WeaponCoolDown.smgCool;
 		this._name = Text.smgName;
+		this.speedReduceFactor = WeaponSpeedFactor.smgSpeedFactor;
 	}
 	
 	_shoot(position, direction) {
@@ -125,6 +129,7 @@ export class Minigun extends Weapon {
 		this._isHoldable = true;
 		this._coolDown = WeaponCoolDown.minigunCool;
 		this._name = Text.minigunName;
+		this.WeaponSpeedFactor = WeaponSpeedFactor.minigunSpeedFactor;
 	}
 	
 	_shoot(position, direction) {

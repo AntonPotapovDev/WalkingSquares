@@ -89,7 +89,14 @@ export class Player extends GObject.Unit {
 			let mouse = this._control.mouse();
 			this.lookAt(mouse);
 			
-			let shotCount = this.weapon.isHoldable() ? (this._control.isMouseDown() ? 1 : 0) : this._control.mouseClicks();
+			let shotCount = 0;
+			if (this.weapon.isHoldable())
+				shotCount = this._control.isMouseDown() ? 1 : 0;
+			else
+				shotCount = this._control.mouseClicks();
+
+			this.speed = shotCount > 0 ? this._origSpeed * this.weapon.speedReduceFactor : this._origSpeed;
+
 			for (let i = 0; i < shotCount; i++)
 				this._bullets = this._bullets.concat(this.fire());
 				
