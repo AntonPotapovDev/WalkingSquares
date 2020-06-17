@@ -129,7 +129,7 @@ export class Minigun extends Weapon {
 		this._isHoldable = true;
 		this._coolDown = WeaponCoolDown.minigunCool;
 		this._name = Text.minigunName;
-		this.WeaponSpeedFactor = WeaponSpeedFactor.minigunSpeedFactor;
+		this.speedReduceFactor = WeaponSpeedFactor.minigunSpeedFactor;
 	}
 	
 	_shoot(position, direction) {
