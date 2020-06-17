@@ -54,8 +54,8 @@ export class WeaponCoolDown {
 export class WeaponSpeedFactor {
 	static pistolSpeedFactor  = 1;
 	static shotgunSpeedFactor = 1;
-	static smgSpeedFactor     = 0.7;
-	static minigunSpeedFactor = 0.6;
+	static smgSpeedFactor     = 0.8;
+	static minigunSpeedFactor = 0.7;
 }
 
 export class WeaponAmmo {
