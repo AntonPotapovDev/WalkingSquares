@@ -1,5 +1,5 @@
 export class Colors {
-	static bulletColor = 0xe5e6c1;
+	static bulletColor = 0xffffff;
 	static defaultEnemyColor = 0x7db08b;
 	static fatEnemyColor = 0x4db068;
 	static playerColor = 0x4ea3f2;
@@ -10,8 +10,8 @@ export class Colors {
 	static backgroundColor = 0x303030;
 	static waveColor = 0xededed;
 	static restartTextColor = 0x9c1c1c;
-	static spittleColor = 0x4c6e2d;
-	static spitterColor = 0x92859c;
+	static spittleColor = 0x69ff2e;
+	static spitterColor = 0xf05526;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);
