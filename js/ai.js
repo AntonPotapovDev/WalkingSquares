@@ -78,7 +78,7 @@ export class SpitterAI extends AI {
 	constructor(aiInfo) {
 		super(aiInfo);
 		this._currentTarget = null;
-		this._timePassed = 0;
+		this._timePassed = -TimeValues.firstSpittleDelay;
 	}
 	
 	update(fpsFactor) {
