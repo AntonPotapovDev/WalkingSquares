@@ -91,7 +91,11 @@ export class Spitter extends Enemy {
 	}
 	
 	rangeAttack() {
-		let spittle = new Spittle(this.position(), this.lookDirection());
+		let spreadAngle = 0.2;
+		let factor = Math.random() > 0.5 ? 1 : -1;
+		let dir = this.lookDirection().clone().applyAxisAngle(new THREE.Vector3(0, 0, 1),
+			spreadAngle * factor * Math.random());
+		let spittle = new Spittle(this.position(), dir);
 		this._blasts.push(spittle);
 	}
 }

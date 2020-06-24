@@ -12,10 +12,10 @@ export class PhisicalValues {
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
 	
-	static spittleSpeed  = 1000;
+	static spittleSpeed  = 800;
 	static spittleRadius = 7.5;
 	
-	static spitterSpeed  = 200;
+	static spitterSpeed  = 150;
 	static spitterRadius = 25;
 	
 	static itemRadius = 10;
@@ -67,7 +67,7 @@ export class WeaponAmmo {
 
 export class TimeValues {
 	static medkitLifetime   = 5;
-	static spittingInterval = 1.2;
+	static spittingInterval = 1.5;
 
 	static playerImmortalityTime = 0.7;
 	static meatImmoralityTime    = 0.6;
