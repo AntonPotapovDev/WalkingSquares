@@ -11,7 +11,7 @@ export class Colors {
 	static waveColor = 0xededed;
 	static restartTextColor = 0x9c1c1c;
 	static spittleColor = 0x69ff2e;
-	static spitterColor = 0xf05526;
+	static spitterColor = 0xf7a54d;
 	
 	static stringColor(color) {
 		return '#' + color.toString(16);
