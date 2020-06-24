@@ -21,7 +21,7 @@ export class Colors {
 export class Meshes {
 	static playerMesh() { return makeMesh(50, 50, Colors.playerColor, Textures.playerTexture, 1); }
 	static defaultEnemyMesh()  { return makeMesh(50, 50, Colors.defaultEnemyColor, null, 2); }
-	static fatEnemyMesh()  { return makeMesh(55, 55, Colors.fatEnemyColor, null, 2); }
+	static fatEnemyMesh()  { return makeMesh(60, 60, Colors.fatEnemyColor, null, 2); }
 	static bulletMesh() { return makeMesh(5, 10, Colors.bulletColor, null); }
 	static weaponBoxMesh() { return makeMesh(20, 20, Colors.weaponBoxColor, null); }
 	static medkitMesh() { return makeMesh(20, 20, Colors.medkitColor, null); }

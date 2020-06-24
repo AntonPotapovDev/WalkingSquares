@@ -2,12 +2,12 @@ export class PhisicalValues {
 	static playerSpeed  = 500;
 	static playerRadius = 25;
 	
-	static defaultEnemyBaseSpeed   = 100;
-	static defaultEnemySpeedFactor = 150;
+	static defaultEnemyBaseSpeed   = 70;
+	static defaultEnemySpeedFactor = 30;
 	static defaultEnemyRadius      = 25;
 	
-	static fatEnemyBaseSpeed = 70;
-	static fatEnemyRadius    = 27.5;
+	static fatEnemyBaseSpeed = 60;
+	static fatEnemyRadius    = 30;
 	
 	static bulletSpeed  = 1700;
 	static bulletRadius = 5;
@@ -28,8 +28,8 @@ export class PhisicalValues {
 export class HpValues {
 	static playerHp       = 100;
 	static deadPlayerHp   = 100;
-	static defaultEnemyHP = 1;
-	static fatEnemyHP     = 3;
+	static defaultEnemyHP = 3;
+	static fatEnemyHP     = 7;
 	static spitterHP      = 1;
 	static medkitHP       = 20;
 	static meatHP         = 100;
@@ -69,7 +69,7 @@ export class TimeValues {
 	static medkitLifetime   = 5;
 	static spittingInterval = 1.2;
 
-	static playerImmortalityTime = 0.6;
+	static playerImmortalityTime = 0.7;
 	static meatImmoralityTime    = 0.6;
 }
 
@@ -89,9 +89,9 @@ export class SystemValues {
 }
 
 export class KnockBackValues {
-	static defaultEnemyKnockBack = 600;
+	static defaultEnemyKnockBack = 700;
 	static fatEnemyKnockBack     = 800;
-	static spitterKnockBack      = 400;
+	static spitterKnockBack      = 500;
 
 	static spittleKnockBack = 300;
 	static bulletKnockBack  = 100;
