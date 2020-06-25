@@ -133,7 +133,7 @@ export class Hud {
 		this._wave = this._renderer.addText(this._waveText, this._hudFontSize,
 			Colors.stringColor(Colors.waveColor), 0, SystemValues.hudY);
 		this._wave.moveToHCenter();
-		this._timer = this._renderer.addText(this._toNextWaveText, this._hudFontSize,
+		this._timer = this._renderer.addText(this._toNextWaveText, this._hudFontSize * 1.5,
 			Colors.stringColor(Colors.waveColor), 0, SystemValues.hudY);
 		this._timer.moveToHCenter();
 		this._restart = this._renderer.addText('', this._hudFontSize * 2,
