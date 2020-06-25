@@ -8,7 +8,7 @@ export class Control {
 		this._isMouseDown = false;
 		this._mouseClickCount = 0;
 		this._dropCount = 0;
-		this._singlePress = [ "Space", "KeyR", "Escape" ];
+		this._singlePress = [ "Space", "KeyR", "Escape", "KeyP" ];
 		this._needToRestart = false;
 		this._pause = false;
 	}
@@ -62,7 +62,7 @@ export class Control {
 				if (key == "KeyR") this._needToRestart = true;
 			}
 
-			if (key == "Escape") this._pause = !this._pause;
+			if (key == "Escape" || key == "KeyP") this._pause = !this._pause;
 			
 			if (this._singlePress.includes(key))
 				this._keyMap[key] = false;
